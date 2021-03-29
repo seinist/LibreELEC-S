@@ -24,5 +24,5 @@ pre_configure_target() {
 }
 
 makeinstall_target() {
-  make BUILDROOT="${INSTALL}" install
+  make BUILDROOT="${INSTALL}" install-libs
 }
