@@ -14,4 +14,4 @@ PKG_BUILD_FLAGS="+pic"
 
 PKG_CMAKE_OPTS_TARGET="-DJAS_ENABLE_DOC=false \
                        -DJAS_ENABLE_PROGRAMS=false \
-                       -DJAS_ENABLE_SHARED=false"
+                       -DJAS_ENABLE_SHARED=true"
