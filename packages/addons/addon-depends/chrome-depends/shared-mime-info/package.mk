@@ -12,19 +12,10 @@ PKG_DEPENDS_TARGET="toolchain glib libxml2 gettext shared-mime-info:host"
 PKG_LONGDESC="The shared-mime-info package contains the core database of common types."
 PKG_BUILD_FLAGS="-parallel"
 
-configure_package() {
-  # Sway Support
-  if [ ! "${WINDOWMANAGER}" = "sway" ]; then
-    PKG_BUILD_FLAGS+=" -sysroot"
-  fi
-}
-
 PKG_MESON_OPTS_HOST="-Dupdate-mimedb=false"
 PKG_MESON_OPTS_TARGET="-Dupdate-mimedb=false"
 
 post_makeinstall_target() {
   # Create /usr/share/mime/mime.cache
-  if [ "${WINDOWMANAGER}" = "sway" ]; then
-    ${TOOLCHAIN}/bin/update-mime-database ${INSTALL}/usr/share/mime
-  fi
+  ${TOOLCHAIN}/bin/update-mime-database ${INSTALL}/usr/share/mime
 }
