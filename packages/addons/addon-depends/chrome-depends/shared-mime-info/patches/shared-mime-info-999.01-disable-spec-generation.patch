@@ -1,4 +1,4 @@
-From baeb49e36bc162bcbd243e733d2a9f1eb9abfefb Mon Sep 17 00:00:00 2001
+From 6148b0ced86e37aa461eb4a399a6573e2bc687fd Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Ville=20Skytt=C3=A4?= <ville.skytta@iki.fi>
 Date: Sun, 24 Jan 2021 11:45:52 +0200
 Subject: [PATCH] meson: make xmlto optional, build spec only if found
@@ -53,6 +53,3 @@ index 9a28573..0d08c8a 100644
  
  ###############################################################################
  # Find xdgmime
--- 
-GitLab
-
