@@ -17,7 +17,6 @@ configure_package() {
   if [ ${DISPLAYSERVER} = "x11" ]; then
     PKG_DEPENDS_TARGET+=" libX11 libXft"
     PKG_DEPENDS_CONFIG+=" libXft"
-    PKG_BUILD_FLAGS="-sysroot"
   fi
 }
 
