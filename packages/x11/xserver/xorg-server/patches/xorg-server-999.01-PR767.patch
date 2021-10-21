@@ -1,0 +1,70 @@
+From f467f85ca1f780d5c7cf3c20888e399708d761ac Mon Sep 17 00:00:00 2001
+From: Mario Kleiner <mario.kleiner.de@gmail.com>
+Date: Mon, 18 Oct 2021 08:14:04 +0200
+Subject: [PATCH] Fix RandR leasing for more than 1 simultaneously active
+ lease.
+
+Due to a switched order of parameters in the xorg_list_add()
+call inside ProcRRCreateLease(), adding a new lease for RandR
+output leasing does not actually add the new RRLeasePtr lease
+record to the list of existing leases for a X-Screen, but instead
+replaces the existing list with a new list that has the new lease
+as the only element, and probably leaks a bit of memory.
+
+Therefore the server "forgets" all active leases for a screen,
+except for the last added lease. If multiple leases are created
+in a session, then destruction of all leases but the last one
+will fail in many cases, e.g., during server shutdown in
+RRCloseScreen(), or resource destruction, e.g., in
+RRCrtcDestroyResource().
+
+Most importantly, it fails if a client simply close(fd)'es the
+DRM master descriptor to release a lease, quits, gets killed or
+crashes. In this case the kernel will destroy the lease and shut
+down the display output, then send a lease event via udev to the
+ddx, which e.g., in the modesetting-ddx will trigger a call to
+drmmode_validate_leases().
+
+That function is supposed to detect the released lease and tell
+the server to terminate the lease on the server side as well,
+via xf86CrtcLeaseTerminated(), but this doesn't happen for all
+the leases the server has forgotten. The end result is a dead
+video output, as the server won't reinitialize the crtc's
+corresponding to the terminated but forgotten lease.
+
+This bug was observed when using the amdvlk AMD OSS Vulkan
+driver and trying to lease multiple VKDisplay's, and also
+under Mesa radv, as both Mesa Vulkan/WSI/Display and amdvlk
+terminate leases by simply close()ing the lease fd, not by
+sending explicit RandR protocol requests to free leases.
+
+Leasing worked, but ending a session with multiple active
+leases ended in a lot of unpleasant darkness.
+
+Fixing the wrong argument order to xorg_list_add() fixes the
+problem. Tested on single-X-Screen and dual-X-Screen setups,
+with one, two or three active leases.
+
+Please merge this for the upcoming server 21.1 branch.
+Merging into server 1.20 would also make a lot of sense.
+
+Fixes: e4e3447603b5fd3a38a92c3f972396d1f81168ad
+Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
+Cc: Keith Packard <keithp@keithp.com>
+---
+ randr/rrlease.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/randr/rrlease.c b/randr/rrlease.c
+index e25d9ca994..11ba96f248 100644
+--- a/randr/rrlease.c
++++ b/randr/rrlease.c
+@@ -295,7 +295,7 @@ ProcRRCreateLease(ClientPtr client)
+     if (rc != Success)
+         goto bail_lease;
+ 
+-    xorg_list_add(&scr_priv->leases, &lease->list);
++    xorg_list_add(&lease->list, &scr_priv->leases);
+ 
+     if (!AddResource(stuff->lid, RRLeaseType, lease)) {
+         close(fd);
