@@ -21,6 +21,9 @@
   # OpenGL-ES implementation to use
     OPENGLES="mesa"
 
+  # Vulkan API support (yes / no)
+    VULKAN_API="no"
+
   # Graphic drivers to use
     GRAPHIC_DRIVERS="lima panfrost"
 
