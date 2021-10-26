@@ -1,0 +1,49 @@
+From 7930c7344af0486e71cf4578b3e37decb2d69e21 Mon Sep 17 00:00:00 2001
+From: SupervisedThinking <supervisedthinking@gmail.com>
+Date: Wed, 24 Mar 2021 22:38:37 +0100
+Subject: [PATCH] libretro core options: use sane defaults
+
+---
+ neo/sys/libretro/libretro_core_options.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/neo/sys/libretro/libretro_core_options.h b/neo/sys/libretro/libretro_core_options.h
+index 9a697c5..32da061 100644
+--- a/neo/sys/libretro/libretro_core_options.h
++++ b/neo/sys/libretro/libretro_core_options.h
+@@ -70,7 +70,7 @@ struct retro_core_option_definition option_defs_us[] = {
+ 		 { "3840x2160",   NULL },
+          { NULL, NULL },
+       },
+-      "960x544"
++      "1280x720"
+    },
+    {
+       "doom_invert_y_axis",
+@@ -81,7 +81,7 @@ struct retro_core_option_definition option_defs_us[] = {
+          { "enabled",   "Enabled" },
+          { NULL, NULL },
+       },
+-      "enabled"
++      "disabled"
+    },
+    {
+       "doom_fps",
+@@ -148,7 +148,7 @@ struct retro_core_option_definition option_defs_it[] = {
+ 		 { "3840x2160",   NULL },
+          { NULL, NULL },
+       },
+-      "960x544"
++      "1280x720"
+    },
+    {
+       "doom_invert_y_axis",
+@@ -159,7 +159,7 @@ struct retro_core_option_definition option_defs_it[] = {
+          { "enabled",   "Attivato" },
+          { NULL, NULL },
+       },
+-      "enabled"
++      "disabled"
+    },
+    {
+       "doom_fps",
