@@ -224,7 +224,7 @@
   CEC_FRAMEWORK_SUPPORT="no"
 
 # OEM packages for OEM's (yes / no)
-  OEM_SUPPORT="no"
+  OEM_SUPPORT="yes"
 
 # additional packages to install:
 # Space separated list is supported,
