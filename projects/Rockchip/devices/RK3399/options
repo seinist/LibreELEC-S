@@ -21,6 +21,9 @@
   # Kernel target
     KERNEL_TARGET="Image"
 
+  # Vulkan API support (yes / no)
+    VULKAN_API="no"
+
   # Mali GPU family
     MALI_FAMILY="t860"
     GRAPHIC_DRIVERS="panfrost"
