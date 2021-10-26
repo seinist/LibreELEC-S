@@ -1,0 +1,255 @@
+From 989c1055ee15b6e5ff5c90fef1bacd4d929b34bc Mon Sep 17 00:00:00 2001
+From: SupervisedThinking <supervisedthinking@gmail.com>
+Date: Tue, 26 Oct 2021 17:18:10 +0200
+Subject: [PATCH] Makefile: updated platforms / added EGL no X11 opts / added
+ plugin opts
+
+---
+ Makefile | 151 ++++++++++++++++++++++++++++++++++++-------------------
+ 1 file changed, 98 insertions(+), 53 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 3d2b37c..7b629df 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,14 +1,19 @@
+ DEBUG = 0
+-FORCE_GLES ?= 0
++
++FORCE_GLES  ?= 0
+ FORCE_GLES3 ?= 0
+-LLE ?= 0
++EGL_NO_X11  ?= 0
++
++FORCE_NO_PLUGINS  ?= 0
+ HAVE_PARALLEL_RSP ?= 0
+ HAVE_PARALLEL_RDP ?= 0
++HAVE_THR_AL       ?= 0
++LLE               ?= 0
+ 
+ SYSTEM_MINIZIP ?= 0
+-SYSTEM_LIBPNG ?= 0
+-SYSTEM_XXHASH ?= 0
+-SYSTEM_ZLIB ?= 0
++SYSTEM_LIBPNG  ?= 0
++SYSTEM_XXHASH  ?= 0
++SYSTEM_ZLIB    ?= 0
+ 
+ HAVE_LTCG ?= 0
+ DYNAFLAGS :=
+@@ -103,15 +108,10 @@ ifneq (,$(findstring unix,$(platform)))
+       GL_LIB := -lGL
+    endif
+ 
+-   COREFLAGS += -DOS_LINUX
+-   ifeq ($(ARCH), x86_64)
+-      ASFLAGS = -f elf64 -d ELF_TYPE
+-   else
+-      ASFLAGS = -f elf -d ELF_TYPE
+-   endif
+-
++   # Generic ARM platforms
+    ifneq (,$(findstring armv,$(platform)))
+       CPUFLAGS += -DARM -marm
++     
+       ifneq (,$(findstring cortexa8,$(platform)))
+          CPUFLAGS += -mcpu=cortex-a8
+       else ifneq (,$(findstring cortexa9,$(platform)))
+@@ -119,32 +119,76 @@ ifneq (,$(findstring unix,$(platform)))
+       else
+          CPUFLAGS += -mcpu=cortex-a7
+       endif
++      # NEON
+       ifneq (,$(findstring neon,$(platform)))
+-          CPUFLAGS += -mfpu=neon
+-          HAVE_NEON = 1
++        CPUFLAGS += -mfpu=neon
++        HAVE_NEON = 1
+       endif
++      # Target FPU
+       ifneq (,$(findstring softfloat,$(platform)))
+-          CPUFLAGS += -mfloat-abi=softfp
++         CPUFLAGS += -mfloat-abi=softfp
+       else ifneq (,$(findstring hardfloat,$(platform)))
+-          CPUFLAGS += -mfloat-abi=hard
++         CPUFLAGS += -mfloat-abi=hard
+       endif
+    endif
+ 
+-# Raspberry Pi
+-else ifneq (,$(findstring rpi,$(platform)))
+-   TARGET := $(TARGET_NAME)_libretro.so
+-   LDFLAGS += -shared -Wl,--version-script=$(LIBRETRO_DIR)/link.T -Wl,--no-undefined -ldl
+-   ifeq ($(FORCE_GLES3),1)
+-      GLES3 = 1
++   COREFLAGS += -DOS_LINUX
++   ifeq ($(ARCH), x86_64)
++      # RDP/RSP Plugins - cxd4 / paraLLEl / angrylion
++      ifneq ($(FORCE_NO_PLUGINS),1)
++         LLE = 1
++         HAVE_PARALLEL_RSP = 1
++         HAVE_PARALLEL_RDP = 1
++         HAVE_THR_AL = 1
++      endif
++      ASFLAGS = -f elf64 -d ELF_TYPE
+    else
+-      GLES = 1
++      ASFLAGS = -f elf -d ELF_TYPE
+    endif
++
++# Raspberry Pi 0(1)/2/3/4 - bcm2835/Mesa 3D - 32 & 64 bit userspace
++else ifneq (,$(findstring RPi,$(platform)))
++   TARGET := $(TARGET_NAME)_libretro.so
++   LDFLAGS += -shared -Wl,--version-script=$(LIBRETRO_DIR)/link.T -Wl,--no-undefined -ldl
++
++   # If Mesa 3D VC4/V3D graphics driver stack is used instead of Broadcoms bcm2835-driver
+    ifneq (,$(findstring mesa,$(platform)))
+       MESA = 1
+    endif
+-   ifneq (,$(findstring rpi4,$(platform)))
+-      MESA = 1
++
++   ifneq (,$(findstring RPi0,$(platform)))
++      CPUFLAGS += -mcpu=arm1176jzf-s -mfpu=vfp
++      GLES = 1
++      HAVE_NEON = 0
++   else
++      # RPi2/3/4 support NEON 
++      ifeq ($(ARCH), arm)
++         HAVE_NEON = 1
++      endif
++
++      ifneq (,$(findstring RPi2,$(platform)))
++         CPUFLAGS += -mcpu=cortex-a7 -mfpu=neon-vfpv4
++         GLES = 1
++      else
++         ifeq ($(ARCH), arm)
++            CPUFLAGS += -mfpu=neon-fp-armv8
++         endif
++
++         ifneq (,$(findstring RPi3,$(platform)))
++            CPUFLAGS += -mcpu=cortex-a53
++            GLES = 1
++         else ifneq (,$(findstring RPi4,$(platform)))
++            CPUFLAGS += -mcpu=cortex-a72
++            MESA = 1
++            ifeq ($(FORCE_GLES),1)
++               GLES = 1
++            else
++               GLES3 = 1
++            endif
++         endif
++      endif
+    endif
++
+    ifeq ($(MESA), 1)
+       GL_LIB := -lGLESv2
+    else
+@@ -154,28 +198,15 @@ else ifneq (,$(findstring rpi,$(platform)))
+       EGL_LIB := -lbrcmEGL
+       INCFLAGS += -I/opt/vc/include -I/opt/vc/include/interface/vcos -I/opt/vc/include/interface/vcos/pthreads
+    endif
+-   HAVE_NEON = 1
+-   ifneq (,$(findstring rpi2,$(platform)))
+-      CPUFLAGS += -mcpu=cortex-a7
+-      ARM_CPUFLAGS = -mfpu=neon-vfpv4
+-   else ifneq (,$(findstring rpi3,$(platform)))
+-      CPUFLAGS += -march=armv8-a+crc -mtune=cortex-a53
+-      ARM_CPUFLAGS = -mfpu=neon-fp-armv8
+-   else ifneq (,$(findstring rpi4,$(platform)))
+-      CPUFLAGS += -march=armv8-a+crc -mtune=cortex-a72
+-      ARM_CPUFLAGS = -mfpu=neon-fp-armv8
+-   else ifneq (,$(findstring rpi,$(platform)))
+-      CPUFLAGS += -mcpu=arm1176jzf-s
+-      ARM_CPUFLAGS = -mfpu=vfp
+-      HAVE_NEON = 0
+-   endif
++
+    ifeq ($(ARCH), aarch64)
+       WITH_DYNAREC=aarch64
+       HAVE_NEON = 0
+    else
+       WITH_DYNAREC=arm
+-      CPUFLAGS += $(ARM_CPUFLAGS) -mfloat-abi=hard
++      CPUFLAGS += -mfloat-abi=hard
+    endif
++
+    COREFLAGS += -DOS_LINUX
+    ASFLAGS = -f elf -d ELF_TYPE
+ 
+@@ -282,20 +313,25 @@ else ifneq (,$(findstring AMLG,$(platform)))
+       else
+          CPUFLAGS += -mtune=cortex-a53
+       endif
+-      GLES3 = 1
++
++      ifeq ($(FORCE_GLES),1)
++         GLES = 1
++      else
++         GLES3 = 1
++      endif
+    else ifneq (,$(findstring AMLGX,$(platform)))
+       CPUFLAGS += -mtune=cortex-a53
+       ifneq (,$(findstring AMLGXM,$(platform)))
+-         GLES3 = 1
++         ifeq ($(FORCE_GLES),1)
++            GLES = 1
++         else
++            GLES3 = 1
++         endif
+       else
+          GLES = 1
+       endif
+    endif
+ 
+-   ifneq (,$(findstring mesa,$(platform)))
+-      COREFLAGS += -DEGL_NO_X11
+-   endif
+-
+    ifneq (,$(findstring mali,$(platform)))
+       GL_LIB := -lGLESv3
+    else
+@@ -328,18 +364,22 @@ else ifneq (,$(findstring RK,$(platform)))
+       CPUFLAGS += -march=armv8-a+crc -mfloat-abi=hard -mfpu=neon-fp-armv8
+       ifneq (,$(findstring RK3399,$(platform)))
+          CPUFLAGS += -mtune=cortex-a72.cortex-a53
+-         GLES3 = 1
++         ifeq ($(FORCE_GLES),1)
++            GLES = 1
++         else
++            GLES3 = 1
++         endif
+       else ifneq (,$(findstring RK3328,$(platform)))
+          CPUFLAGS += -mtune=cortex-a53
+          GLES = 1
+       endif
+    else ifneq (,$(findstring RK3288,$(platform)))
+       CPUFLAGS += -march=armv7ve -mtune=cortex-a17 -mfloat-abi=hard -mfpu=neon-vfpv4
+-      GLES3 = 1
+-   endif
+-
+-   ifneq (,$(findstring mesa,$(platform)))
+-      COREFLAGS += -DEGL_NO_X11
++      ifeq ($(FORCE_GLES),1)
++         GLES = 1
++      else
++         GLES3 = 1
++      endif
+    endif
+ 
+    GL_LIB := -lGLESv2
+@@ -521,6 +561,11 @@ ifeq ($(HAVE_NEON), 1)
+    COREFLAGS += -DHAVE_NEON -D__ARM_NEON__ -D__NEON_OPT -ftree-vectorize -mvectorize-with-neon-quad -ftree-vectorizer-verbose=2 -funsafe-math-optimizations -fno-finite-math-only
+ endif
+ 
++# Define EGL platform
++ifeq ($(EGL_NO_X11), 1)
++  COREFLAGS += -DEGL_NO_X11
++endif
++
+ ifeq ($(LLE), 1)
+    COREFLAGS += -DHAVE_LLE
+ endif
+-- 
+2.25.1
+
