@@ -1,3 +1,17 @@
+# LibreELEC-RR master
+---
+### **Abstract**
+
+This fork comes with all stock LibreELEC master features but also with 3 different emulation frontends which were integrated into the Kodi Estuary theme. They allow you to run several libretro & standalone emulation cores to play basically all games of the common home consoles, arcade & home computer systems of the last decades.
+
+---
+### **Project thread**
+
+*English*
+
+* [LibreELEC-RR 10.x [ Brave | Spotify | Moonlight | Emulationstation | Retroarch | Pegasus ]](https://forum.libreelec.tv/thread/23644-libreelec-rr-10-x-brave-spotify-moonlight-emulationstation-retroarch-pegasus/)
+
+---
 # LibreELEC
 
 LibreELEC is a 'Just enough OS' Linux distribution for the award-winning [Kodi](https://kodi.tv) software on popular mediacentre hardware. Further information on the project can be found on the [LibreELEC website](https://libreelec.tv).
