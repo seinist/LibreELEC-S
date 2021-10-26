@@ -11,10 +11,10 @@
 
 # Welcome Message for e.g. SSH Server (up to 5 Lines)
   GREETING0="##############################################"
-  GREETING1="#                 LibreELEC                  #"
-  GREETING2="#            https://libreelec.tv            #"
-  GREETING3="##############################################"
-  GREETING4=""
+  GREETING1="#           LibreELEC-RR master-rr           #"
+  GREETING2="#           https://bit.ly/3vL5rH3           #"
+  GREETING3="#        based on https://libreelec.tv       #"
+  GREETING4="##############################################"
 
 # Root password to integrate in the target system
   ROOT_PASSWORD="libreelec"
