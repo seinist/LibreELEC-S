@@ -1,0 +1,46 @@
+--- a/xml/Home.xml
++++ b/xml/Home.xml
+@@ -896,6 +896,20 @@
+ 							<property name="id">weather</property>
+ 							<visible>!Skin.HasSetting(HomeMenuNoWeatherButton)</visible>
+ 						</item>
++						<item>
++							<label>Brave</label>
++							<onclick>RunScript(/usr/bin/app-brave-browser.py)</onclick>
++							<thumb>DefaultAddonWebSkinBrave.png</thumb>
++							<property name="id">brave</property>
++							<visible>!Skin.HasSetting(HomeMenuNoBraveButton)</visible>
++						</item>
++						<item>
++							<label>Spotify</label>
++							<onclick>RunScript(/usr/bin/app-spotify.py)</onclick>
++							<thumb>DefaultAddonMusicSpotify.png</thumb>
++							<property name="id">spotify</property>
++							<visible>!Skin.HasSetting(HomeMenuNoSpotifyButton)</visible>
++						</item>
+ 					</content>
+ 				</control>
+ 				<control type="grouplist" id="700">
+--- a/xml/SkinSettings.xml
++++ b/xml/SkinSettings.xml
+@@ -213,6 +213,18 @@
+ 					<selected>!Skin.HasSetting(HomeMenuNoWeatherButton)</selected>
+ 					<onclick>Skin.ToggleSetting(HomeMenuNoWeatherButton)</onclick>
+ 				</control>
++				<control type="radiobutton" id="61800">
++					<label>Brave</label>
++					<include>DefaultSettingButton</include>
++					<selected>!Skin.HasSetting(HomeMenuNoBraveButton)</selected>
++					<onclick>Skin.ToggleSetting(HomeMenuNoBraveButton)</onclick>
++				</control>
++				<control type="radiobutton" id="61900">
++					<label>Spotify</label>
++					<include>DefaultSettingButton</include>
++					<selected>!Skin.HasSetting(HomeMenuNoSpotifyButton)</selected>
++					<onclick>Skin.ToggleSetting(HomeMenuNoSpotifyButton)</onclick>
++				</control>
+ 			</control>
+ 			<control type="image">
+ 				<description>Dialog Header image</description>
+
+
