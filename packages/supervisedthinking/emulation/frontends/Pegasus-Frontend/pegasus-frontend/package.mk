@@ -2,15 +2,13 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="pegasus-frontend"
-PKG_VERSION="b1c3a1acb7a063c3f208d0cc07983c80036584ef" # Weekly release #37, 2021
+PKG_VERSION="fff1a5b2390aaa195d644b651e54c27c2a9b8a1d" # continuous
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/mmatyas/pegasus-frontend"
 PKG_URL="https://github.com/mmatyas/pegasus-frontend.git"
 PKG_DEPENDS_TARGET="toolchain linux glibc zlib libpng sdl2 qt-everywhere pegasus-theme-es2-simple pegasus-theme-gameOS"
 PKG_LONGDESC="A cross platform, customizable graphical frontend for launching emulators and managing your game collection."
 GET_HANDLER_SUPPORT="git"
-PKG_TOOLCHAIN="make"
-PKG_BUILD_FLAGS="+lto"
 
 post_unpack() {
   cp -r ${PKG_DIR}/files/logos/* ${PKG_BUILD}/src/themes/pegasus-theme-grid/assets/logos
@@ -22,11 +20,6 @@ configure_package() {
     PKG_DEPENDS_TARGET+=" xorg-server unclutter-xfixes"
   fi
 
-  # Fix EGLFS
-  if [ "${DISPLAYSERVER}" = "no" ]; then
-    PKG_PATCH_DIRS+=" EGLFS"
-  fi
-
   # Build with OpenGL / OpenGLES support
   if [ "${OPENGL_SUPPORT}" = "yes" ]; then
     PKG_DEPENDS_TARGET+=" ${OPENGL}"
@@ -35,32 +28,17 @@ configure_package() {
   fi
 }
 
-configure_target() {
-  # Create working dir
-  mkdir -p ${PKG_BUILD}/.${TARGET_NAME}
-  cd ${PKG_BUILD}/.${TARGET_NAME}
-
-  # Fix EGLFS
-  if [ "${DISPLAYSERVER}" = "no" ]; then
-    PKG_QMAKE_EXTRA_FLAGS="QMAKE_LIBS_LIBDL=-ldl \
-                           QMAKE_CXXFLAGS+=-DMESA_EGL_NO_X11_HEADERS"
-  fi
-
-  # Generate qmake config
-  qmake ${PKG_BUILD}/pegasus.pro INSTALLDIR=${INSTALL}/usr/bin \
-                                 INSTALL_BINDIR=${INSTALL}/usr/bin \
-                                 INSTALL_DOCDIR=${INSTALL}/usr/share/doc/pegasus-frontend \
-                                 INSTALL_DESKTOPDIR=${INSTALL}/usr/share/applications \
-                                 INSTALL_ICONDIR=${INSTALL}/usr/share/icons/trash \
-                                 ${PKG_QMAKE_EXTRA_FLAGS}
+pre_configure_target() {
+  PKG_CMAKE_OPTS_TARGET="-DPEGASUS_USE_SDL2_POWER=off"
 }
 
 post_makeinstall_target() {
   # Install start scripts
-  mkdir -p ${INSTALL}/usr/bin
+  cp -rf ${PKG_DIR}/scripts/* ${INSTALL}/usr/bin/
+
+  # Create readme
   mkdir -p ${INSTALL}/usr/config/pegasus-frontend/themes
   echo "Place your Pegasus-Frontend Themes here!" > ${INSTALL}/usr/config/pegasus-frontend/themes/readme.txt
-  cp -rf ${PKG_DIR}/scripts/*        ${INSTALL}/usr/bin/
 
   # Clean up
   safe_remove ${INSTALL}/usr/share
