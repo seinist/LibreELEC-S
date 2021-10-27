@@ -1,0 +1,20 @@
+--- /src/mame2003/core_options.c
++++ /src/mame2003/core_options.c
+@@ -107,11 +107,11 @@
+    NULL,
+    "cat_key_system",
+    {
+-      { "disabled", NULL },
+-      { "enabled",  NULL },
+-      { NULL, NULL },
+-   },
+-   "disabled"
++      { "enabled", NULL },
++      { "disabled",  NULL },
++      { NULL, NULL },
++   },
++   "enabled"
+ };
+ 
+ static struct retro_core_option_v2_definition option_def_skip_warnings = {
+
