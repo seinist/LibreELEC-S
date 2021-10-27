@@ -12,6 +12,9 @@ PKG_LONGDESC="A cross-platform application and UI framework"
 PKG_BUILD_FLAGS="-gold"
 
 configure_package() {
+  # Apply project specific patches
+  PKG_PATCH_DIRS="${PROJECT}"
+
   # Build with OpenGL / OpenGLES support
   if [ "${OPENGL_SUPPORT}" = "yes" ]; then
     PKG_DEPENDS_TARGET+=" ${OPENGL}"
@@ -195,7 +198,7 @@ post_makeinstall_target() {
 
   # Install Qt5 QML
   for PKG_QT5_QML in \
-    QtGamepad QtGraphicalEffects QtMultimedia QtQuick QtQuick.2 QtTest
+    Qt QtGamepad QtGraphicalEffects QtMultimedia QtQuick QtQuick.2 QtTest
   do
     cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/qml/${PKG_QT5_QML} ${INSTALL}/usr/qml
   done
