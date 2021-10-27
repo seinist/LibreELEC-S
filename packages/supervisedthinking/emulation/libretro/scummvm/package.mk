@@ -2,15 +2,15 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="scummvm"
-PKG_VERSION="22f1c6f2147f46f8be0eb4cf2f3a594b9295254b"
-PKG_SHA256="a230a60ddde96e6a2c6d07fa5a121b4f99e1f7fd8ce59e13ee5ac64d34e5f7c2"
+PKG_VERSION="63e57573a9ffe71a1083ff46d9cd210203b87afb"
+PKG_SHA256="b5be836e068caf16418d3fde87c6ba436b31d87e1d9627855ba463bb0841a5d5"
 PKG_LICENSE="GPL-3.0-or-later"
-PKG_SITE="https://github.com/diablodiab/scummvm"
-PKG_URL="https://github.com/diablodiab/scummvm/archive/${PKG_VERSION}.tar.gz"
+PKG_SITE="https://github.com/libretro/scummvm"
+PKG_URL="https://github.com/libretro/scummvm/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain linux glibc"
 PKG_LONGDESC="ScummVM is an interpreter for point-and-click adventure games that can be used as a libretro core."
 PKG_TOOLCHAIN="make"
-PKG_BUILD_FLAGS="-sysroot"
+PKG_BUILD_FLAGS="-sysroot +speed"
 
 PKG_LIBNAME="scummvm_libretro.so"
 PKG_LIBPATH="backends/platform/libretro/build/${PKG_LIBNAME}"
