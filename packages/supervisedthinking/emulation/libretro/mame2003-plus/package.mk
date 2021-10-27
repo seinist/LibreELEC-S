@@ -23,11 +23,6 @@ pre_configure_target() {
   fi
 }
 
-pre_make_target() {
-  # Enable disclaimer skipping at default
-  sed -e "s/\"Skip Disclaimer; disabled|enabled\"/\"Skip Disclaimer; enabled|disabled\"/" -i ${PKG_BUILD}/src/mame2003/mame2003.c
-}
-
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
     cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
