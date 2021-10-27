@@ -1,0 +1,31 @@
+diff --git a/sound/soc/meson/aiu-encoder-i2s.c b/sound/soc/meson/aiu-encoder-i2s.c
+index 932224552146..25528b0014e9 100644
+--- a/sound/soc/meson/aiu-encoder-i2s.c
++++ b/sound/soc/meson/aiu-encoder-i2s.c
+@@ -74,8 +74,8 @@ static int aiu_encoder_i2s_setup_desc(struct snd_soc_component *component,
+	unsigned int desc = AIU_I2S_SOURCE_DESC_MODE_SPLIT;
+
+	/* Reset required to update the pipeline */
+-	snd_soc_component_write(component, AIU_RST_SOFT, AIU_RST_SOFT_I2S_FAST);
+-	snd_soc_component_read(component, AIU_I2S_SYNC);
++	//snd_soc_component_write(component, AIU_RST_SOFT, AIU_RST_SOFT_I2S_FAST);
++	//snd_soc_component_read(component, AIU_I2S_SYNC);
+
+	switch (params_physical_width(params)) {
+	case 16: /* Nothing to do */
+diff --git a/sound/soc/meson/aiu-fifo-i2s.c b/sound/soc/meson/aiu-fifo-i2s.c
+index 2388a2d0b3a6..f2388f121473 100644
+--- a/sound/soc/meson/aiu-fifo-i2s.c
++++ b/sound/soc/meson/aiu-fifo-i2s.c
+@@ -51,9 +51,9 @@ static int aiu_fifo_i2s_trigger(struct snd_pcm_substream *substream, int cmd,
+	case SNDRV_PCM_TRIGGER_START:
+	case SNDRV_PCM_TRIGGER_RESUME:
+	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+-		snd_soc_component_write(component, AIU_RST_SOFT,
+-					AIU_RST_SOFT_I2S_FAST);
+-		snd_soc_component_read(component, AIU_I2S_SYNC);
++		//snd_soc_component_write(component, AIU_RST_SOFT,
++					//AIU_RST_SOFT_I2S_FAST);
++		//snd_soc_component_read(component, AIU_I2S_SYNC);
+		break;
+	}
