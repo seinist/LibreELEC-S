@@ -161,8 +161,6 @@ pre_configure_target() {
                                  --disable-vpx"
   fi
 
-  # Fix outdated automake for Linux Mint 18.04
-  sed -e "s/am__api_version='1.16'/am__api_version='1.15'/" -i ${PKG_BUILD}/configure
   LDFLAGS+=" -lresolv"
 }
 
