@@ -2,15 +2,14 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="amiberry"
-PKG_VERSION="697272ca61f65265d705b8ee534559e464de1404" # v3.3+
+PKG_VERSION="d83785b6b5e2b212de26cac26cc2e8c4f2aae234" # v4.1.6
 PKG_ARCH="arm"
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/midwan/amiberry"
 PKG_URL="https://github.com/midwan/amiberry.git"
 PKG_DEPENDS_TARGET="toolchain linux glibc bzip2 zlib sdl2 sdl2_image sdl2_ttf capsimg freetype libxml2 flac-system libogg-system mpg123-system libpng libmpeg2 retroarch-joypad-autoconfig"
-PKG_LONGDESC="Amiberry is an optimized Amiga emulator for ARM-based boards."
+PKG_LONGDESC="Optimized Amiga emulator for the Raspberry Pi and other ARM boards."
 GET_HANDLER_SUPPORT="git"
-PKG_GIT_CLONE_BRANCH="dev"
 PKG_TOOLCHAIN="make"
 
 PKG_MAKE_OPTS_TARGET="all"
@@ -19,22 +18,15 @@ pre_configure_target() {
   cd ${PKG_BUILD}
   export SDL_CONFIG=${SYSROOT_PREFIX}/usr/bin/sdl2-config
 
+  # fix build of neon_helper.s
+  AS="${CC}"
+
   case ${PROJECT} in
     Amlogic)
       AMIBERRY_PLATFORM="${DEVICE}"
       ;;
     Rockchip)
-      case "${DEVICE}" in
-        RK3328)
-          AMIBERRY_PLATFORM="RK3328"
-        ;;
-        RK3399)
-          AMIBERRY_PLATFORM="RK3399"
-        ;;
-        MiQi|TinkerBoard)
-          AMIBERRY_PLATFORM="RK3288"
-        ;;
-      esac
+      AMIBERRY_PLATFORM="${DEVICE}"
       ;;
     RPi)
       if [ "${DEVICE}" = "RPi4" ]; then
@@ -64,24 +56,10 @@ makeinstall_target() {
 
   # WHDLoad
   cp -a whdboot/save-data             ${INSTALL}/usr/config/amiberry/whdboot/
-  cp -a whdboot/game-data             ${INSTALL}/usr/share/amiberry/whdboot/
-  cp -a whdboot/save-data/Kickstarts/ ${INSTALL}/usr/share/amiberry/whdboot/save-data/
-  cp -a whdboot/WHDLoad               ${INSTALL}/usr/share/amiberry/whdboot/
-  cp -a whdboot/boot-data.zip         ${INSTALL}/usr/share/amiberry/whdboot/
-
-  # Kickstarts symlinks
-  safe_remove ${INSTALL}/usr/config/amiberry/whdboot/save-data/Kickstarts/*
-  ln -s /usr/share/amiberry/whdboot/save-data/Kickstarts/kick33180.A500.RTB  ${INSTALL}/usr/config/amiberry/whdboot/save-data/Kickstarts/
-  ln -s /usr/share/amiberry/whdboot/save-data/Kickstarts/kick33192.A500.RTB  ${INSTALL}/usr/config/amiberry/whdboot/save-data/Kickstarts/
-  ln -s /usr/share/amiberry/whdboot/save-data/Kickstarts/kick34005.A500.RTB  ${INSTALL}/usr/config/amiberry/whdboot/save-data/Kickstarts/
-  ln -s /usr/share/amiberry/whdboot/save-data/Kickstarts/kick40063.A600.RTB  ${INSTALL}/usr/config/amiberry/whdboot/save-data/Kickstarts/
-  ln -s /usr/share/amiberry/whdboot/save-data/Kickstarts/kick40068.A1200.RTB ${INSTALL}/usr/config/amiberry/whdboot/save-data/Kickstarts/
-  ln -s /usr/share/amiberry/whdboot/save-data/Kickstarts/kick40068.A4000.RTB ${INSTALL}/usr/config/amiberry/whdboot/save-data/Kickstarts/
-
-  # WHDLoad symlinks
-  ln -s /usr/share/amiberry/whdboot/game-data/whdload_db.xml ${INSTALL}/usr/config/amiberry/whdboot/game-data/
-  ln -s /usr/share/amiberry/whdboot/WHDLoad                  ${INSTALL}/usr/config/amiberry/whdboot/
-  ln -s /usr/share/amiberry/whdboot/boot-data.zip            ${INSTALL}/usr/config/amiberry/whdboot/
+  cp -a whdboot/game-data             ${INSTALL}/usr/config/amiberry/whdboot/
+  cp -a whdboot/save-data/Kickstarts/ ${INSTALL}/usr/config/amiberry/whdboot/save-data/
+  cp -a whdboot/WHDLoad               ${INSTALL}/usr/config/amiberry/whdboot/
+  cp -a whdboot/boot-data.zip         ${INSTALL}/usr/config/amiberry/whdboot/
 
   # Create links to Retroarch controller files
   ln -s /usr/share/retroarch/autoconfig/udev/8Bitdo_Pro_SF30_BT_B.cfg "${INSTALL}/usr/config/amiberry/controller/8Bitdo SF30 Pro.cfg"
