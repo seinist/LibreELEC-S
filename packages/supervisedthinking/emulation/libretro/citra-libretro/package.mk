@@ -21,8 +21,7 @@ pre_configure_target() {
                          -D ENABLE_QT=0 \
                          -D ENABLE_WEB_SERVICE=0 \
                          -D CMAKE_NO_SYSTEM_FROM_IMPORTED=1 \
-                         -D CMAKE_VERBOSE_MAKEFILE=1 \
-                         --target citra_libretro"
+                         -D CMAKE_VERBOSE_MAKEFILE=1"
 }
 
 pre_make_target() {
