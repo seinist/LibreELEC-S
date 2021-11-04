@@ -5,7 +5,7 @@
   OPENGLES="no"
 
 # Vulkan implementation to use (vulkan-loader / no)
-  VULKAN="no"
+  VULKAN="vulkan-loader"
 
 # Displayserver to use (weston / x11 / no)
   DISPLAYSERVER="x11"
@@ -23,3 +23,39 @@
 # Space separated list is supported,
 # e.g. GRAPHIC_DRIVERS="crocus i915 iris r300 r600 radeonsi nvidia nvidia-legacy vmware virtio"
   GRAPHIC_DRIVERS="crocus i915 iris r300 r600 radeonsi nvidia nvidia-legacy vmware virtio"
+
+################################################################################
+# setup LibreELEC-RR defaults
+################################################################################
+
+  # Install applications e.g. Chrome or Spotify (yes / no)
+    OEM_APPLICATIONS="yes"
+
+  # Install standalone emulators e.g. Emulationstation, Amiberry, PPSSPP (yes / no)
+    OEM_EMULATORS="yes"
+
+  # Install additional frontends e.g. Pegasus Frontend (yes / no)
+    OEM_FRONTENDS_EXTRA="yes"
+
+  # Install libretro cores e.g. Retroarch, snes9x, mame2003-plus (yes / no)
+    OEM_LIBRETRO="yes"
+
+  # Install Linux kernel drivers e.g. xpadneo (yes / no)
+    OEM_LINUX_KERNEL_DRIVER_SUPPORT="yes"
+
+  # Install streaming clients e.g. Moonlight-Qt (yes / no)
+    OEM_STREAMING_CLIENTS="yes"
+
+  # Install tools e.g. additional tools like mc or htop (yes / no)
+    OEM_TOOLS="yes"
+
+  # Add non-free packages i.e. fdk-aac, xow (yes / no)
+    NON_FREE_PKG_SUPPORT="no"
+
+  # Override some RetroArch playlist core assignation
+    RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//fceumm/mesen}"
+    RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//mame2003_plus/mame2016}"
+    RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//pcsx_rearmed/swanstation_libretro}"
+    RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//snes9x2010/bsnes_mercury_accuracy}"
+    RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//yabause/mednafen_saturn}"
+>>>>>>> project/Generic: updated / added devices
