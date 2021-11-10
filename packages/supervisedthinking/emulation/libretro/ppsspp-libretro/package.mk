@@ -29,13 +29,18 @@ configure_package() {
   if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
     PKG_DEPENDS_TARGET+=" ${OPENGLES}"
   fi
+
+  # Vulkan Support
+  if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+    PKG_DEPENDS_TARGET+=" ${VULKAN}"
+  fi
 }
 
 pre_configure_target() {
   PKG_CMAKE_OPTS_TARGET="-DLIBRETRO=ON \
-                         -DUSE_SYSTEM_FFMPEG=ON \
-                         -DUSING_X11_VULKAN=OFF \
-                         -DUSE_DISCORD=OFF"
+                         -DUSE_DISCORD=OFF \
+                         -DUSE_MINIUPNPC=OFF \
+                         -DUSE_SYSTEM_FFMPEG=ON"
 
   if [ "${ARCH}" = "arm" ] && [ ! "${TARGET_CPU}" = "arm1176jzf-s" ]; then
     PKG_CMAKE_OPTS_TARGET+=" -DARMV7=ON"
@@ -47,6 +52,19 @@ pre_configure_target() {
     PKG_CMAKE_OPTS_TARGET+=" -DUSING_FBDEV=ON \
                              -DUSING_EGL=ON \
                              -DUSING_GLES2=ON"
+  fi
+
+  if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+    PKG_CMAKE_OPTS_TARGET+=" -DVULKAN=ON"
+
+    if [ "$DISPLAYSERVER" = "x11" ]; then
+      PKG_CMAKE_OPTS_TARGET+=" -DUSING_X11_VULKAN=ON"
+    else
+      PKG_CMAKE_OPTS_TARGET+=" -DUSING_X11_VULKAN=OFF \
+                               -DUSE_VULKAN_DISPLAY_KHR=ON"
+    fi
+  else
+    PKG_CMAKE_OPTS_TARGET+=" -DVULKAN=OFF"
   fi
 }
 
