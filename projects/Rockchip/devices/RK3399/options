@@ -21,8 +21,8 @@
   # Kernel target
     KERNEL_TARGET="Image"
 
-  # Vulkan API support (yes / no)
-    VULKAN_API="no"
+  # Vulkan implementation to use (vulkan-loader / no)
+    VULKAN="vulkan-loader"
 
   # Mali GPU family
     MALI_FAMILY="t860"
