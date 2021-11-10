@@ -8,9 +8,16 @@ PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://rpcs3.net"
 PKG_URL="https://github.com/RPCS3/rpcs3.git"
 PKG_DEPENDS_HOST="toolchain:host"
-PKG_DEPENDS_TARGET="toolchain linux glibc systemd pulseaudio mesa xorg-server openal-soft-system libevdev curl ffmpeg libpng zlib vulkan-loader glew-cmake libSM sdl2 enet-system qt-everywhere unclutter-xfixes rpcs3:host"
+PKG_DEPENDS_TARGET="toolchain linux glibc systemd pulseaudio mesa xorg-server openal-soft-system libevdev curl ffmpeg libpng zlib glew-cmake libSM sdl2 enet-system qt-everywhere unclutter-xfixes rpcs3:host"
 PKG_LONGDESC="RPCS3 is an experimental open-source Sony PlayStation 3 emulator and debugger."
 GET_HANDLER_SUPPORT="git"
+
+configure_package() {
+  # Vulkan Support
+  if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+    PKG_DEPENDS_TARGET+=" ${VULKAN}"
+  fi
+}
 
 pre_configure_host() {
   PKG_CMAKE_SCRIPT="${PKG_BUILD}/llvm/CMakeLists.txt"
