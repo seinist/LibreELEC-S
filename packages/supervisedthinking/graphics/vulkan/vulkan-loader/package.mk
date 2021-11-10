@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="vulkan-loader"
-PKG_VERSION="6d9e5b07d6623d17070169c12fe8cc8eaca4274f" #v1.2.196
+PKG_VERSION="0d34e69625bb06d367d18e7c9f792ff34ba8b592" #v1.2.198
 PKG_LICENSE="Apache 2.0"
 PKG_SITE="https://github.com/KhronosGroup/Vulkan-Loader"
 PKG_URL="https://github.com/KhronosGroup/Vulkan-Loader.git"
