@@ -16,20 +16,26 @@ configure_package() {
     PKG_DEPENDS_TARGET+=" xorg-server unclutter-xfixes"
   fi
 
-  # Build with OpenGL / OpenGLES support
+  # OpenGL Support
   if [ "${OPENGL_SUPPORT}" = "yes" ]; then
     PKG_DEPENDS_TARGET+=" ${OPENGL}"
-  elif [ "${OPENGLES_SUPPORT}" = "yes" ]; then
+  fi
+
+  # OpenGLES Support
+  if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
     PKG_DEPENDS_TARGET+=" ${OPENGLES}"
+  fi
+
+  # Vulkan Support
+  if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+    PKG_DEPENDS_TARGET+=" ${VULKAN}"
   fi
 }
 
 pre_configure_target() {
-  PKG_CMAKE_OPTS_TARGET="-DUSE_SYSTEM_FFMPEG=ON"
-
-  if [ "${PROJECT}" = "Generic" ]; then
-    PKG_CMAKE_OPTS_TARGET+=" -DUSE_DISCORD=OFF"
-  fi
+  PKG_CMAKE_OPTS_TARGET="-DUSE_DISCORD=OFF \
+                         -DUSE_MINIUPNPC=OFF \
+                         -DUSE_SYSTEM_FFMPEG=ON"
 
   if [ "${ARCH}" = "arm" ] && [ ! "${TARGET_CPU}" = "arm1176jzf-s" ]; then
     PKG_CMAKE_OPTS_TARGET+=" -DARMV7=ON"
@@ -38,24 +44,22 @@ pre_configure_target() {
   fi
 
   if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
-    PKG_CMAKE_OPTS_TARGET+=" -DUSING_GLES2=ON"
-    if [ "${OPENGLES}" = "libmali" ]; then
-      PKG_CMAKE_OPTS_TARGET+=" -DUSING_EGL=OFF"
-    else
-      PKG_CMAKE_OPTS_TARGET+=" -DUSING_FBDEV=ON \
-                               -DUSING_EGL=ON"
-    fi
-
-    if [ "${OPENGLES}" = "mesa" ]; then
-      CFLAGS+=" -DMESA_EGL_NO_X11_HEADERS"
-      CXXFLAGS+=" -DMESA_EGL_NO_X11_HEADERS"
-    fi
+    PKG_CMAKE_OPTS_TARGET+=" -DUSING_FBDEV=ON \
+                             -DUSING_EGL=ON \
+                             -DUSING_GLES2=ON"
   fi
 
-  if [ "${DISPLAYSERVER}" = "x11" ] && [ "${VULKAN_SUPPORT}" = "yes" ]; then
-    PKG_CMAKE_OPTS_TARGET+=" -DUSING_X11_VULKAN=ON"
+  if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+    PKG_CMAKE_OPTS_TARGET+=" -DVULKAN=ON"
+
+    if [ "$DISPLAYSERVER" = "x11" ]; then
+      PKG_CMAKE_OPTS_TARGET+=" -DUSING_X11_VULKAN=ON"
+    else
+      PKG_CMAKE_OPTS_TARGET+=" -DUSING_X11_VULKAN=OFF \
+                               -DUSE_VULKAN_DISPLAY_KHR=ON"
+    fi
   else
-    PKG_CMAKE_OPTS_TARGET+=" -DUSING_X11_VULKAN=OFF"
+    PKG_CMAKE_OPTS_TARGET+=" -DVULKAN=OFF"
   fi
 }
 
