@@ -34,6 +34,11 @@ configure_package() {
     PKG_DEPENDS_TARGET+=" ${OPENGLES}"
   fi
 
+  # OpenGLES support
+  if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+    PKG_DEPENDS_TARGET+=" ${VULKAN}"
+  fi
+
   # Pulseaudio support
   if [ "${PULSEAUDIO_SUPPORT}" = yes ]; then
     PKG_DEPENDS_TARGET+=" pulseaudio"
@@ -152,7 +157,7 @@ pre_configure_target(){
   fi
 
   # Vulkan Support
-  if [ "${VULKAN_API}" = "yes" ]; then
+  if [ "${VULKAN_SUPPORT}" = "yes" ]; then
     PKG_CMAKE_OPTS_TARGET+=" -DVIDEO_VULKAN=ON"
   else
     PKG_CMAKE_OPTS_TARGET+=" -DVIDEO_VULKAN=OFF"
