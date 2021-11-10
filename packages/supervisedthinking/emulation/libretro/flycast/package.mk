@@ -81,17 +81,18 @@ pre_configure_target() {
         if [ "${OPENGL_SUPPORT}" = "yes" ]; then
           PKG_MAKE_OPTS_TARGET+=" HAVE_OIT=1"
         fi
-        # Vulkan support
-        if [ "${VULKAN_SUPPORT}" = "yes" ]; then
-          PKG_MAKE_OPTS_TARGET+=" HAVE_VULKAN=1"
-        else
-          PKG_MAKE_OPTS_TARGET+=" HAVE_VULKAN=0"
-        fi
         # Set dynarec arch
         PKG_MAKE_OPTS_TARGET+=" WITH_DYNAREC=${ARCH}"
       fi
       ;;
   esac
+
+  # Vulkan support
+  if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+    PKG_MAKE_OPTS_TARGET+=" HAVE_VULKAN=1"
+  else
+    PKG_MAKE_OPTS_TARGET+=" HAVE_VULKAN=0"
+  fi
 }
 
 makeinstall_target() {
