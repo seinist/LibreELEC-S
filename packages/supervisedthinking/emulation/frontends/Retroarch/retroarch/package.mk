@@ -41,7 +41,7 @@ configure_package() {
 
   # Vulkan Support
   if [ "${VULKAN_SUPPORT}" = "yes" ]; then
-    PKG_DEPENDS_TARGET+=" vulkan-loader slang-shaders-lr"
+    PKG_DEPENDS_TARGET+=" ${VULKAN} slang-shaders-lr"
   fi
 }
 
