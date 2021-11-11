@@ -35,7 +35,8 @@ configure_package() {
 pre_configure_target() {
   PKG_CMAKE_OPTS_TARGET="-DUSE_DISCORD=OFF \
                          -DUSE_MINIUPNPC=OFF \
-                         -DUSE_SYSTEM_FFMPEG=ON"
+                         -DUSE_FFMPEG=ON \
+                         -DUSE_SYSTEM_FFMPEG=OFF"
 
   if [ "${ARCH}" = "arm" ] && [ ! "${TARGET_CPU}" = "arm1176jzf-s" ]; then
     PKG_CMAKE_OPTS_TARGET+=" -DARMV7=ON"
