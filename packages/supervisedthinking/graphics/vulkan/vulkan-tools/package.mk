@@ -14,9 +14,12 @@ pre_configure_target() {
   PKG_CMAKE_OPTS_TARGET="-DBUILD_ICD=Off \
                          -DINSTALL_ICD=Off"
 
-  # Disable Wayland WSI support
-  sed -e "s/Build Wayland WSI support\" ON/Build Wayland WSI support\" OFF/" -i ${PKG_BUILD}/cube/CMakeLists.txt
-  sed -e "s/Build Wayland WSI support\" ON/Build Wayland WSI support\" OFF/" -i ${PKG_BUILD}/vulkaninfo/CMakeLists.txt
+  # Conditionally disable Wayland support - doesn't accept CMake opts 
+  # https://github.com/KhronosGroup/Vulkan-Tools/issues/475
+  if [ ! "${DISPLAYSERVER}" = "weston" ]; then
+    sed -e "s/Build Wayland WSI support\" ON/Build Wayland WSI support\" OFF/" -i ${PKG_BUILD}/cube/CMakeLists.txt
+    sed -e "s/Build Wayland WSI support\" ON/Build Wayland WSI support\" OFF/" -i ${PKG_BUILD}/vulkaninfo/CMakeLists.txt
+  fi
 }
 
 pre_make_target() {
