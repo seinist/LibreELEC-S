@@ -51,8 +51,6 @@ pre_configure_target() {
   fi
 
   if [ "${VULKAN_SUPPORT}" = "yes" ]; then
-    PKG_CMAKE_OPTS_TARGET+=" -DVULKAN=ON"
-
     if [ "$DISPLAYSERVER" = "x11" ]; then
       PKG_CMAKE_OPTS_TARGET+=" -DUSING_X11_VULKAN=ON"
     else
@@ -60,7 +58,7 @@ pre_configure_target() {
                                -DUSE_VULKAN_DISPLAY_KHR=ON"
     fi
   else
-    PKG_CMAKE_OPTS_TARGET+=" -DVULKAN=OFF"
+    PKG_CMAKE_OPTS_TARGET+=" -DUSING_X11_VULKAN=OFF"
   fi
 }
 
