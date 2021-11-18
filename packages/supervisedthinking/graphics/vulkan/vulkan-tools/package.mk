@@ -12,7 +12,8 @@ PKG_LONGDESC="This project provides Khronos official Vulkan Tools and Utilities.
 
 pre_configure_target() {
   PKG_CMAKE_OPTS_TARGET="-DBUILD_ICD=Off \
-                         -DINSTALL_ICD=Off"
+                         -DINSTALL_ICD=Off \
+                         -Wno-dev"
 
   # Conditionally disable Wayland/X11 support - doesn't accept CMake opts 
   # https://github.com/KhronosGroup/Vulkan-Tools/issues/475
@@ -22,6 +23,8 @@ pre_configure_target() {
   elif [ "${DISPLAYSERVER}" = "weston" ]; then
     sed -e "s/Build XCB WSI support\" ON/Build XCB WSI support\" OFF/" -i   ${PKG_BUILD}/cube/CMakeLists.txt
     sed -e "s/Build Xlib WSI support\" ON/Build Xlib WSI support\" OFF/" -i ${PKG_BUILD}/cube/CMakeLists.txt
+    sed -e "s/CUBE_WSI_SELECTION \"XCB\"/CUBE_WSI_SELECTION \"WAYLAND\"/" -i ${PKG_BUILD}/cube/CMakeLists.txt
+
     sed -e "s/Build XCB WSI support\" ON/Build XCB WSI support\" OFF/" -i   ${PKG_BUILD}/vulkaninfo/CMakeLists.txt
     sed -e "s/Build Xlib WSI support\" ON/Build Xlib WSI support\" OFF/" -i ${PKG_BUILD}/vulkaninfo/CMakeLists.txt
   else
