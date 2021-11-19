@@ -3,10 +3,10 @@
 
 PKG_NAME="pcre2-system"
 PKG_VERSION="10.37"
-PKG_SHA256="4d95a96e8b80529893b4562be12648d798b957b1ba1aae39606bbc2ab956d270"
+PKG_SHA256="1fcca04e3e27723c9e58353e8868b875a07ba82e276aa0c3bc0fc96605189064"
 PKG_LICENSE="BSD"
 PKG_SITE="http://www.pcre.org/"
-PKG_URL="https://ftp.pcre.org/pub/pcre/pcre2-${PKG_VERSION}.tar.bz2"
+PKG_URL="https://github.com/PhilipHazel/pcre2/archive/pcre2-${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="The PCRE library is a set of functions that implement regular expression pattern matching using the same syntax and semantics as Perl 5"
 PKG_BUILD_FLAGS="+pic"
