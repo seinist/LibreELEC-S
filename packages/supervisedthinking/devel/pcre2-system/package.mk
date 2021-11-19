@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="pcre2-system"
-PKG_VERSION="10.37"
-PKG_SHA256="1fcca04e3e27723c9e58353e8868b875a07ba82e276aa0c3bc0fc96605189064"
+PKG_VERSION="10.39"
+PKG_SHA256="af1c1c7b757591b6bb8ebcd3c7aac9e0320c077260e6f9a760fb7c307a9af301"
 PKG_LICENSE="BSD"
 PKG_SITE="http://www.pcre.org/"
 PKG_URL="https://github.com/PhilipHazel/pcre2/archive/pcre2-${PKG_VERSION}.tar.gz"
