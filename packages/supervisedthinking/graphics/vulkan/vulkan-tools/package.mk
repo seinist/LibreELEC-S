@@ -8,7 +8,7 @@ PKG_SHA256="cda034e5990aa92848bfd98045ae77000a789e37b2080a97d4cd7fbb3a089580"
 PKG_LICENSE="Apache-2.0"
 PKG_SITE="https://github.com/KhronosGroup/Vulkan-Tools"
 PKG_URL="https://github.com/KhronosGroup/Vulkan-tools/archive/v${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain vulkan-loader"
+PKG_DEPENDS_TARGET="toolchain vulkan-loader glslang:host"
 PKG_LONGDESC="This project provides Khronos official Vulkan Tools and Utilities."
 
 pre_configure_target() {
