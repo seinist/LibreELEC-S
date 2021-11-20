@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="mesen"
-PKG_VERSION="0.9.9"
-PKG_SHA256="6b32c27dd2fff2c9004484285f31a83ea123a7c1d1fa0005f437b3511eed624f"
+PKG_VERSION="1.0.0"
+PKG_SHA256="e7828ce179cb7ca9657a065dbb09be0b71036cd76fc6f7a743938ffb1a9afae9"
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/NovaSquirrel/Mesen-X"
 PKG_URL="https://github.com/NovaSquirrel/Mesen-X/archive/${PKG_VERSION}.tar.gz"
