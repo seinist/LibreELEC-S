@@ -90,7 +90,6 @@ OEM_STREAMING_CLIENTS_AMLOGIC=" \
 
 # Tools
 OEM_TOOLS_AMLOGIC=" \
-  apitrace \
   dhrystone-benchmark \
   ds4drv \
   evtest \
