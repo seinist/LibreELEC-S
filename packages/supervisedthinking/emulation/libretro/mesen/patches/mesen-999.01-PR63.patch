@@ -1,0 +1,80 @@
+From 2a401da3bf0085a81647287bcad8a21d03c7c8d3 Mon Sep 17 00:00:00 2001
+From: mkwong98 <mkwong98@gmail.com>
+Date: Fri, 19 Nov 2021 10:14:30 +0800
+Subject: [PATCH] libretro fixes
+
+---
+ Core/EPSMAudio.h         | 10 +++++-----
+ Libretro/Makefile        |  2 +-
+ Libretro/Makefile.common |  3 +++
+ 3 files changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/Core/EPSMAudio.h b/Core/EPSMAudio.h
+index 8ee7e6b0..3ce0a6c8 100644
+--- a/Core/EPSMAudio.h
++++ b/Core/EPSMAudio.h
+@@ -42,10 +42,10 @@ class EPSMAudio : public EPSMSSGAudio
+ 
+ 	struct InputEntry
+ 	{
+-		uint8_t addr = 0;
+-		uint8_t data = 0;
+-		uint8_t cycle = 0;
+-		uint8_t wrote = 0;
++		uint8_t addr;
++		uint8_t data;
++		uint8_t cycle;
++		uint8_t wrote;
+ 	};
+ 
+ 	static constexpr uint8_t INPUT_BUFFER_SIZE = cycleCount;
+@@ -156,7 +156,7 @@ class EPSMAudio : public EPSMSSGAudio
+ 		}
+ 	}
+ 
+-	uint32_t getClockFrequency()
++	uint32_t getClockFrequency()  
+ 	{
+ 		return _console->GetSettings()->GetEPSMClockFrequency() / 6;
+ 	}
+diff --git a/Libretro/Makefile b/Libretro/Makefile
+index 4d6aa14b..e224e18e 100644
+--- a/Libretro/Makefile
++++ b/Libretro/Makefile
+@@ -325,7 +325,7 @@ ifeq (,$(findstring windows_msvc2017,$(platform)))
+ endif
+ 
+ CFLAGS   += -D LIBRETRO $(fpic)
+-CXXFLAGS += -D LIBRETRO $(fpic) -std=c++14
++CXXFLAGS += -D LIBRETRO $(fpic) -std=c++17
+ 
+ all: $(TARGET)
+ 
+diff --git a/Libretro/Makefile.common b/Libretro/Makefile.common
+index 39e1d9ba..da8a2798 100644
+--- a/Libretro/Makefile.common
++++ b/Libretro/Makefile.common
+@@ -47,6 +47,7 @@ SOURCES_CXX := $(LIBRETRO_DIR)/libretro.cpp \
+                $(CORE_DIR)/DeltaModulationChannel.cpp \
+                $(CORE_DIR)/Disassembler.cpp \
+                $(CORE_DIR)/DisassemblyInfo.cpp \
++               $(CORE_DIR)/emu2149.cpp \
+                $(CORE_DIR)/EmulationSettings.cpp \
+                $(CORE_DIR)/EventManager.cpp \
+                $(CORE_DIR)/ExpressionEvaluator.cpp \
+@@ -83,6 +84,7 @@ SOURCES_CXX := $(LIBRETRO_DIR)/libretro.cpp \
+                $(CORE_DIR)/NsfMapper.cpp \
+                $(CORE_DIR)/NsfPpu.cpp \
+                $(CORE_DIR)/NtscFilter.cpp \
++               $(CORE_DIR)/opll.cpp \
+                $(CORE_DIR)/OggMixer.cpp \
+                $(CORE_DIR)/OggReader.cpp \
+                $(CORE_DIR)/PPU.cpp \
+@@ -115,6 +117,7 @@ SOURCES_CXX := $(LIBRETRO_DIR)/libretro.cpp \
+                $(CORE_DIR)/VirtualFile.cpp \
+                $(CORE_DIR)/VsControlManager.cpp \
+                $(CORE_DIR)/WaveRecorder.cpp \
++               $(CORE_DIR)/ym3438.cpp \
+                $(UTIL_DIR)/ArchiveReader.cpp \
+                $(UTIL_DIR)/AutoResetEvent.cpp \
+                $(UTIL_DIR)/AviRecorder.cpp \
