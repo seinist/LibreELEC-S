@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-2.0
-# Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
+# Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="spirv-tools"
 PKG_VERSION="21e3f681e2004590c7865bc8c0195a4ab8e66c88"
