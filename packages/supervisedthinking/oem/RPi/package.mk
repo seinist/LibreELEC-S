@@ -85,7 +85,6 @@ OEM_STREAMING_CLIENTS_RPI=" \
 
 # Tools
 OEM_TOOLS_RPI=" \
-  apitrace \
   dhrystone-benchmark \
   ds4drv \
   evtest \
