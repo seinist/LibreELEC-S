@@ -54,6 +54,11 @@ pre_configure_target() {
     fi
     PKG_MAKE_OPTS_TARGET+="-${TARGET_FLOAT}float-${TARGET_CPU}"
   fi
+
+  # OpenGL ES support
+  if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
+    PKG_MAKE_OPTS_TARGET+=" FORCE_GLES=1"
+  fi
 }
 
 pre_make_target() {
