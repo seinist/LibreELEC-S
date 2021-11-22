@@ -24,6 +24,11 @@ configure_package() {
     PKG_DEPENDS_TARGET+=" libX11 libXrandr"
   fi
 
+  # Wayland support
+  if [ "${DISPLAYSERVER}" = "weston" ]; then
+    PKG_DEPENDS_TARGET+=" wayland"
+  fi
+
   # OpenGL support
   if [ "${OPENGL_SUPPORT}" = "yes" ]; then
     PKG_DEPENDS_TARGET+=" ${OPENGL}"
@@ -94,7 +99,6 @@ pre_configure_target(){
                          -DVIDEO_METAL=OFF \
                          -DVIDEO_OFFSCREEN=OFF \
                          -DVIDEO_VIVANTE=OFF \
-                         -DVIDEO_WAYLAND=OFF \
                          -DVIDEO_WAYLAND_QT_TOUCH=ON \
                          -DWASAPI=OFF \
                          -DWAYLAND_SHARED=OFF \
@@ -109,9 +113,10 @@ pre_configure_target(){
                              -DPULSEAUDIO_SHARED=OFF"
   fi
 
-  # X11 Support
+  # Displayserver
   if [ "${DISPLAYSERVER}" = "x11" ]; then
-    PKG_CMAKE_OPTS_TARGET+=" -DVIDEO_X11=ON \
+    PKG_CMAKE_OPTS_TARGET+=" -DVIDEO_WAYLAND=OFF \
+                             -DVIDEO_X11=ON \
                              -DVIDEO_X11_XCURSOR=OFF \
                              -DVIDEO_X11_XINERAMA=OFF \
                              -DVIDEO_X11_XINPUT=OFF \
@@ -120,6 +125,9 @@ pre_configure_target(){
                              -DVIDEO_X11_XSHAPE=OFF \
                              -DVIDEO_X11_XVM=OFF \
                              -DX11_SHARED=ON"
+  elif [ "${DISPLAYSERVER}" = "weston" ]; then
+    PKG_CMAKE_OPTS_TARGET+=" -DVIDEO_WAYLAND=ON \
+                             -DVIDEO_X11=OFF"
   else
     PKG_CMAKE_OPTS_TARGET+=" -DVIDEO_X11=OFF"
   fi
