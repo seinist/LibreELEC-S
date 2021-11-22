@@ -99,7 +99,7 @@ pre_configure_target(){
                          -DVIDEO_METAL=OFF \
                          -DVIDEO_OFFSCREEN=OFF \
                          -DVIDEO_VIVANTE=OFF \
-                         -DVIDEO_WAYLAND_QT_TOUCH=ON \
+                         -DVIDEO_WAYLAND_QT_TOUCH=OFF \
                          -DWASAPI=OFF \
                          -DWAYLAND_SHARED=OFF \
                          -DXINPUT=OFF"
