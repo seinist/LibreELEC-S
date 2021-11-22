@@ -21,23 +21,31 @@ configure_package() {
   if [ "${OPENGL_SUPPORT}" = "yes" ]; then
     PKG_DEPENDS_TARGET+=" ${OPENGL}"
   fi
+
+  # OpenGL ES Support
+  if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
+    PKG_DEPENDS_TARGET+=" ${OPENGLES}"
+  fi
 }
 
 make_target() {
- make -C input/button_test
- make -C midi/midi_test
- make -C tests/test
+  make -C input/button_test
+  make -C midi/midi_test
+  make -C tests/test
 
- if [ "${ARCH}" = "x86_64" ]; then
-   make -C tests/test_advanced
-   make -C video/opengl/libretro_test_gl_fixedfunction
-   make -C video/opengl/libretro_test_gl_shaders
- fi
+  if [ "${ARCH}" = "x86_64" ]; then
+    make -C tests/test_advanced
+  fi
 
- if [ "${VULKAN_SUPPORT}" = "yes" ]; then
-   make -C video/vulkan/vk_rendering
-   make -C video/vulkan/vk_async_compute
- fi
+  if [ "${OPENGL_SUPPORT}" = "yes" ]; then
+    make -C video/opengl/libretro_test_gl_fixedfunction
+    make -C video/opengl/libretro_test_gl_shaders
+  fi
+
+  if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+    make -C video/vulkan/vk_rendering
+    make -C video/vulkan/vk_async_compute
+  fi
 }
 
 makeinstall_target() {
@@ -47,9 +55,13 @@ makeinstall_target() {
   cp midi/midi_test/*.so    ${INSTALL}/usr/lib/libretro/
   cp tests/test/*.so        ${INSTALL}/usr/lib/libretro/
 
-  # Install OpenGL test cores
+  # Install Advanced test cores
   if [ "${ARCH}" = "x86_64" ]; then
     cp tests/test_advanced/*.so                         ${INSTALL}/usr/lib/libretro/
+  fi
+
+  # Install OpenGL test cores
+  if [ "${OPENGL_SUPPORT}" = "yes" ]; then
     cp video/opengl/libretro_test_gl_fixedfunction/*.so ${INSTALL}/usr/lib/libretro/
     cp video/opengl/libretro_test_gl_shaders/*.so       ${INSTALL}/usr/lib/libretro/
   fi
