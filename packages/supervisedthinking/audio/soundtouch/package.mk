@@ -12,5 +12,6 @@ PKG_LONGDESC="SoundTouch Audio Processing Library"
 PKG_TOOLCHAIN="configure"
 
 pre_configure_target() {
-  ${PKG_BUILD}/bootstrap
+ cd ${PKG_BUILD}
+ ${PKG_BUILD}/bootstrap
 }
