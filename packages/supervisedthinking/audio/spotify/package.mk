@@ -6,9 +6,18 @@ PKG_VERSION="1.0.3"
 PKG_ARCH="x86_64"
 PKG_LICENSE="Freeware"
 PKG_SITE="http://www.spotify.com"
-PKG_DEPENDS_TARGET="toolchain glibc glib zlib alsa-lib atk pango gdk-pixbuf cairo gtk3-system libX11 libXext libICE libSM openssl libcurl-gnutls freetype zlib unclutter-xfixes"
+PKG_DEPENDS_TARGET="toolchain glibc glib zlib alsa-lib atk pango gdk-pixbuf cairo gtk3-system openssl libcurl-gnutls freetype zlib"
 PKG_LONGDESC="A proprietary music streaming service"
 PKG_TOOLCHAIN="manual"
+
+configure_package() {
+  # Build with XCB support for X11
+  if [ ${DISPLAYSERVER} = "x11" ]; then
+    PKG_DEPENDS_TARGET+=" libX11 libXext libICE libSM unclutter-xfixes"
+  elif [ ${DISPLAYSERVER} = "weston" ]; then
+    PKG_DEPENDS_TARGET+=" wayland"
+  fi
+}
 
 makeinstall_target() {
   # Creating directories  
