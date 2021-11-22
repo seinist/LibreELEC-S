@@ -35,7 +35,7 @@
     OEM_EMULATORS="yes"
 
   # Install additional frontends e.g. Pegasus Frontend (yes / no)
-    OEM_FRONTENDS_EXTRA="no"
+    OEM_FRONTENDS_EXTRA="yes"
 
   # Install libretro cores e.g. Retroarch, snes9x, mame2003-plus (yes / no)
     OEM_LIBRETRO="yes"
