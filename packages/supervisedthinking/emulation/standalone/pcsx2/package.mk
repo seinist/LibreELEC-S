@@ -2,14 +2,33 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="pcsx2"
-PKG_VERSION="47075bec4943e45896aef99cbfd879d0754a2fd8" #v1.7.2050
+PKG_VERSION="1917f2b98aaaa82e541dcbec1f7b291ade91fb97" #v1.7.2065
 PKG_ARCH="x86_64"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/PCSX2/pcsx2"
 PKG_URL="https://github.com/PCSX2/pcsx2.git"
-PKG_DEPENDS_TARGET="toolchain alsa-lib adwaita-icon-theme freetype gdk-pixbuf glew-cmake glib gtk3-system hicolor-icon-theme libaio libfmt libpcap libpng libX11 libxcb libxml2 mesa pngpp pulseaudio sdl2 soundtouch systemd wxwidgets xz yaml-cpp zlib unclutter-xfixes"
+PKG_DEPENDS_TARGET="toolchain alsa-lib adwaita-icon-theme freetype gdk-pixbuf glib gtk3-system hicolor-icon-theme libaio libfmt libpcap libpng libxml2 pngpp pulseaudio sdl2 soundtouch systemd wxwidgets xz yaml-cpp zlib"
 PKG_LONGDESC="PCSX2 is a free and open-source PlayStation 2 (PS2) emulator."
 GET_HANDLER_SUPPORT="git"
+
+configure_package() {
+  # Build with XCB support for X11
+  if [ ${DISPLAYSERVER} = "x11" ]; then
+    PKG_DEPENDS_TARGET+=" libX11 libxcb unclutter-xfixes glew-cmake"
+  elif [ ${DISPLAYSERVER} = "weston" ]; then
+    PKG_DEPENDS_TARGET+=" wayland"
+  fi
+
+  # OpenGL support
+  if [ "${OPENGL_SUPPORT}" = "yes" ]; then
+    PKG_DEPENDS_TARGET+=" ${OPENGL} glew-cmake"
+  fi
+
+  # OpenGLES support
+  if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
+    PKG_DEPENDS_TARGET+=" ${OPENGLES}"
+  fi
+}
 
 pre_configure_target() {
   PKG_CMAKE_OPTS_TARGET="-D CMAKE_INSTALL_DOCDIR=/usr/share/doc \
