@@ -29,13 +29,13 @@
 ################################################################################
 
   # Install applications e.g. Chrome or Spotify (yes / no)
-    OEM_APPLICATIONS="yes"
+    OEM_APPLICATIONS="no"
 
   # Install standalone emulators e.g. Emulationstation, Amiberry, PPSSPP (yes / no)
     OEM_EMULATORS="yes"
 
   # Install additional frontends e.g. Pegasus Frontend (yes / no)
-    OEM_FRONTENDS_EXTRA="yes"
+    OEM_FRONTENDS_EXTRA="no"
 
   # Install libretro cores e.g. Retroarch, snes9x, mame2003-plus (yes / no)
     OEM_LIBRETRO="yes"
@@ -44,7 +44,7 @@
     OEM_LINUX_KERNEL_DRIVER_SUPPORT="yes"
 
   # Install streaming clients e.g. Moonlight-Qt (yes / no)
-    OEM_STREAMING_CLIENTS="yes"
+    OEM_STREAMING_CLIENTS="no"
 
   # Install tools e.g. additional tools like mc or htop (yes / no)
     OEM_TOOLS="yes"
