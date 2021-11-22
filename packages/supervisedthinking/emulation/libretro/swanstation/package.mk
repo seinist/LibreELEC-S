@@ -12,6 +12,29 @@ PKG_LONGDESC="SwanStation(DuckStation) is an simulator/emulator of the Sony Play
 PKG_BUILD_FLAGS="-sysroot"
 
 configure_package() {
+  # Displayserver Support
+  if [ "${DISPLAYSERVER}" = "x11" ]; then
+    PKG_DEPENDS_TARGET+=" xorg-server"
+  elif [ "${DISPLAYSERVER}" = "weston" ]; then
+    PKG_DEPENDS_TARGET+=" wayland"
+  fi
+
+  # OpenGL Support
+  if [ "${OPENGL_SUPPORT}" = "yes" ]; then
+    PKG_DEPENDS_TARGET+=" ${OPENGL}"
+  fi
+
+  # OpenGLES Support
+  if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
+    PKG_DEPENDS_TARGET+=" ${OPENGLES}"
+  fi
+
+  # Vulkan Support
+  if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+    PKG_DEPENDS_TARGET+=" ${VULKAN}"
+  fi
+
+  # Fix LTO
   if [ ! "${ARCH}" = "arm" ]; then
     PKG_BUILD_FLAGS+=" +lto"
   fi
@@ -26,6 +49,16 @@ pre_configure_target() {
                          -D BUILD_LIBRETRO_CORE=ON \
                          -D ENABLE_DISCORD_PRESENCE=OFF \
                          -D USE_SDL2=OFF"
+
+  if [ "${DISPLAYSERVER}" = "x11" ]; then
+    PKG_CMAKE_OPTS_TARGET+=" -D USE_X11=ON"
+  elif [ "${DISPLAYSERVER}" = "weston" ]; then
+    PKG_CMAKE_OPTS_TARGET+="  -D USE_X11=OFF \
+                              -D USE_WAYLAND=ON"
+  else
+    PKG_CMAKE_OPTS_TARGET+="  -D USE_X11=OFF \
+                              -D USE_DRMKMS=ON"
+  fi
 }
 
 makeinstall_target() {
