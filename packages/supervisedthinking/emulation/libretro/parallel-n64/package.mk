@@ -27,6 +27,11 @@ configure_package() {
   if [ "${OPENGL_SUPPORT}" = "yes" ]; then
     PKG_DEPENDS_TARGET+=" ${OPENGL}"
   fi
+
+  # OpenGLES Support
+  if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
+    PKG_DEPENDS_TARGET+=" ${OPENGLES}"
+  fi
 }
 
 pre_configure_target() {
@@ -45,13 +50,14 @@ pre_configure_target() {
         CFLAGS+=" -DGL_BGRA_EXT=0x80E1"
         PKG_MAKE_OPTS_TARGET+=" HAVE_NEON=1"
       fi
-      if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
-        PKG_MAKE_OPTS_TARGET+=" FORCE_GLES=1"
-      fi
       PKG_MAKE_OPTS_TARGET+=" platform=armv"
     fi
   elif [ "${ARCH}" = "x86_64" ]; then
     PKG_MAKE_OPTS_TARGET+=" HAVE_PARALLEL=1 HAVE_PARALLEL_RSP=1 HAVE_THR_AL=1"
+  fi
+
+  if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
+    PKG_MAKE_OPTS_TARGET+=" FORCE_GLES=1 HAVE_OPENGL=0"
   fi
 }
 
