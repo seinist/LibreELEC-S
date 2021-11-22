@@ -15,7 +15,7 @@ PKG_BUILD_FLAGS="+lto -sysroot"
 PKG_LIBNAME="kronos_libretro.so"
 PKG_LIBPATH="yabause/src/libretro/${PKG_LIBNAME}"
 
-PKG_MAKE_OPTS_TARGET="-C yabause/src/libretro GIT_VERSION=${PKG_VERSION:0:7}"
+PKG_MAKE_OPTS_TARGET="-C yabause/src/libretro GIT_VERSION=${PKG_VERSION:0:7} FORCE_GLES=1"
 
 configure_package() {
   # Displayserver Support
@@ -31,7 +31,6 @@ configure_package() {
   # OpenGLES Support
   if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
     PKG_DEPENDS_TARGET+=" ${OPENGLES}"
-    PKG_PATCH_DIRS="OpenGLES"
   fi
 }
 
@@ -49,6 +48,16 @@ pre_configure_target() {
       fi
       PKG_MAKE_OPTS_TARGET+="-${TARGET_FLOAT}float-${TARGET_CPU}"
     fi
+  fi
+
+  # OpenGL ES support
+  if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
+    PKG_MAKE_OPTS_TARGET+=" FORCE_GLES=1"
+  fi
+
+  # OpenGL support
+  if [ "${OPENGL_SUPPORT}" = "yes" ]; then
+    PKG_MAKE_OPTS_TARGET+=" HAVE_OPENGL=1"
   fi
 }
 
