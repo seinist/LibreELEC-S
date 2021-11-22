@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="Generic"
-PKG_VERSION="1.0.3"
+PKG_VERSION="1.0.4"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://bit.ly/3vL5rH3"
 PKG_DEPENDS_TARGET="toolchain"
@@ -34,11 +34,9 @@ OEM_EMULATORS_LIBRETRO_GENERIC=" \
   bsnes-hd \
   bsnes-mercury-accuracy \
   bsnes-mercury-balanced \
-  boom3 \
   chailove \
   citra-libretro \
   desmume \
-  dolphin-libretro \
   dosbox-pure \
   ecwolf \
   fbneo \
@@ -72,23 +70,30 @@ OEM_EMULATORS_LIBRETRO_GENERIC=" \
   uae \
   vice-libretro \
   virtualjaguar \
-  vitaquake2 \
-  vitaquake3 \
   yabasanshiro"
+
+OEM_EMULATORS_LIBRETRO_GENERIC_X11=" \
+  boom3 \
+  dolphin-libretro
+  vitaquake2 \
+  vitaquake3"
 
 # Standalone emulators
 OEM_EMULATORS_STANDALONE_GENERIC=" \
   emulationstation \
+  dosbox-staging \
+  hatari \
+  openbor \
+  ppsspp"
+
+# Standalone emulators X11
+OEM_EMULATORS_STANDALONE_GENERIC_X11=" \
   citra \
   dolphin \
-  dosbox-staging \
   fs-uae \
-  hatari \
   mupen64plus \
-  openbor \
   pcsx2 \
   rpcs3 \
-  ppsspp \
   vice"
 
 # Frontends
@@ -116,15 +121,18 @@ OEM_TOOLS_GENERIC=" \
   glmark2 \
   htop-system \
   lm-sensors \
-  mesa-demos-system \
   midnight-commander \
   rr-config-tool \
   sdl-jstest \
   skyscraper \
   smartmontools \
   spectre-meltdown-checker \
-  tigervnc-system \
   vulkan-tools"
+
+# Tools X11
+OEM_TOOLS_GENERIC_X11=" \
+  mesa-demos-system \
+  tigervnc-system"
 
 ################################################################################
 # Install OEM packages to LibreELEC-RR
@@ -141,6 +149,9 @@ configure_package() {
     # Add Emulationstation frontend & standalone emulator packages
     if [ "${OEM_EMULATORS}" = "yes" ]; then
       PKG_DEPENDS_TARGET+=" ${OEM_EMULATORS_STANDALONE_GENERIC}"
+      if [ "${DISPLAYSERVER}" = "x11" ]; then
+        PKG_DEPENDS_TARGET+=" ${OEM_EMULATORS_STANDALONE_GENERIC_X11}"
+      fi
     fi
 
     # Add additional frontend packages
@@ -151,6 +162,9 @@ configure_package() {
     # Add Retroarch frontend & libretro core packages 
     if [ "${OEM_LIBRETRO}" = "yes" ]; then
       PKG_DEPENDS_TARGET+=" ${OEM_EMULATORS_LIBRETRO_GENERIC}"
+      if [ "${DISPLAYSERVER}" = "x11" ]; then
+        PKG_DEPENDS_TARGET+=" ${OEM_EMULATORS_LIBRETRO_GENERIC_X11}"
+      fi
     fi
 
     # Add Linux driver packages
@@ -171,6 +185,9 @@ configure_package() {
     # Add tool packages
     if [ "${OEM_TOOLS}" = "yes" ]; then
       PKG_DEPENDS_TARGET+=" ${OEM_TOOLS_GENERIC}"
+      if [ "${DISPLAYSERVER}" = "x11" ]; then
+        PKG_DEPENDS_TARGET+=" ${OEM_TOOLS_GENERIC_X11}"
+      fi
     fi
   fi
 }
