@@ -81,6 +81,12 @@ pre_configure_target() {
         if [ "${OPENGL_SUPPORT}" = "yes" ]; then
           PKG_MAKE_OPTS_TARGET+=" HAVE_OIT=1"
         fi
+
+        # OpenGL ES support
+        if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
+          PKG_MAKE_OPTS_TARGET+=" FORCE_GLES=1"
+        fi
+
         # Set dynarec arch
         PKG_MAKE_OPTS_TARGET+=" WITH_DYNAREC=${ARCH}"
       fi
