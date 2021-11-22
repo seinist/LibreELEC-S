@@ -26,6 +26,11 @@ configure_package() {
   if [ ${DISPLAYSERVER} = "x11" ]; then
     PKG_DEPENDS_TARGET+=" xcb-util xcb-util-image xcb-util-keysyms xcb-util-renderutil xcb-util-wm"
   fi
+
+  # Wayland support
+  if [ "${DISPLAYSERVER}" = "weston" ]; then
+    PKG_DEPENDS_TARGET+=" wayland"
+  fi
 }
 
 pre_configure_target() {
@@ -93,7 +98,6 @@ pre_configure_target() {
                              -skip qtspeech
                              -skip qttranslations
                              -skip qtvirtualkeyboard
-                             -skip qtwayland
                              -skip qtwebchannel
                              -skip qtwebengine
                              -skip qtwebview
@@ -105,6 +109,11 @@ pre_configure_target() {
     PKG_CONFIGURE_OPTS_TARGET+=" -opengl -no-eglfs"
   elif [ "${OPENGLES_SUPPORT}" = "yes" ]; then
     PKG_CONFIGURE_OPTS_TARGET+=" -opengl es2"
+  fi
+
+  # Wayland support
+  if [ ! "${DISPLAYSERVER}" = "weston" ]; then
+    PKG_CONFIGURE_OPTS_TARGET+=" -skip qtwayland"
   fi
 
   # Build only Generic with reduced relocations https://bugreports.qt.io/browse/QTBUG-36129
@@ -151,9 +160,11 @@ configure_target() {
   echo "QMAKE_CXXFLAGS          = ${CXXFLAGS}"    >> ${QMAKE_CONF}
   echo "QMAKE_LFLAGS            = ${LDFLAGS}"     >> ${QMAKE_CONF}
   # Set Mesa 3D OpenGL ES based project flags
-  if [ "${OPENGLES}" = "mesa" ]; then
-    echo "QMAKE_LIBS_EGL += -lEGL"              >> ${QMAKE_CONF}
-    echo "EGLFS_DEVICE_INTEGRATION = eglfs_kms" >> ${QMAKE_CONF}
+  if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
+    if [ ${DISPLAYSERVER} = "no" ]; then
+      echo "QMAKE_LIBS_EGL += -lEGL"              >> ${QMAKE_CONF}
+      echo "EGLFS_DEVICE_INTEGRATION = eglfs_kms" >> ${QMAKE_CONF}
+    fi
   fi
   echo "load(qt_config)"                            >> ${QMAKE_CONF}
   echo '#include "../../linux-g++/qplatformdefs.h"' >> ${QMAKE_CONF_DIR}/qplatformdefs.h
@@ -203,16 +214,29 @@ post_makeinstall_target() {
     cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/qml/${PKG_QT5_QML} ${INSTALL}/usr/qml
   done
 
-  # Install XCB libs & plugins if Displayserver is X11 
+  # Install libs, plugins & qml for Wayland/X11 display server
   if [ ${DISPLAYSERVER} = "x11" ]; then
     cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/lib/libQt5XcbQpa.so*      ${INSTALL}/usr/lib
     cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/plugins/xcbglintegrations ${INSTALL}/usr/plugins
+  elif [ ${DISPLAYSERVER} = "weston" ]; then
+    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/lib/libQt5WaylandClient.so*     ${INSTALL}/usr/lib
+    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/lib/libQt5WaylandCompositor.so* ${INSTALL}/usr/lib
+
+    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/plugins/platforms/libqwayland*              ${INSTALL}/usr/plugins/platforms
+    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/plugins/wayland-decoration-client           ${INSTALL}/usr/plugins
+    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/plugins/wayland-graphics-integration-client ${INSTALL}/usr/plugins
+    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/plugins/wayland-graphics-integration-server ${INSTALL}/usr/plugins
+    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/plugins/wayland-shell-integration           ${INSTALL}/usr/plugins
+
+    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/qml/QtWayland ${INSTALL}/usr/qml
   fi
 
   # Install EGLFS libs & plugins if OpenGLES is supported
   if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
-    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/lib/libQt5EglFSDeviceIntegration.so* ${INSTALL}/usr/lib
-    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/plugins/egldeviceintegrations        ${INSTALL}/usr/plugins
+    if [ ${DISPLAYSERVER} = "no" ]; then
+      cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/lib/libQt5EglFSDeviceIntegration.so* ${INSTALL}/usr/lib
+      cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/plugins/egldeviceintegrations        ${INSTALL}/usr/plugins
+    fi
   fi
 
   # Install EGLFS_KMS lib
