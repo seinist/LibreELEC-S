@@ -15,7 +15,7 @@ PKG_BUILD_FLAGS="+lto -sysroot"
 PKG_LIBNAME="kronos_libretro.so"
 PKG_LIBPATH="yabause/src/libretro/${PKG_LIBNAME}"
 
-PKG_MAKE_OPTS_TARGET="-C yabause/src/libretro GIT_VERSION=${PKG_VERSION:0:7} FORCE_GLES=1"
+PKG_MAKE_OPTS_TARGET="-C yabause/src/libretro GIT_VERSION=${PKG_VERSION:0:7}"
 
 configure_package() {
   # Displayserver Support
