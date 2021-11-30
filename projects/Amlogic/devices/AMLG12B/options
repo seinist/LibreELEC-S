@@ -22,7 +22,7 @@
     OPENGLES="mesa"
 
   # Vulkan implementation to use (vulkan-loader / no)
-    VULKAN="no"
+    VULKAN="vulkan-loader"
 
   # Graphic drivers to use
     GRAPHIC_DRIVERS="panfrost"
