@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="sdl2"
-PKG_VERSION="2.0.16"
-PKG_SHA256="bfb53c5395ff2862d07617b23939fca9a752c2f4d2424e617cedd083390b0143"
+PKG_VERSION="2.0.18"
+PKG_SHA256="b7061be3d86d14cdddbc696ab5b377ed28418f33be256c92215a57363329aa5f"
 PKG_LICENSE="SDL"
 PKG_SITE="https://www.libsdl.org/"
 PKG_URL="https://github.com/libsdl-org/SDL/archive/refs/tags/release-${PKG_VERSION}.tar.gz"
@@ -51,152 +51,159 @@ configure_package() {
 }
 
 pre_configure_target(){
-  PKG_CMAKE_OPTS_TARGET="-D3DNOW=OFF \
-                         -DALSA=ON \
-                         -DALSA_SHARED=ON \
-                         -DALTIVEC=OFF \
-                         -DARTS=OFF \
-                         -DARTS_SHARED=OFF \
-                         -DASAN=OFF \
-                         -DBACKGROUNDING_SIGNAL=OFF \
-                         -DCLOCK_GETTIME=OFF \
-                         -DDIRECTFB_SHARED=OFF \
-                         -DDIRECTX=OFF \
-                         -DDISKAUDIO=OFF \
-                         -DDUMMYAUDIO=OFF \
-                         -DESD=OFF \
-                         -DESD_SHARED=OFF \
-                         -DFOREGROUNDING_SIGNAL=OFF \
-                         -DFUSIONSOUND=OFF \
-                         -DFUSIONSOUND_SHARED=OFF \
-                         -DGCC_ATOMICS=ON \
-                         -DHIDAPI=OFF \
-                         -DJACK=OFF \
-                         -DJACK_SHARED=OFF \
-                         -DJOYSTICK_VIRTUAL=OFF \
-                         -DLIBC=ON \
-                         -DLIBSAMPLERATE=OFF \
-                         -DLIBSAMPLERATE_SHARED=OFF \
-                         -DNAS=OFF \
-                         -DNAS_SHARED=OFF \
-                         -DOSS=OFF \
-                         -DPIPEWIRE=OFF \
-                         -DPIPEWIRE_SHARED=OFF \
-                         -DPTHREADS=ON \
-                         -DPTHREADS_SEM=ON \
-                         -DRENDER_D3D=OFF \
-                         -DRENDER_METAL=OFF \
-                         -DRPATH=OFF \
-                         -DSDL_DLOPEN=ON \
+  PKG_CMAKE_OPTS_TARGET="-DBUILD_SHARED_LIBS=ON \
+                         -DSDL_3DNOW=OFF \
+                         -DSDL_ALSA=ON \
+                         -DSDL_ALSA_SHARED=ON \
+                         -DSDL_ALTIVEC=OFF \
+                         -DSDL_ARTS=OFF \
+                         -DSDL_ARTS_SHARED=OFF \
+                         -DSDL_ASAN=OFF \
+                         -DSDL_BACKGROUNDING_SIGNAL=OFF \
+                         -DSDL_CLOCK_GETTIME=OFF \
+                         -DSDL_COCOA=OFF \
+                         -DSDL_DIRECTFB=OFF \
+                         -DSDL_DIRECTFB_SHARED=OFF \
+                         -DSDL_DIRECTX=OFF \
+                         -DSDL_DISKAUDIO=OFF \
+                         -DSDL_DUMMYAUDIO=OFF \
+                         -DSDL_DUMMYVIDEO=OFF \
+                         -DSDL_ESD=OFF \
+                         -DSDL_ESD_SHARED=OFF \
+                         -DSDL_FOREGROUNDING_SIGNAL=OFF \
+                         -DSDL_FUSIONSOUND=OFF \
+                         -DSDL_FUSIONSOUND_SHARED=OFF \
+                         -DSDL_GCC_ATOMICS=ON \
+                         -DSDL_HIDAPI_JOYSTICK=OFF \
+                         -DSDL_JACK=OFF \
+                         -DSDL_JACK_SHARED=OFF \
+                         -DSDL_LIBC=ON \
+                         -DSDL_LIBSAMPLERATE=OFF \
+                         -DSDL_LIBSAMPLERATE_SHARED=OFF \
+                         -DSDL_METAL=OFF \
+                         -DSDL_NAS=OFF \
+                         -DSDL_NAS_SHARED=OFF \
+                         -DSDL_OFFSCREEN=OFF \
+                         -DSDL_OSS=OFF \
+                         -DSDL_PIPEWIRE=OFF \
+                         -DSDL_PIPEWIRE_SHARED=OFF \
+                         -DSDL_PTHREADS=ON \
+                         -DSDL_PTHREADS_SEM=ON \
+                         -DSDL_RENDER_D3D=OFF \
+                         -DSDL_RENDER_METAL=OFF \
+                         -DSDL_RPATH=OFF \
+                         -DSDL_SNDIO=OFF \
+                         -DSDL_SNDIO_SHARED=OFF \
+                         -DSDL_SSEMATH=OFF \
                          -DSDL_STATIC_PIC=OFF \
                          -DSDL_TEST=OFF \
-                         -DSNDIO=OFF \
-                         -DSNDIO_SHARED=OFF \
-                         -DSSEMATH=OFF \
-                         -DVIDEO_COCOA=OFF \
-                         -DVIDEO_DIRECTFB=OFF \
-                         -DVIDEO_DUMMY=OFF \
-                         -DVIDEO_METAL=OFF \
-                         -DVIDEO_OFFSCREEN=OFF \
-                         -DVIDEO_VIVANTE=OFF \
-                         -DVIDEO_WAYLAND_QT_TOUCH=OFF \
-                         -DWASAPI=OFF \
-                         -DWAYLAND_SHARED=OFF \
-                         -DXINPUT=OFF"
+                         -DSDL_VIRTUAL_JOYSTICK=OFF \
+                         -DSDL_VIVANTE=OFF \
+                         -DSDL_WASAPI=OFF \
+                         -DSDL_WAYLAND_LIBDECOR=OFF \
+                         -DSDL_WAYLAND_LIBDECOR_SHARED=OFF \
+                         -DSDL_WAYLAND_QT_TOUCH=OFF \
+                         -DSDL_XINPUT=OFF"
 
   # Pulseaudio Support
   if [ "${PULSEAUDIO_SUPPORT}" = yes ]; then
-    PKG_CMAKE_OPTS_TARGET+=" -DPULSEAUDIO=ON \
-                             -DPULSEAUDIO_SHARED=ON"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_PULSEAUDIO=ON \
+                             -DSDL_PULSEAUDIO_SHARED=ON"
   else
-    PKG_CMAKE_OPTS_TARGET+=" -DPULSEAUDIO=OFF \
-                             -DPULSEAUDIO_SHARED=OFF"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_PULSEAUDIO=OFF \
+                             -DSDL_PULSEAUDIO_SHARED=OFF"
   fi
 
   # Displayserver
   if [ "${DISPLAYSERVER}" = "x11" ]; then
-    PKG_CMAKE_OPTS_TARGET+=" -DVIDEO_WAYLAND=OFF \
-                             -DVIDEO_X11=ON \
-                             -DVIDEO_X11_XCURSOR=OFF \
-                             -DVIDEO_X11_XINERAMA=OFF \
-                             -DVIDEO_X11_XINPUT=OFF \
-                             -DVIDEO_X11_XRANDR=ON \
-                             -DVIDEO_X11_XSCRNSAVER=OFF \
-                             -DVIDEO_X11_XSHAPE=OFF \
-                             -DVIDEO_X11_XVM=OFF \
-                             -DX11_SHARED=ON"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_X11=ON \
+                             -DSDL_X11_SHARED=ON \
+                             -DSDL_X11_XCURSOR=OFF \
+                             -DSDL_X11_XDBE=OFF \
+                             -DSDL_X11_XFIXES=OFF \
+                             -DSDL_X11_XINERAMA=OFF \
+                             -DSDL_X11_XINPUT=OFF \
+                             -DSDL_X11_XRANDR=ON \
+                             -DSDL_X11_XSCRNSAVER=OFF \
+                             -DSDL_X11_XSHAPE=OFF \
+                             -DSDL_X11_XVM=OFF \
+                             -DSDL_WAYLAND=OFF"
+
   elif [ "${DISPLAYSERVER}" = "weston" ]; then
-    PKG_CMAKE_OPTS_TARGET+=" -DVIDEO_WAYLAND=ON \
-                             -DVIDEO_X11=OFF"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_WAYLAND=ON \
+                             -DSDL_WAYLAND_SHARED=ON \
+                             -DSDL_X11=OFF"
   else
-    PKG_CMAKE_OPTS_TARGET+=" -DVIDEO_X11=OFF"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_WAYLAND=OFF \
+                             -DSDL_WAYLAND_SHARED=OFF \
+                             -DSDL_X11=OFF"
   fi
 
   # KMSDRM Support
   if [ "${OPENGLES}" = "mesa" ] || [ "${OPENGL}" = "mesa" ] || [ "${OPENGLES}" = "libmali" ]; then
-    PKG_CMAKE_OPTS_TARGET+=" -DKMSDRM_SHARED=ON \
-                             -DVIDEO_KMSDRM=ON"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_KMSDRM_SHARED=ON \
+                             -DSDL_KMSDRM=ON"
   else
-    PKG_CMAKE_OPTS_TARGET+=" -DKMSDRM_SHARED=OFF \
-                             -DVIDEO_KMSDRM=OFF"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_KMSDRM_SHARED=OFF \
+                             -DSDL_KMSDRM=OFF"
   fi
 
   # OpenGL Support
   if [ "${OPENGL_SUPPORT}" = "yes" ]; then
-    PKG_CMAKE_OPTS_TARGET+=" -DVIDEO_OPENGL=ON"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_OPENGL=ON"
   else
-    PKG_CMAKE_OPTS_TARGET+=" -DVIDEO_OPENGL=OFF"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_OPENGL=OFF"
   fi
 
   # OpenGLES Support
   if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
-    PKG_CMAKE_OPTS_TARGET+=" -DVIDEO_OPENGLES=ON"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_OPENGLES=ON"
   else
-    PKG_CMAKE_OPTS_TARGET+=" -DVIDEO_OPENGLES=OFF"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_OPENGLES=OFF"
   fi
 
   # RPi Video Support
   if [ "${OPENGLES}" = "bcm2835-driver" ]; then
-    PKG_CMAKE_OPTS_TARGET+=" -DVIDEO_RPI=ON \
-                             -DVIDEO_VULKAN=OFF \
-                             -DVIDEO_KMSDRM=OFF"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_RPI=ON \
+                             -DSDL_VULKAN=OFF \
+                             -DSDL_KMSDRM=OFF"
   else
-    PKG_CMAKE_OPTS_TARGET+=" -DVIDEO_RPI=OFF"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_RPI=OFF"
   fi
 
   # Vulkan Support
   if [ "${VULKAN_SUPPORT}" = "yes" ]; then
-    PKG_CMAKE_OPTS_TARGET+=" -DVIDEO_VULKAN=ON"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_VULKAN=ON"
   else
-    PKG_CMAKE_OPTS_TARGET+=" -DVIDEO_VULKAN=OFF"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_VULKAN=OFF"
   fi
 
   # MMX Support
   if target_has_feature mmx; then
-    PKG_CMAKE_OPTS_TARGET+=" -DMMX=ON"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_MMX=ON"
   else
-    PKG_CMAKE_OPTS_TARGET+=" -DMMX=OFF"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_MMX=OFF"
   fi
 
   # NEON Support
   if target_has_feature neon; then
-    PKG_CMAKE_OPTS_TARGET+=" -DARMNEON=ON"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_ARMNEON=ON"
   else
-    PKG_CMAKE_OPTS_TARGET+=" -DARMNEON=OFF"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_ARMNEON=OFF"
   fi
 
   # SSE Support
   if target_has_feature sse; then
-    PKG_CMAKE_OPTS_TARGET+=" -DSSE=ON"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_SSE=ON"
   else
-    PKG_CMAKE_OPTS_TARGET+=" -DSSE=OFF"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_SSE=OFF"
   fi
 
   # SSE2 Support
   if target_has_feature sse2; then
-    PKG_CMAKE_OPTS_TARGET+=" -DSSE2=ON"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_SSE2=ON"
   else
-    PKG_CMAKE_OPTS_TARGET+=" -DSSE2=OFF"
+    PKG_CMAKE_OPTS_TARGET+=" -DSDL_SSE2=OFF"
   fi
 }
 
