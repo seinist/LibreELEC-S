@@ -114,23 +114,23 @@ show_config() {
   # OS configuration
 
   config_message+="\n\n OS configuration:"
-  config_message+="\n $dashes$dashes"
+  config_message+="\n ${dashes}${dashes}"
 
-  config_message+="\n - OEM Support:\t\t\t\t $OEM_SUPPORT"
-  config_message+="\n   - OEM Applications (Chrome,Spotify):\t $OEM_APPLICATIONS"
-  config_message+="\n   - OEM Emulators (Emulationstation):\t $OEM_EMULATORS"
-  config_message+="\n   - OEM Frontends Extra:\t\t $OEM_FRONTENDS_EXTRA"
-  config_message+="\n   - OEM Libretro (Retroarch):\t\t $OEM_LIBRETRO"
-  config_message+="\n   - OEM Linux kernel drivers:\t\t $OEM_LINUX_KERNEL_DRIVER_SUPPORT"
-  config_message+="\n   - OEM Streaming clients:\t\t $OEM_STREAMING_CLIENTS" 
-  config_message+="\n   - OEM Tools:\t\t\t\t $OEM_TOOLS"
-  config_message+="\n - Add non-free packages:\t\t $NON_FREE_PKG_SUPPORT"
-  config_message+="\n - Default ROOT Password:\t\t $ROOT_PASSWORD"
-  config_message+="\n - Bootloader:\t\t\t\t $BOOTLOADER"
-  config_message+="\n - UDevil support:\t\t\t $UDEVIL"
-  config_message+="\n - Installer support:\t\t\t $INSTALLER_SUPPORT"
-  for config_package in $ADDITIONAL_PACKAGES; do
-    config_message+="\n - Include package:\t\t\t $config_package"
+  config_message+="\n - OEM Support:\t\t\t\t ${OEM_SUPPORT}"
+  config_message+="\n   - OEM Applications (Chrome,Spotify):\t ${OEM_APPLICATIONS}"
+  config_message+="\n   - OEM Emulators (Emulationstation):\t ${OEM_EMULATORS}"
+  config_message+="\n   - OEM Frontends Extra:\t\t ${OEM_FRONTENDS_EXTRA}"
+  config_message+="\n   - OEM Libretro (Retroarch):\t\t ${OEM_LIBRETRO}"
+  config_message+="\n   - OEM Linux kernel drivers:\t\t ${OEM_LINUX_KERNEL_DRIVER_SUPPORT}"
+  config_message+="\n   - OEM Streaming clients:\t\t ${OEM_STREAMING_CLIENTS}" 
+  config_message+="\n   - OEM Tools:\t\t\t\t ${OEM_TOOLS}"
+  config_message+="\n - Add non-free packages:\t\t ${NON_FREE_PKG_SUPPORT}"
+  config_message+="\n - Default ROOT Password:\t\t ${ROOT_PASSWORD}"
+  config_message+="\n - Bootloader:\t\t\t\t ${BOOTLOADER}"
+  config_message+="\n - UDevil support:\t\t\t ${UDEVIL}"
+  config_message+="\n - Installer support:\t\t\t ${INSTALLER_SUPPORT}"
+  for config_package in ${ADDITIONAL_PACKAGES}; do
+    config_message+="\n - Include package:\t\t\t ${config_package}"
   done
 
   # Distribution specific configuration
