@@ -51,8 +51,7 @@ configure_package() {
 }
 
 pre_configure_target(){
-  PKG_CMAKE_OPTS_TARGET="-DCMAKE_INSTALL_INCLUDEDIR=${SYSROOT_PREFIX}/usr/include \
-                         -DBUILD_SHARED_LIBS=ON \
+  PKG_CMAKE_OPTS_TARGET="-DBUILD_SHARED_LIBS=ON \
                          -DSDL_3DNOW=OFF \
                          -DSDL_ALSA=ON \
                          -DSDL_ALSA_SHARED=ON \
