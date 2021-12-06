@@ -58,6 +58,10 @@ OEM_EMULATORS_LIBRETRO_RPI=" \
   yabasanshiro \
   yabause"
 
+# Libretro cores for RPi4
+OEM_EMULATORS_LIBRETRO_RPI_RPI4=" \
+  mame2016"
+
 # Standalone emulators
 OEM_EMULATORS_STANDALONE_RPI=" \
   emulationstation \
@@ -121,6 +125,10 @@ configure_package() {
     # Add Retroarch frontend & libretro core packages 
     if [ "${OEM_LIBRETRO}" = "yes" ]; then
       PKG_DEPENDS_TARGET+=" ${OEM_EMULATORS_LIBRETRO_RPI}"
+      # Add device specific libretro core packages 
+      if [ "${DEVICE}" = "RPi4" ]; then
+        PKG_DEPENDS_TARGET+=" ${OEM_EMULATORS_LIBRETRO_RPI_RPI4}"
+      fi
     fi
 
     # Add Linux driver packages
