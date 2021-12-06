@@ -84,7 +84,7 @@ pre_configure_target() {
 
     # Mesa 3D OpenGL ES
     elif [ "${OPENGLES}" = "mesa" ]; then
-      if [ "${DEVICE}" = "RPi4" ]; then
+      if [ "${DEVICE}" = "RPi4" -o "${DEVICE}" = "RPi3" ]; then
         PKG_CONFIGURE_OPTS_TARGET+=" --enable-opengles3 \
                                      --disable-videocore"
       fi
