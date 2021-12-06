@@ -131,7 +131,7 @@ configure_target() {
   sed -e "s#QMAKE_CFLAGS_ISYSTEM        = -isystem#QMAKE_CFLAGS_ISYSTEM        = -I#" -i ${PKG_BUILD}/qtbase/mkspecs/common/gcc-base.conf
 
   # Avoid eglfs_brcm detection by bcm_host.h
-  if [ "${DEVICE}" = "RPi4" ]; then
+  if [ "${DEVICE}" = "RPi4" -o "${DEVICE}" = "RPi3" ]; then
     sed -e "s#bcm_host.h#bcm_host2.h#" -i ${PKG_BUILD}/qtbase/src/gui/configure.json
   fi
 
