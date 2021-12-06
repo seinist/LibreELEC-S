@@ -23,7 +23,7 @@ pre_configure_target() {
     TARGET_LDFLAGS+=" -lEGL -lGLESv2"
   fi
   # Fix missing dispmanx
-  if [ "${DEVICE}" = "RPi4" ]; then
+  if [ "${DEVICE}" = "RPi4" -o "${DEVICE}" = "RPi3" ]; then
     PKG_MESON_OPTS_TARGET+=" -Dgl_winsys="egl""
   fi
 }
