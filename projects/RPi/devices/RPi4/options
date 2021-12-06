@@ -54,5 +54,4 @@
     OEM_TOOLS="yes"
 
   # Add non-free packages i.e. fdk-aac, xow (yes / no)
-  NON_FREE_PKG_SUPPORT="no"
     NON_FREE_PKG_SUPPORT="no"
