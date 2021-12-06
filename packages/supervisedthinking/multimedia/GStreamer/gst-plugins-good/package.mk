@@ -18,7 +18,7 @@ PKG_MESON_OPTS_TARGET="-Dgdk-pixbuf=disabled \
                        -Dnls=disabled"
 
   # Fix missing dispmanx
-  if [ "${DEVICE}" = "RPi4" ]; then
+  if [ "${DEVICE}" = "RPi4" -o "${DEVICE}" = "RPi3" ]; then
     PKG_MESON_OPTS_TARGET+=" -Drpicamsrc=disabled"
   fi
 
