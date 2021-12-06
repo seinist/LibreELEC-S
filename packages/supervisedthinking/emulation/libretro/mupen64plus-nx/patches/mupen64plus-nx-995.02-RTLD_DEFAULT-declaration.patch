@@ -1,0 +1,24 @@
+From 23690ad48d28ba364013d06cac555b34c9849e54 Mon Sep 17 00:00:00 2001
+From: Alin Nastac <alin.nastac@gmail.com>
+Date: Sun, 5 Dec 2021 09:37:18 +0100
+Subject: [PATCH] fix 'RTLD_DEFAULT was not declared in this scope' error
+
+---
+ GLideN64/src/Graphics/OpenGLContext/GLFunctions.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/GLideN64/src/Graphics/OpenGLContext/GLFunctions.cpp b/GLideN64/src/Graphics/OpenGLContext/GLFunctions.cpp
+index 233ccaa..e5408bf 100644
+--- a/GLideN64/src/Graphics/OpenGLContext/GLFunctions.cpp
++++ b/GLideN64/src/Graphics/OpenGLContext/GLFunctions.cpp
+@@ -10,6 +10,7 @@
+ 
+ #if defined(GL_USE_DLSYM)
+ // Use dlsym() to load GL symbols from the default shared object search order
++#include <dlfcn.h>
+ #define GL_GET_PROC_ADR(proc_type, proc_name) ptr##proc_name = (proc_type) dlsym(RTLD_DEFAULT, "gl"#proc_name)
+ #else
+ // Use libretro API to load GL/EGL symbols
+-- 
+2.32.0
+
