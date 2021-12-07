@@ -15,7 +15,7 @@ pre_configure_target() {
   PKG_MESON_OPTS_TARGET="-Dexamples=disabled \
                          -Dtests=disabled \
                          -Dgobject-cast-checks=disabled \
-                         -Dgtk_doc=disabled \
+                         -Ddoc=disabled \
                          -Dnls=disabled"
 
   # Fix undefined symbol glPointSizePointerOES
