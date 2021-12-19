@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="fs-uae"
-PKG_VERSION="3.1.35"
-PKG_SHA256="0d868d8f3e400bae4bf75f469cc580fc49445aa0250473c64da0fb4f955ada20"
+PKG_VERSION="3.1.66"
+PKG_SHA256="31dc1d627b0d69e6241dae1ee6a76c9fe1f70197bc23e26b9dbba4208b66bd48"
 PKG_ARCH="x86_64"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/FrodeSolheim/fs-uae"
