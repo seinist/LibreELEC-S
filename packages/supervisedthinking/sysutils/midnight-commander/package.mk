@@ -36,7 +36,6 @@ pre_configure_target() {
                              --without-x"
 
   LDFLAGS+=" -lcrypto -lssl"
-  CFLAGS+=' -DNCURSES_WIDECHAR=0'
 
   ${PKG_BUILD}/autogen.sh
 
