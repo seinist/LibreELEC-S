@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="pegasus-frontend"
-PKG_VERSION="fff1a5b2390aaa195d644b651e54c27c2a9b8a1d" # continuous
+PKG_VERSION="eb44f4a15d5adb954af979d84ee81ddafcf20176" # continuous
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/mmatyas/pegasus-frontend"
 PKG_URL="https://github.com/mmatyas/pegasus-frontend.git"
