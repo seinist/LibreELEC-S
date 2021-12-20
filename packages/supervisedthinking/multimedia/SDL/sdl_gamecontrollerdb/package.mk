@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="sdl_gamecontrollerdb"
-PKG_VERSION="40f20b3ad9f4e9b887dd66df46c67d652af15c45"
-PKG_SHA256="5412536d8aa2831cdf6bceca9b2046d147e95d414087e773ad7aa721ba749d2a"
+PKG_VERSION="aecb6b0df26c20f83868111ae4c8b66649c59e69"
+PKG_SHA256="ef3cc99b50d981ac1cc4743c0e1cf9574598194e979ebf8e5035416e5ae28856"
 PKG_LICENSE="SDL"
 PKG_SITE="https://github.com/gabomdq/SDL_GameControllerDB"
 PKG_URL="https://github.com/gabomdq/SDL_GameControllerDB/archive/${PKG_VERSION}.tar.gz"
