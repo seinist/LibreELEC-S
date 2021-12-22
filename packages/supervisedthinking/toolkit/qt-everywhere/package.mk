@@ -107,7 +107,6 @@ pre_configure_target() {
                              -skip qtserialbus
                              -skip qtspeech
                              -skip qtsystems
-                             -skip qttools
                              -skip qttranslations
                              -skip qtvirtualkeyboard
                              -skip qtwebchannel
