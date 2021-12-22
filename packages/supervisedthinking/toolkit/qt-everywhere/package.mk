@@ -2,13 +2,15 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking @ gmail.com)
 
 PKG_NAME="qt-everywhere"
-PKG_VERSION="5.15.2"
-PKG_SHA256="3a530d1b243b5dec00bc54937455471aaa3e56849d2593edb8ded07228202240"
+PKG_VERSION="d62883e1bbedffbd90e9b15c6ea654eada393c9d" # 5.15.2+ KDE Qt5PatchCollection
 PKG_LICENSE="GPL"
 PKG_SITE="http://qt-project.org"
-PKG_URL="http://download.qt.io/archive/qt/${PKG_VERSION%.*}/${PKG_VERSION}/single/${PKG_NAME}-src-${PKG_VERSION}.tar.xz"
-PKG_DEPENDS_TARGET="toolchain libjpeg-turbo libpng pcre2-system sqlite zlib freetype libxkbcommon gstreamer gst-plugins-base gst-plugins-good gst-libav"
+PKG_URL="https://invent.kde.org/qt/qt/qt5.git"
+PKG_DEPENDS_TARGET="toolchain libjpeg-turbo libpng pcre2-system sqlite zlib freetype sdl2 libxkbcommon gstreamer gst-plugins-base gst-plugins-good gst-libav"
 PKG_LONGDESC="A cross-platform application and UI framework"
+GET_HANDLER_SUPPORT="git"
+PKG_GIT_CLONE_BRANCH="kde/5.15"
+PKG_GIT_CLONE_SINGLE="yes"
 PKG_BUILD_FLAGS="-gold"
 
 configure_package() {
@@ -80,26 +82,37 @@ pre_configure_target() {
                              -skip qt3d
                              -skip qtactiveqt
                              -skip qtandroidextras
+                             -skip qtcanvas3d
                              -skip qtcharts
                              -skip qtconnectivity
                              -skip qtdatavis3d
                              -skip qtdoc
+                             -skip qtdocgallery
+                             -skip qtfeedback
                              -skip qtlocation
+                             -skip qtlottie
                              -skip qtmacextras
                              -skip qtnetworkauth
                              -skip qtpurchasing
+                             -skip qtqa
                              -skip qtquickcontrols
+                             -skip qtquicktimeline
+                             -skip qtpim
                              -skip qtremoteobjects
+                             -skip qtrepotools
                              -skip qtscript
                              -skip qtscxml
                              -skip qtsensors
                              -skip qtserialport
                              -skip qtserialbus
                              -skip qtspeech
+                             -skip qtsystems
+                             -skip qttools
                              -skip qttranslations
                              -skip qtvirtualkeyboard
                              -skip qtwebchannel
                              -skip qtwebengine
+                             -skip qtwebglplugin
                              -skip qtwebview
                              -skip qtwinextras
                              -skip qtx11extras"
@@ -123,12 +136,12 @@ pre_configure_target() {
 }
 
 configure_target() {
+  # Fix version
+  find ${PKG_BUILD} -name .qmake.conf -exec sed  -i 's|MODULE_VERSION = 5.15.3|MODULE_VERSION = 5.15.2|g' \{} \;
+
   # Create working dir
   mkdir -p ${PKG_BUILD}/.${TARGET_NAME}
   cd ${PKG_BUILD}/.${TARGET_NAME}
-
-  # Fix cross compiling
-  sed -e "s#QMAKE_CFLAGS_ISYSTEM        = -isystem#QMAKE_CFLAGS_ISYSTEM        = -I#" -i ${PKG_BUILD}/qtbase/mkspecs/common/gcc-base.conf
 
   # Avoid eglfs_brcm detection by bcm_host.h
   if [ "${DEVICE}" = "RPi4" -o "${DEVICE}" = "RPi3" ]; then
