@@ -1,9 +1,19 @@
-diff -Naur a/backends/platform/libretro/build/Makefile b/backends/platform/libretro/build/Makefile
---- a/backends/platform/libretro/build/Makefile	2016-05-09 19:28:52.000000000 -0700
-+++ b/backends/platform/libretro/build/Makefile	2016-05-11 11:55:30.434658218 -0700
-@@ -24,9 +24,9 @@
- 
- TARGET_NAME := scummvm
+From 36f41cf4cb51d7659df3a3aaea9721682402a061 Mon Sep 17 00:00:00 2001
+From: SupervisedThinking <supervisedthinking@gmail.com>
+Date: Wed, 22 Dec 2021 14:08:13 +0100
+Subject: [PATCH] libretro/Makefile: only set LD, AR, RANLIB if not already set
+
+---
+ backends/platform/libretro/build/Makefile | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/backends/platform/libretro/build/Makefile b/backends/platform/libretro/build/Makefile
+index 25d141eb551e..5ab4d0a3f452 100644
+--- a/backends/platform/libretro/build/Makefile
++++ b/backends/platform/libretro/build/Makefile
+@@ -66,9 +66,9 @@ else
+ endif
+ endif
  
 -LD        = $(CXX)
 -AR        = ar cru
