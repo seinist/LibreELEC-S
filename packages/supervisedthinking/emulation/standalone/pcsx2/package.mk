@@ -10,6 +10,8 @@ PKG_URL="https://github.com/PCSX2/pcsx2.git"
 PKG_DEPENDS_TARGET="toolchain alsa-lib adwaita-icon-theme freetype gdk-pixbuf glib gtk3-system hicolor-icon-theme libaio libfmt libpcap libpng libxml2 pngpp pulseaudio sdl2 soundtouch systemd wxwidgets xz yaml-cpp zlib"
 PKG_LONGDESC="PCSX2 is a free and open-source PlayStation 2 (PS2) emulator."
 GET_HANDLER_SUPPORT="git"
+PKG_GIT_CLONE_BRANCH="master"
+PKG_GIT_CLONE_SINGLE="yes"
 
 configure_package() {
   # Build with XCB support for X11
