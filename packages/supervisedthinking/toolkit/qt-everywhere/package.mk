@@ -11,6 +11,8 @@ PKG_LONGDESC="A cross-platform application and UI framework"
 GET_HANDLER_SUPPORT="git"
 PKG_GIT_CLONE_BRANCH="kde/5.15"
 PKG_GIT_CLONE_SINGLE="yes"
+PKG_GIT_CLONE_DEPTH="1"
+PKG_GIT_SUBMODULE_DEPTH="1"
 PKG_BUILD_FLAGS="-gold"
 
 configure_package() {
