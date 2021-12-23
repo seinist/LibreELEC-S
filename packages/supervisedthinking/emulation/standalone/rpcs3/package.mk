@@ -11,6 +11,10 @@ PKG_DEPENDS_HOST="toolchain:host"
 PKG_DEPENDS_TARGET="toolchain linux glibc systemd pulseaudio mesa xorg-server openal-soft-system libevdev curl ffmpeg libpng zlib glew-cmake libSM sdl2 enet-system qt-everywhere unclutter-xfixes rpcs3:host"
 PKG_LONGDESC="RPCS3 is an experimental open-source Sony PlayStation 3 emulator and debugger."
 GET_HANDLER_SUPPORT="git"
+PKG_GIT_CLONE_BRANCH="v0.0.16"
+PKG_GIT_CLONE_SINGLE="yes"
+PKG_GIT_CLONE_DEPTH="1"
+PKG_GIT_SUBMODULE_DEPTH="1"
 
 configure_package() {
   # Vulkan Support
