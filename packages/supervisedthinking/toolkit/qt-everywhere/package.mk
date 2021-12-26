@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking @ gmail.com)
 
 PKG_NAME="qt-everywhere"
-PKG_VERSION="d62883e1bbedffbd90e9b15c6ea654eada393c9d" # 5.15.2+ KDE Qt5PatchCollection
+PKG_VERSION="eb370fd0c850142d9b899d81823d8097d624edaa" # 5.15.2-r268 (KDE Qt5PatchCollection)
 PKG_LICENSE="GPL"
 PKG_SITE="http://qt-project.org"
 PKG_URL="https://invent.kde.org/qt/qt/qt5.git"
@@ -32,7 +32,7 @@ configure_package() {
   fi
 
   # Wayland support
-  if [ "${DISPLAYSERVER}" = "weston" ]; then
+  if [ "${DISPLAYSERVER}" = "wl" ]; then
     PKG_DEPENDS_TARGET+=" wayland"
   fi
 }
@@ -126,7 +126,7 @@ pre_configure_target() {
   fi
 
   # Wayland support
-  if [ ! "${DISPLAYSERVER}" = "weston" ]; then
+  if [ ! "${DISPLAYSERVER}" = "wl" ]; then
     PKG_CONFIGURE_OPTS_TARGET+=" -skip qtwayland"
   fi
 
@@ -205,56 +205,60 @@ post_makeinstall_target() {
   mkdir -p ${INSTALL}/usr/plugins
   mkdir -p ${INSTALL}/usr/qml
 
+  # Sysroot path to Qt5 files
+  PKG_QT5_SYSROOT_PATH=${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/
+
   # Install Qt5 libs
   for PKG_QT5_LIBS in \
     libQt5Concurrent libQt5Core libQt5DBus libQt5Gamepad libQt5Gui libQt5Multimedia libQt5MultimediaGstTools libQt5MultimediaQuick \
     libQt5MultimediaWidgets libQt5Network libQt5OpenGL libQt5Qml libQt5QmlModels libQt5QmlWorkerScript libQt5Quick libQt5QuickControls2 libQt5QuickParticles \
     libQt5QuickTemplates2 libQt5QuickTest libQt5Sql libQt5Svg libQt5Test libQt5Widgets libQt5WebSockets libQt5Xml
   do
-    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/lib/${PKG_QT5_LIBS}.so* ${INSTALL}/usr/lib
+    cp -PR ${PKG_QT5_SYSROOT_PATH}/lib/${PKG_QT5_LIBS}.so* ${INSTALL}/usr/lib
   done
 
   # Install Qt5 plugins
   for PKG_QT5_PLUGINS in \
     audio gamepads imageformats iconengines mediaservice platforms playlistformats sqldrivers
   do
-    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/plugins/${PKG_QT5_PLUGINS} ${INSTALL}/usr/plugins
+    cp -PR ${PKG_QT5_SYSROOT_PATH}/plugins/${PKG_QT5_PLUGINS} ${INSTALL}/usr/plugins
   done
 
   # Install Qt5 QML
   for PKG_QT5_QML in \
     Qt QtGamepad QtGraphicalEffects QtMultimedia QtQuick QtQuick.2 QtTest
   do
-    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/qml/${PKG_QT5_QML} ${INSTALL}/usr/qml
+    cp -PR ${PKG_QT5_SYSROOT_PATH}/qml/${PKG_QT5_QML} ${INSTALL}/usr/qml
   done
 
   # Install libs, plugins & qml for Wayland/X11 display server
   if [ ${DISPLAYSERVER} = "x11" ]; then
-    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/lib/libQt5XcbQpa.so*      ${INSTALL}/usr/lib
-    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/plugins/xcbglintegrations ${INSTALL}/usr/plugins
-  elif [ ${DISPLAYSERVER} = "weston" ]; then
-    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/lib/libQt5WaylandClient.so*     ${INSTALL}/usr/lib
-    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/lib/libQt5WaylandCompositor.so* ${INSTALL}/usr/lib
+    cp -PR ${PKG_QT5_SYSROOT_PATH}/lib/libQt5XcbQpa.so*      ${INSTALL}/usr/lib
+    cp -PR ${PKG_QT5_SYSROOT_PATH}/plugins/xcbglintegrations ${INSTALL}/usr/plugins
+  elif [ ${DISPLAYSERVER} = "wl" ]; then
+    cp -PR ${PKG_QT5_SYSROOT_PATH}/lib/libQt5WaylandClient.so*     ${INSTALL}/usr/lib
+    cp -PR ${PKG_QT5_SYSROOT_PATH}/lib/libQt5WaylandCompositor.so* ${INSTALL}/usr/lib
 
-    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/plugins/platforms/libqwayland*              ${INSTALL}/usr/plugins/platforms
-    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/plugins/wayland-decoration-client           ${INSTALL}/usr/plugins
-    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/plugins/wayland-graphics-integration-client ${INSTALL}/usr/plugins
-    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/plugins/wayland-graphics-integration-server ${INSTALL}/usr/plugins
-    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/plugins/wayland-shell-integration           ${INSTALL}/usr/plugins
+    cp -PR ${PKG_QT5_SYSROOT_PATH}/plugins/platforms/libqwayland*              ${INSTALL}/usr/plugins/platforms
+    cp -PR ${PKG_QT5_SYSROOT_PATH}/plugins/wayland-decoration-client           ${INSTALL}/usr/plugins
+    cp -PR ${PKG_QT5_SYSROOT_PATH}/plugins/wayland-graphics-integration-client ${INSTALL}/usr/plugins
+    cp -PR ${PKG_QT5_SYSROOT_PATH}/plugins/wayland-graphics-integration-server ${INSTALL}/usr/plugins
+    cp -PR ${PKG_QT5_SYSROOT_PATH}/plugins/wayland-shell-integration           ${INSTALL}/usr/plugins
 
-    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/qml/QtWayland ${INSTALL}/usr/qml
+    cp -PR ${PKG_QT5_SYSROOT_PATH}/qml/QtWayland ${INSTALL}/usr/qml
   fi
 
   # Install EGLFS libs & plugins if OpenGLES is supported
   if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
     if [ ${DISPLAYSERVER} = "no" ]; then
-      cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/lib/libQt5EglFSDeviceIntegration.so* ${INSTALL}/usr/lib
-      cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/plugins/egldeviceintegrations        ${INSTALL}/usr/plugins
+      cp -PR ${PKG_QT5_SYSROOT_PATH}/lib/libQt5EglFSDeviceIntegration.so* ${INSTALL}/usr/lib
+      cp -PR ${PKG_QT5_SYSROOT_PATH}/plugins/egldeviceintegrations        ${INSTALL}/usr/plugins
     fi
   fi
 
   # Install EGLFS_KMS lib
   if [ "${OPENGLES}" = "libmali" ] || [ "${OPENGLES}" = "mesa" ]; then
-    cp -PR ${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/lib/libQt5EglFsKmsSupport.so* ${INSTALL}/usr/lib
+    cp -PR ${PKG_QT5_SYSROOT_PATH}/lib/libQt5EglFsKmsSupport.so* ${INSTALL}/usr/lib
   fi
 }
+
