@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="munt"
-PKG_VERSION="2.5.2"
-PKG_SHA256="4ec903cc2bb2e6f1006663941a86949302147c990b245d6a6c41e8d3bc358b83"
+PKG_VERSION="2.5.3"
+PKG_SHA256="062d110bbdd7253d01ef291f57e89efc3ee35fd087587458381f054bac49a8f5"
 PKG_LICENSE="LGPL-2.0-or-later"
 PKG_SITE="https://github.com/munt/munt"
 PKG_URL="https://github.com/munt/munt/archive/refs/tags/libmt32emu_${PKG_VERSION//./_}.tar.gz"
