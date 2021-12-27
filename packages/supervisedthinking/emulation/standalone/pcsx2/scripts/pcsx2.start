@@ -24,7 +24,7 @@ if [ ! -L ${PCSX2_VAR_LOG} ]; then
 fi
 
 # Run the emulator
-PCSX2 "$@"
+pcsx2 "$@"
 
 # Switch back to frontends or start Kodi service / unload audio backend config
 pidof emulationstation > /dev/null 2>&1 || pidof pegasus-fe > /dev/null 2>&1 || kodictrl --start
