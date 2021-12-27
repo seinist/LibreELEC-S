@@ -72,6 +72,7 @@ make_target() {
   make -C opcodes
   make -C binutils strings
   make -C binutils ar
+  make -C binutils addr2line
 }
 
 makeinstall_target() {
@@ -81,6 +82,7 @@ makeinstall_target() {
   make DESTDIR="${SYSROOT_PREFIX}" -C opcodes install
 
   mkdir -p ${INSTALL}/usr/bin
-    cp binutils/strings ${INSTALL}/usr/bin
-    cp binutils/ar      ${INSTALL}/usr/bin/ar
+    cp binutils/strings   ${INSTALL}/usr/bin
+    cp binutils/ar        ${INSTALL}/usr/bin/ar
+    cp binutils/addr2line ${INSTALL}/usr/bin/addr2line
 }
