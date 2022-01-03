@@ -2,12 +2,12 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="ds4drv"
-PKG_VERSION="be7327f"
+PKG_VERSION="be7327fc3f5abb8717815f2a1a2ad3d335535d8a"
 PKG_SHA256="d346c5adccab076a9025b5c2a2340a6434a815d55c637164fe554a3ae60d6c62"
 PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/chrippa/ds4drv"
 PKG_URL="https://github.com/chrippa/ds4drv/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain Python3 distutilscross:host python-evdev pyudev setuptools"
+PKG_DEPENDS_TARGET="toolchain Python3 distutilscross:host python-evdev pyudev setuptools python-six"
 PKG_LONGDESC="ds4drv is a Sony DualShock 4 userspace driver for Linux."
 PKG_TOOLCHAIN="manual"
 
