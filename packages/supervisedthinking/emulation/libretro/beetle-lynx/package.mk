@@ -2,8 +2,8 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="beetle-lynx"
-PKG_VERSION="b84c79b2f185482f9cec2b10f33cbe1bc5732dd9"
-PKG_SHA256="391c3a7858c11fea745e825993a80504783479f5e96523eb57c62437581c2849"
+PKG_VERSION="124c1b373d61edd1382c7e01c195886a037b1f9a"
+PKG_SHA256="130e820d47ca60d8c3ec7f3f42953dfec90352a0a2cc04e90fc9b63b0c44a1a9"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/beetle-lynx-libretro"
 PKG_URL="https://github.com/libretro/beetle-lynx-libretro/archive/${PKG_VERSION}.tar.gz"
