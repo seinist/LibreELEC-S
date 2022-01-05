@@ -2,20 +2,21 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="flycast"
-PKG_VERSION="1475db72f26abc8321e085ce163aa12298812e7e"
-PKG_SHA256="1f094224d001b987589d27619acc8c8220b5f209a445db9b8f13186d3bb77dda"
+PKG_VERSION="a4788b5b24b6ca219b8a72e39c3019feb9ea7b1b"
 PKG_LICENSE="GPL-2.0-or-later"
-PKG_SITE="https://github.com/libretro/flycast"
-PKG_URL="https://github.com/libretro/flycast/archive/${PKG_VERSION}.tar.gz"
+PKG_SITE="https://github.com/flyinghead/flycast"
+PKG_URL="https://github.com/flyinghead/flycast.git"
 PKG_DEPENDS_TARGET="toolchain linux glibc"
-PKG_LONGDESC="Flycast is a multiplatform Sega Dreamcast emulator"
-PKG_TOOLCHAIN="make"
+PKG_LONGDESC="Flycast is a multiplatform Sega Dreamcast, Naomi and Atomiswave emulator"
+PKG_GIT_CLONE_BRANCH="master"
+PKG_GIT_CLONE_SINGLE="yes"
+GET_HANDLER_SUPPORT="git"
+PKG_GIT_CLONE_DEPTH="1"
+PKG_GIT_SUBMODULE_DEPTH="1"
 PKG_BUILD_FLAGS="-sysroot"
 
 PKG_LIBNAME="flycast_libretro.so"
 PKG_LIBPATH="${PKG_LIBNAME}"
-
-PKG_MAKE_OPTS_TARGET="HAVE_OPENMP=0 GIT_VERSION=${PKG_VERSION:0:7}"
 
 configure_package() {
   # Displayserver Support
@@ -32,75 +33,23 @@ configure_package() {
   if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
     PKG_DEPENDS_TARGET+=" ${OPENGLES}"
   fi
+
+  # Vulkan Support
+  if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+    PKG_DEPENDS_TARGET+=" ${VULKAN}"
+  fi
 }
 
 pre_configure_target() {
-  case ${PROJECT} in
-    Amlogic)
-      PKG_MAKE_OPTS_TARGET+=" platform=${DEVICE}"
-      ;;
-    RPi)
-      case ${DEVICE} in
-        RPi)
-          PKG_MAKE_OPTS_TARGET+=" platform=rpi"
-          ;;
-        RPi2)
-          PKG_MAKE_OPTS_TARGET+=" platform=rpi2"
-          ;;
-        RPi3)
-          PKG_MAKE_OPTS_TARGET+=" platform=rpi3"
-          ;;
-        RPi4)
-          PKG_MAKE_OPTS_TARGET+=" platform=rpi4"
-          ;;
-      esac
-      ;;
-    Rockchip)
-      case ${DEVICE} in
-        RK3328)
-          PKG_MAKE_OPTS_TARGET+=" platform=RK3328"
-          ;;
-        RK3399)
-          PKG_MAKE_OPTS_TARGET+=" platform=RK3399"
-          ;;
-        TinkerBoard|MiQi)
-          PKG_MAKE_OPTS_TARGET+=" platform=RK3288"
-          ;;
-      esac
-      ;;
-    *)
-      if [ "${ARCH}" = "arm" ]; then
-        PKG_MAKE_OPTS_TARGET+=" platform=armv"
-        # OpenGL ES support
-        if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
-          PKG_MAKE_OPTS_TARGET+="-gles"
-        fi
-        # ARM NEON support
-        if target_has_feature neon; then
-          PKG_MAKE_OPTS_TARGET+="-neon"
-        fi
-      else
-        # OpenGL support
-        if [ "${OPENGL_SUPPORT}" = "yes" ]; then
-          PKG_MAKE_OPTS_TARGET+=" HAVE_OIT=1"
-        fi
+  PKG_CMAKE_OPTS_TARGET="-DLIBRETRO=ON \
+                         -DUSE_OPENMP=OFF"
 
-        # OpenGL ES support
-        if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
-          PKG_MAKE_OPTS_TARGET+=" FORCE_GLES=1"
-        fi
+  if [ "$OPENGLES_SUPPORT" = yes ]; then
+    PKG_CMAKE_OPTS_TARGET+=" -DUSE_GLES=ON"
+  fi
 
-        # Set dynarec arch
-        PKG_MAKE_OPTS_TARGET+=" WITH_DYNAREC=${ARCH}"
-      fi
-      ;;
-  esac
-
-  # Vulkan support
-  if [ "${VULKAN_SUPPORT}" = "yes" ]; then
-    PKG_MAKE_OPTS_TARGET+=" HAVE_VULKAN=1"
-  else
-    PKG_MAKE_OPTS_TARGET+=" HAVE_VULKAN=0"
+  if [ "$VULKAN_SUPPORT" = yes ]; then
+    PKG_CMAKE_OPTS_TARGET+=" -DUSE_VULKAN=ON"
   fi
 }
 
