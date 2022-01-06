@@ -2,12 +2,12 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="gtk3-system"
-PKG_VERSION="3.24.30"
-PKG_SHA256="5b56fe97ea5c4c0541048aecdc21b2286941ca99ca035faca744875323a2699d"
+PKG_VERSION="3.24.31"
+PKG_SHA256="d7584dc30baa4bf2b7e8f2e89b5d0edc7970d9ded343fc1cc683674ba6dd73f7"
 PKG_LICENSE="LGPL-2.0-or-later"
 PKG_SITE="http://www.gtk.org/"
 PKG_URL="https://github.com/GNOME/gtk/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain at-spi2-atk atk cairo gdk-pixbuf glib libepoxy pango"
+PKG_DEPENDS_TARGET="toolchain at-spi2-atk atk cairo gdk-pixbuf glib libepoxy pango libxkbcommon"
 PKG_DEPENDS_CONFIG="gdk-pixbuf"
 PKG_LONGDESC="GTK is a multi-platform toolkit for creating graphical user interfaces."
 PKG_TOOLCHAIN="meson"
