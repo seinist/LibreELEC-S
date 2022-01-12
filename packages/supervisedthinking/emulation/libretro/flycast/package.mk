@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="flycast"
-PKG_VERSION="a4788b5b24b6ca219b8a72e39c3019feb9ea7b1b"
+PKG_VERSION="4f638f6d77a013dc0d3490af87760ee29a786829"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/flyinghead/flycast"
 PKG_URL="https://github.com/flyinghead/flycast.git"
@@ -11,8 +11,6 @@ PKG_LONGDESC="Flycast is a multiplatform Sega Dreamcast, Naomi and Atomiswave em
 PKG_GIT_CLONE_BRANCH="master"
 PKG_GIT_CLONE_SINGLE="yes"
 GET_HANDLER_SUPPORT="git"
-PKG_GIT_CLONE_DEPTH="1"
-PKG_GIT_SUBMODULE_DEPTH="1"
 PKG_BUILD_FLAGS="-sysroot"
 
 PKG_LIBNAME="flycast_libretro.so"
