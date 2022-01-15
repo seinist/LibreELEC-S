@@ -2,8 +2,8 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="swanstation"
-PKG_VERSION="f67705875d4aac7682478a8699c31afb5cb692e4"
-PKG_SHA256="4ac9885e9cf2a7fc5cdad9205175a3d424e61f2908c1906bd6ed4a3cdd89a89a"
+PKG_VERSION="f6f3429d3045812d1d9b6b52a23ee69149cfca30"
+PKG_SHA256="87c5c3bc5ad336f1e93866683128fffcc915baee31bb6af545c75edcea936bf0"
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/libretro/swanstation"
 PKG_URL="https://github.com/kivutar/swanstation/archive/${PKG_VERSION}.tar.gz"
