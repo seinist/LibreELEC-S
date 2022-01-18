@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="mpg123-system"
-PKG_VERSION="1.28.2"
-PKG_SHA256="7eefd4b68fdac7e138d04c37efe12155a8ebf25a5bccf0fb7e775af22d21db00"
+PKG_VERSION="1.29.3"
+PKG_SHA256="963885d8cc77262f28b77187c7d189e32195e64244de2530b798ddf32183e847"
 PKG_LICENSE="LGPL-2.0-or-later"
 PKG_SITE="http://www.mpg123.org/"
 PKG_URL="http://downloads.sourceforge.net/sourceforge/mpg123/mpg123-${PKG_VERSION}.tar.bz2"
