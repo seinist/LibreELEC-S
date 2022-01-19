@@ -2,13 +2,15 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="moonlight-qt"
-PKG_VERSION="49892b3ce8614aa4e3b3f847926622e726e5e679" # v3.1.4+
+PKG_VERSION="719024ec01169e80a665f78806de539167d061c1" # v3.2.0
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/moonlight-stream/moonlight-qt"
 PKG_URL="https://github.com/moonlight-stream/moonlight-qt.git"
 PKG_DEPENDS_TARGET="toolchain linux openssl alsa-lib pulseaudio ffmpeg sdl2 sdl2_ttf opus-system qt-everywhere"
 PKG_LONGDESC="Moonlight is an open source implementation of NVIDIA's GameStream."
 GET_HANDLER_SUPPORT="git"
+PKG_GIT_CLONE_BRANCH="master"
+PKG_GIT_CLONE_SINGLE="yes"
 PKG_TOOLCHAIN="make"
 
 configure_package() {
