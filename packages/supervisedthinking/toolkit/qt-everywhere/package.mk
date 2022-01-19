@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking @ gmail.com)
 
 PKG_NAME="qt-everywhere"
-PKG_VERSION="33d4e5e2c14507a6e408fd6ae87f148eea1d1c39" # 5.15.2-r289 (KDE Qt5PatchCollection)
+PKG_VERSION="17d3ae24f4aee6bdd57786d417451cb0536a80e5" # 5.15.2-r292 (KDE Qt5PatchCollection)
 PKG_LICENSE="GPL"
 PKG_SITE="http://qt-project.org"
 PKG_URL="https://invent.kde.org/qt/qt/qt5.git"
