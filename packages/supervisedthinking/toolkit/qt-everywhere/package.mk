@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking @ gmail.com)
 
 PKG_NAME="qt-everywhere"
-PKG_VERSION="17d3ae24f4aee6bdd57786d417451cb0536a80e5" # 5.15.2-r292 (KDE Qt5PatchCollection)
+PKG_VERSION="6276ecffe721d18de643315f0a6c83cf723d4819" # 5.15.2-r294 (KDE Qt5PatchCollection)
 PKG_LICENSE="GPL"
 PKG_SITE="http://qt-project.org"
 PKG_URL="https://invent.kde.org/qt/qt/qt5.git"
@@ -11,8 +11,8 @@ PKG_LONGDESC="A cross-platform application and UI framework"
 GET_HANDLER_SUPPORT="git"
 PKG_GIT_CLONE_BRANCH="kde/5.15"
 PKG_GIT_CLONE_SINGLE="yes"
-PKG_GIT_CLONE_DEPTH="1"
-PKG_GIT_SUBMODULE_DEPTH="1"
+PKG_GIT_CLONE_DEPTH="10"
+PKG_GIT_SUBMODULE_DEPTH="10"
 PKG_BUILD_FLAGS="-gold"
 
 configure_package() {
