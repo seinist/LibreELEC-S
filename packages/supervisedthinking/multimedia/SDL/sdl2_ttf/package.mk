@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="sdl2_ttf"
-PKG_VERSION="2.0.15"
-PKG_SHA256="02e887b560faf398cbd60f56ce0a1cbaf96012dd4ddaa455f8307cb4911c86cc"
+PKG_VERSION="2.0.18"
+PKG_SHA256="6b61544441b72bdfa1ced89034c6396fe80228eff201eb72c5f78e500bb80bd0"
 PKG_LICENSE="SDL"
 PKG_SITE="http://www.libsdl.org/"
 PKG_URL="https://github.com/libsdl-org/SDL_ttf/archive/release-${PKG_VERSION}.tar.gz"
