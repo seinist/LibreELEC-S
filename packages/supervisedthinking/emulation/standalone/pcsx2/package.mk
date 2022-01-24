@@ -17,7 +17,7 @@ configure_package() {
   # Build with XCB support for X11
   if [ ${DISPLAYSERVER} = "x11" ]; then
     PKG_DEPENDS_TARGET+=" libX11 libxcb unclutter-xfixes glew-cmake"
-  elif [ ${DISPLAYSERVER} = "weston" ]; then
+  elif [ ${DISPLAYSERVER} = "wl" ]; then
     PKG_DEPENDS_TARGET+=" wayland"
   fi
 
