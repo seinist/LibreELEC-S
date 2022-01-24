@@ -15,7 +15,7 @@ configure_package() {
   # Displayserver Support
   if [ "${DISPLAYSERVER}" = "x11" ]; then
     PKG_DEPENDS_TARGET+=" xorg-server"
-  elif [ "${DISPLAYSERVER}" = "weston" ]; then
+  elif [ "${DISPLAYSERVER}" = "wl" ]; then
     PKG_DEPENDS_TARGET+=" wayland"
   fi
 
@@ -52,7 +52,7 @@ pre_configure_target() {
 
   if [ "${DISPLAYSERVER}" = "x11" ]; then
     PKG_CMAKE_OPTS_TARGET+=" -D USE_X11=ON"
-  elif [ "${DISPLAYSERVER}" = "weston" ]; then
+  elif [ "${DISPLAYSERVER}" = "wl" ]; then
     PKG_CMAKE_OPTS_TARGET+="  -D USE_X11=OFF \
                               -D USE_WAYLAND=ON"
   else
