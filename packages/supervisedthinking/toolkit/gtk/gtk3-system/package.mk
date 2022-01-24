@@ -17,7 +17,7 @@ configure_package() {
   if [ ${DISPLAYSERVER} = "x11" ]; then
     PKG_DEPENDS_TARGET+=" libX11 libXi libXrandr"
     PKG_DEPENDS_CONFIG+=" libXft"
-  elif [ ${DISPLAYSERVER} = "weston" ]; then
+  elif [ ${DISPLAYSERVER} = "wl" ]; then
     PKG_DEPENDS_TARGET+=" wayland"
   fi
 }
@@ -36,7 +36,7 @@ pre_configure_target() {
   if [ ${DISPLAYSERVER} = "x11" ]; then
     PKG_MESON_OPTS_TARGET+=" -D x11_backend=true \
                              -D wayland_backend=false"
-  elif [ ${DISPLAYSERVER} = "weston" ]; then
+  elif [ ${DISPLAYSERVER} = "wl" ]; then
     PKG_MESON_OPTS_TARGET+=" -D x11_backend=false \
                              -D wayland_backend=true"
   fi
