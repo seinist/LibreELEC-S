@@ -25,7 +25,7 @@ configure_package() {
   fi
 
   # Wayland support
-  if [ "${DISPLAYSERVER}" = "weston" ]; then
+  if [ "${DISPLAYSERVER}" = "wl" ]; then
     PKG_DEPENDS_TARGET+=" wayland"
   fi
 
@@ -129,7 +129,7 @@ pre_configure_target(){
                              -DSDL_X11_XVM=OFF \
                              -DSDL_WAYLAND=OFF"
 
-  elif [ "${DISPLAYSERVER}" = "weston" ]; then
+  elif [ "${DISPLAYSERVER}" = "wl" ]; then
     PKG_CMAKE_OPTS_TARGET+=" -DSDL_WAYLAND=ON \
                              -DSDL_WAYLAND_SHARED=ON \
                              -DSDL_X11=OFF"
