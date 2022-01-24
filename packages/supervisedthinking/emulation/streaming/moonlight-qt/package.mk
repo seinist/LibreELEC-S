@@ -20,7 +20,7 @@ configure_package() {
   fi
 
   # Displayserver Support
-  if [ "${DISPLAYSERVER}" = "weston" ]; then
+  if [ "${DISPLAYSERVER}" = "wl" ]; then
     PKG_DEPENDS_TARGET+=" wayland"
   fi
 }
