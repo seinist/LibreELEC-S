@@ -55,6 +55,7 @@ pre_configure_target() {
                              -no-use-gold-linker
                              -no-ltcg
                              -no-rpath
+                             -openssl-linked
                              -system-libjpeg
                              -system-libpng
                              -system-pcre
