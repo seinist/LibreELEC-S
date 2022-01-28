@@ -7,7 +7,7 @@ PKG_SHA256="35166c1a7b4ea6ed9a70ee2a1c96ed7d9ffc8e7eeab0f54d89bd03264177c130"
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/muldjord/skyscraper"
 PKG_URL="https://github.com/muldjord/skyscraper/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain qt-everywhere"
+PKG_DEPENDS_TARGET="toolchain qt5"
 PKG_LONGDESC="A powerful and versatile yet easy to use game scraper written in C++ for use with multiple frontends running on a Linux system."
 PKG_TOOLCHAIN="make"
 
