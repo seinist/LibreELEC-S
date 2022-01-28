@@ -16,7 +16,7 @@ makeinstall_target() {
   mkdir -p ${INSTALL}/usr/share/fonts/liberation
     cp *.ttf ${INSTALL}/usr/share/fonts/liberation
 
-  #create a symlink to fonts folder for qt-everywhere
+  #create a symlink to fonts folder for Qt5
   mkdir -p ${INSTALL}/usr/lib
   ln -s /usr/share/fonts/liberation ${INSTALL}/usr/lib/fonts
 }
