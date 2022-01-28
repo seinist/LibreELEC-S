@@ -16,7 +16,7 @@ index 03a922ffc..535905a9b 100644
  	mVersion.setFont(Font::get(FONT_SIZE_SMALL));
  	mVersion.setColor(0x5E5E5EFF);
 -	mVersion.setText("EMULATIONSTATION V" + Utils::String::toUpper(PROGRAM_VERSION_STRING) + buildDate);
-+	mVersion.setText("EMULATIONSTATION V" + Utils::String::toUpper(PROGRAM_VERSION_STRING) + buildDate +" (LE-RR 10.0)");
++	mVersion.setText("EMULATIONSTATION V" + Utils::String::toUpper(PROGRAM_VERSION_STRING) + buildDate +" (LE-RR 11.0)");
  	mVersion.setHorizontalAlignment(ALIGN_CENTER);
  	addChild(&mVersion);
  }
