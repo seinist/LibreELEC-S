@@ -29,7 +29,7 @@
 ################################################################################
 
 # Install applications e.g. Chrome or Spotify (yes / no)
-  OEM_APPLICATIONS="no"
+  OEM_APPLICATIONS="yes"
 
 # Install standalone emulators e.g. Emulationstation, Amiberry, PPSSPP (yes / no)
   OEM_EMULATORS="yes"
@@ -44,7 +44,7 @@
   OEM_LINUX_KERNEL_DRIVER_SUPPORT="yes"
 
 # Install streaming clients e.g. Moonlight-Qt (yes / no)
-  OEM_STREAMING_CLIENTS="no"
+  OEM_STREAMING_CLIENTS="yes"
 
 # Install tools e.g. additional tools like mc or htop (yes / no)
   OEM_TOOLS="yes"
