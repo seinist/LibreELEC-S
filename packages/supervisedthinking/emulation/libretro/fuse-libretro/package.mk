@@ -9,7 +9,7 @@ PKG_SITE="https://github.com/libretro/fuse-libretro"
 PKG_URL="https://github.com/libretro/fuse-libretro/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain linux glibc"
 PKG_LONGDESC="fuse-libretro is an work in progress port of the Fuse Unix Spectrum Emulator to libretro."
-PKG_BUILD_FLAGS="+lto -sysroot"
+PKG_BUILD_FLAGS="-sysroot"
 
 PKG_LIBNAME="fuse_libretro.so"
 PKG_LIBPATH="${PKG_LIBNAME}"
