@@ -6,9 +6,18 @@ PKG_VERSION="1.0.3"
 PKG_ARCH="x86_64"
 PKG_LICENSE="MPL-2.0"
 PKG_SITE="https://brave.com"
-PKG_DEPENDS_TARGET="toolchain gtk3-system libXcomposite libXcursor libxshmfence-system libxss nss scrnsaverproto atk cups unclutter-xfixes"
+PKG_DEPENDS_TARGET="toolchain gtk3-system nss scrnsaverproto atk cups"
 PKG_LONGDESC="Web browser that blocks ads and trackers by default"
 PKG_TOOLCHAIN="manual"
+
+configure_package() {
+  # Build with XCB support for X11
+  if [ ${DISPLAYSERVER} = "x11" ]; then
+    PKG_DEPENDS_TARGET+=" libXcomposite libXcursor libxshmfence-system libxss unclutter-xfixes"
+  elif [ ${DISPLAYSERVER} = "wl" ]; then
+    PKG_DEPENDS_TARGET+=" wayland"
+  fi
+}
 
 makeinstall_target() {
   # Create directories
