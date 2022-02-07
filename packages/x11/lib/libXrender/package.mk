@@ -12,6 +12,8 @@ PKG_DEPENDS_TARGET="toolchain util-macros libX11"
 PKG_LONGDESC="The X Rendering Extension introduces digital image composition within the X Window System."
 PKG_BUILD_FLAGS="+pic"
 
+PKG_CONFIGURE_OPTS_TARGET="--enable-malloc0returnsnull"
+
 post_configure_target() {
   libtool_remove_rpath libtool
 }
