@@ -197,5 +197,9 @@ makeinstall_target() {
   mkdir -p ${INSTALL}
 
   # Install OEM config files & scripts
-  cp -PRv ${PKG_DIR}/config/* ${INSTALL}
+  if [ -d ${PKG_DIR}/config/${DEVICE} ]; then
+    cp -PRv ${PKG_DIR}/config/${DEVICE}/* ${INSTALL}
+  else
+    cp -PRv ${PKG_DIR}/config/* ${INSTALL}
+  fi
 }
