@@ -1,0 +1,30 @@
+From 935fc4068ab2c27b745ff1767776a113dc1117a7 Mon Sep 17 00:00:00 2001
+From: SupervisedThinking <supervisedthinking@gmail.com>
+Date: Tue, 8 Feb 2022 21:52:16 +0100
+Subject: [PATCH] app: disable shutdown, reboot & suspend menus
+
+---
+ src/app/main.cpp | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/app/main.cpp b/src/app/main.cpp
+index 70e202ec8..477f05c1a 100644
+--- a/src/app/main.cpp
++++ b/src/app/main.cpp
+@@ -175,13 +175,13 @@ backend::CliArgs handle_cli_args(QGuiApplication& app)
+     args.enable_menu_shutdown = false;
+     args.enable_menu_reboot = false;
+ #else
+-    args.enable_menu_shutdown = !(argparser.isSet(arg_menu_kiosk) || argparser.isSet(arg_menu_shutdown));
+-    args.enable_menu_reboot = !(argparser.isSet(arg_menu_kiosk) || argparser.isSet(arg_menu_reboot));
++    args.enable_menu_shutdown = false;
++    args.enable_menu_reboot = false;
+ #endif
+ #if defined(Q_OS_ANDROID) || defined(Q_OS_WINDOWS) || defined(Q_OS_MAC)
+     args.enable_menu_suspend = false;
+ #else
+-    args.enable_menu_suspend = !(argparser.isSet(arg_menu_kiosk) || argparser.isSet(arg_menu_suspend));
++    args.enable_menu_suspend = false;
+ #endif
+     return args;
+ 
