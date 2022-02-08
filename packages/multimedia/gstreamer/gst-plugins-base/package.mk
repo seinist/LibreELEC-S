@@ -14,17 +14,11 @@ PKG_BUILD_FLAGS="-gold"
 pre_configure_target() {
   PKG_MESON_OPTS_TARGET="-Dexamples=disabled \
                          -Dtests=disabled \
-                         -Dtools=disabled \
-                         -Dintrospection=disabled \
-                         -Dnls=disabled \
-                         -Dorc=disabled \
                          -Dgobject-cast-checks=disabled \
-                         -Dglib-asserts=disabled \
-                         -Dglib-checks=disabled \
                          -Dpackage-name=gst-plugins-base \
                          -Dpackage-origin=LibreELEC.tv \
-                         -Ddoc=disabled"
-
+                         -Ddoc=disabled \
+                         -Dnls=disabled"
 
   # Fix undefined symbol glPointSizePointerOES
   if [ "${OPENGLES}" = "bcm2835-driver" ]; then
@@ -38,5 +32,6 @@ pre_configure_target() {
 
 post_makeinstall_target() {
   # clean up
-  safe_remove ${INSTALL}
+  safe_remove ${INSTALL}/usr/bin
+  safe_remove ${INSTALL}/usr/share
 }
