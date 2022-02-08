@@ -127,6 +127,7 @@ OEM_TOOLS_GENERIC=" \
   skyscraper \
   smartmontools \
   spectre-meltdown-checker \
+  vkmark \
   vulkan-tools"
 
 # Tools X11
