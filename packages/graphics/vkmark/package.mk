@@ -16,7 +16,7 @@ case ${DISPLAYSERVER} in
     PKG_MESON_OPTS_TARGET="-Dwayland=true"
     ;;
   x11)
-    PKG_DEPENDS_TARGET+=" xcb"
+    PKG_DEPENDS_TARGET+=" libxcb xcb-util-wm"
     PKG_MESON_OPTS_TARGET="-Dxcb=true"
     ;;
   *)
