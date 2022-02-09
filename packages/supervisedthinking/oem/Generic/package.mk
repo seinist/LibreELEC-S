@@ -102,6 +102,7 @@ OEM_FRONTENDS_EXTRA_GENERIC=" \
 
 # Linux drivers
 OEM_LINUX_KERNEL_DRIVERS_GENERIC=" \
+  xone \
   xpadneo"
 
 # Non free packages
