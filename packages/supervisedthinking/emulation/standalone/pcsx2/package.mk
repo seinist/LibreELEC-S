@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="pcsx2"
-PKG_VERSION="7e36ee243c20bc75d3dd2b5270e33de233ccec1d" #v1.7.2161
+PKG_VERSION="f009d6f9e75e90e6242c571d4e5f4c4fc797fa45" #v1.7.2353
 PKG_ARCH="x86_64"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/PCSX2/pcsx2"
@@ -26,9 +26,9 @@ configure_package() {
     PKG_DEPENDS_TARGET+=" ${OPENGL} glew-cmake"
   fi
 
-  # OpenGLES support
-  if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
-    PKG_DEPENDS_TARGET+=" ${OPENGLES}"
+  # Vulkan Support
+  if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+    PKG_DEPENDS_TARGET+=" ${VULKAN}"
   fi
 }
 
@@ -36,16 +36,22 @@ pre_configure_target() {
   PKG_CMAKE_OPTS_TARGET="-D CMAKE_INSTALL_DOCDIR=/usr/share/doc \
                          -D CMAKE_INSTALL_DATADIR=/usr/share \
                          -D CMAKE_INSTALL_LIBDIR=/usr/lib \
-                         -D DISABLE_ADVANCE_SIMD=ON \
-                         -D DISABLE_PCSX2_WRAPPER=ON \
                          -D ENABLE_TESTS=OFF \
-                         -D SDL2_API=ON \
-                         -D PACKAGE_MODE=ON \
                          -D USE_SYSTEM_YAML=ON \
                          -D LTO_PCSX2_CORE=ON \
                          -D USE_VTUNE=OFF \
+                         -D PACKAGE_MODE=ON \
+                         -D DISABLE_PCSX2_WRAPPER=ON \
                          -D XDG_STD=ON \
+                         -D DISABLE_ADVANCE_SIMD=ON \
+                         -D SDL2_API=TRUE \
                          -Wno-dev"
+
+  if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+    PKG_CMAKE_OPTS_TARGET+=" -D USE_VULKAN=ON"
+  else
+    PKG_CMAKE_OPTS_TARGET+=" -D USE_VULKAN=OFF"
+  fi
 }
 
 pre_make_target() {
