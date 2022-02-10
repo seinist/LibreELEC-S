@@ -1,0 +1,22 @@
+From 8f79708c9d365bf16f3ebf13c50243b369173189 Mon Sep 17 00:00:00 2001
+From: SupervisedThinking <supervisedthinking@gmail.com>
+Date: Thu, 10 Feb 2022 19:36:40 +0100
+Subject: [PATCH] CMake: fix Xrandr
+
+---
+ cmake/SearchForStuff.cmake | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/cmake/SearchForStuff.cmake b/cmake/SearchForStuff.cmake
+index 30d15e4cf38..87276417225 100644
+--- a/cmake/SearchForStuff.cmake
++++ b/cmake/SearchForStuff.cmake
+@@ -121,7 +121,7 @@ else()
+ 		if(X11_API)
+ 			check_lib(X11_XCB X11-xcb X11/Xlib-xcb.h)
+ 			check_lib(XCB xcb xcb/xcb.h)
+-			check_lib(XRANDR xrandr)
++			check_lib(XRANDR Xrandr X11/extensions/Xrandr.h)
+ 		endif()
+ 		if(WAYLAND_API)
+ 			find_package(Wayland REQUIRED)
