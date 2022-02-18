@@ -9,6 +9,7 @@ PKG_SITE="https://github.com/vkmark/vkmark"
 PKG_URL="https://github.com/vkmark/vkmark/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain glm assimp vulkan-loader"
 PKG_LONGDESC="Vulkan benchmark"
+PKG_BUILD_FLAGS="-parallel +speed"
 
 case ${DISPLAYSERVER} in
   wl)
