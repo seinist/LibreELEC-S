@@ -10,7 +10,7 @@ PKG_URL="https://github.com/libretro/bsnes-mercury/archive/${PKG_VERSION}.tar.gz
 PKG_DEPENDS_TARGET="toolchain linux glibc"
 PKG_LONGDESC="Fork of bsnes with various performance improvements."
 PKG_TOOLCHAIN="make"
-PKG_BUILD_FLAGS="+lto -sysroot"
+PKG_BUILD_FLAGS="-sysroot"
 
 PKG_LIBNAME="bsnes_mercury_accuracy_libretro.so"
 PKG_LIBPATH="out/${PKG_LIBNAME}"
