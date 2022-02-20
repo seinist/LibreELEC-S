@@ -11,6 +11,10 @@ PKG_DEPENDS_TARGET="toolchain"
 PKG_SOURCE_DIR="FreeImage"
 PKG_LONGDESC="FreeImage is a library to support graphics image formats like PNG, BMP, JPEG, TIFF and other."
 
+pre_make_target() {
+  export CXXFLAGS="$(CXXFLAGS) -std=c++11"
+}
+
 pre_configure_target() {
   # Workaround for missing ARM NEON in LibPNG source files
   if target_has_feature neon; then
