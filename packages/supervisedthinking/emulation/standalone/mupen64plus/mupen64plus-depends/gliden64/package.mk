@@ -2,11 +2,11 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="gliden64"
-PKG_VERSION="4_0"
-PKG_SHA256="6b379cf109433527155b479d67a32c903bf074003907bea26de224a573501af6"
+PKG_VERSION="1a711257ed78131aff4d0e39933df14082f52f0c"
+PKG_SHA256="3aea5a1d03dec0209e6fa877dc920114f09b53098b22bc700afdf8b7cf101ac3"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/gonetz/GLideN64"
-PKG_URL="https://github.com/gonetz/GLideN64/archive/Public_Release_${PKG_VERSION}.tar.gz"
+PKG_URL="https://github.com/gonetz/GLideN64/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain linux glibc freetype:host zlib bzip2 libpng"
 PKG_LONGDESC="A new generation, open-source graphics plugin for N64 emulators."
 PKG_TOOLCHAIN="cmake"
