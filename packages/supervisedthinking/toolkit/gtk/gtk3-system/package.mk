@@ -48,7 +48,7 @@ pre_configure_target() {
 
 post_makeinstall_target() {
   # compile GSettings XML schema files
-  ${PKG_ORIG_SYSROOT_PREFIX}/usr/bin/glib-compile-schemas ${INSTALL}/usr/share/glib-2.0/schemas
+  ${TOOLCHAIN}/bin/glib-compile-schemas ${INSTALL}/usr/share/glib-2.0/schemas
 
   # GTK basic theme configuration
   cp -PR ${PKG_DIR}/config/* ${INSTALL}/etc/gtk-3.0/
