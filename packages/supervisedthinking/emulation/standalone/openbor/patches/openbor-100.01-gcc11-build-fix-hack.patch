@@ -1,0 +1,13 @@
+--- /engine/source/utils.c
++++ /engine/source/utils.c
+@@ -303,9 +303,6 @@
+                        "\n*            Shutting Down            *\n\n");
+         writeToLogFile("Out of memory!\n");
+         writeToLogFile("Allocation of size %i failed in function '%s' at %s:%i.\n", size, func, file, line);
+-#ifndef WIN
+-        writeToLogFile("Memory usage at exit: %u\n", mallinfo().arena);
+-#endif
+         borExit(2);
+     }
+     return ptr;
+
