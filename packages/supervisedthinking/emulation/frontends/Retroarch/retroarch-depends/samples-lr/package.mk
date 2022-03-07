@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="samples-lr"
-PKG_VERSION="ecb3417f693a4712eedd122073d4281a501cb76e"
-PKG_SHA256="6078bfe63f37cf15a8604afa2b280bbbc259f29914119a2489bcfd37dad17122"
+PKG_VERSION="7418a585efd24c6506ca5f09f90c36268f0074ed"
+PKG_SHA256="81519a9efe2babf0d0c25eac8df5142fdf931eb4cf35cee755bbec8d5d8def59"
 PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/libretro/libretro-samples"
 PKG_URL="https://github.com/libretro/libretro-samples/archive/${PKG_VERSION}.tar.gz"
@@ -25,6 +25,11 @@ configure_package() {
   # OpenGL ES Support
   if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
     PKG_DEPENDS_TARGET+=" ${OPENGLES}"
+  fi
+
+  # Vulkan support
+  if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+    PKG_DEPENDS_TARGET+=" ${VULKAN}"
   fi
 }
 
