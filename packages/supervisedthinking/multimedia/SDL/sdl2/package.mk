@@ -39,7 +39,7 @@ configure_package() {
     PKG_DEPENDS_TARGET+=" ${OPENGLES}"
   fi
 
-  # OpenGLES support
+  # Vulkan support
   if [ "${VULKAN_SUPPORT}" = "yes" ]; then
     PKG_DEPENDS_TARGET+=" ${VULKAN}"
   fi
