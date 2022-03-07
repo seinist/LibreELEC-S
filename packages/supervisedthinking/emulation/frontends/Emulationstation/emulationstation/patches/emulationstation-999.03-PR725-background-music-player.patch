@@ -1,7 +1,7 @@
-From c36fba5e628f90f4f4501ef3147d73f6fea724b9 Mon Sep 17 00:00:00 2001
+From eee5ede55abec55cba6d9d465aaafdd4ba6eda02 Mon Sep 17 00:00:00 2001
 From: Bluestang <bluestang2006@gmail.com>
 Date: Sat, 6 Feb 2021 21:13:45 -0700
-Subject: [PATCH 1/4] Background Music Player
+Subject: [PATCH 1/5] Background Music Player
 
 - Add a background music player using SDL2 mixer
 - Backport various fixes
@@ -14,18 +14,18 @@ Subject: [PATCH 1/4] Background Music Player
  es-app/src/VolumeControl.cpp        | 116 ++++++++----
  es-app/src/VolumeControl.h          |   6 +-
  es-app/src/guis/GuiMenu.cpp         |  15 ++
- es-app/src/main.cpp                 |   5 +
+ es-app/src/main.cpp                 |   7 +-
  es-core/src/AudioManager.cpp        | 279 ++++++++++++++++++++--------
  es-core/src/AudioManager.h          |  25 ++-
  es-core/src/Settings.cpp            |  53 +++++-
  es-core/src/Settings.h              |  23 ++-
  es-core/src/Sound.cpp               | 135 ++++----------
  es-core/src/Sound.h                 |  15 +-
- 15 files changed, 657 insertions(+), 247 deletions(-)
+ 15 files changed, 658 insertions(+), 248 deletions(-)
  create mode 100644 CMake/Packages/FindSDL2_mixer.cmake
 
 diff --git a/.github/workflows/ccpp.yml b/.github/workflows/ccpp.yml
-index a020bef06..e31f33f30 100644
+index a020bef060..e31f33f308 100644
 --- a/.github/workflows/ccpp.yml
 +++ b/.github/workflows/ccpp.yml
 @@ -13,7 +13,7 @@ jobs:
@@ -39,7 +39,7 @@ index a020bef06..e31f33f30 100644
        run: |
 diff --git a/CMake/Packages/FindSDL2_mixer.cmake b/CMake/Packages/FindSDL2_mixer.cmake
 new file mode 100644
-index 000000000..a71f26a83
+index 0000000000..a71f26a83b
 --- /dev/null
 +++ b/CMake/Packages/FindSDL2_mixer.cmake
 @@ -0,0 +1,220 @@
@@ -264,10 +264,10 @@ index 000000000..a71f26a83
 +  endif()
 +endif()
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 934f8520f..d8ac3f127 100644
+index eb9f403ccf..2a869ac66c 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -89,6 +89,7 @@ endif()
+@@ -90,6 +90,7 @@ endif()
  find_package(Freetype REQUIRED)
  find_package(FreeImage REQUIRED)
  find_package(SDL2 REQUIRED)
@@ -275,7 +275,7 @@ index 934f8520f..d8ac3f127 100644
  find_package(CURL REQUIRED)
  find_package(VLC REQUIRED)
  find_package(RapidJSON REQUIRED)
-@@ -155,6 +156,7 @@ set(COMMON_INCLUDE_DIRS
+@@ -160,6 +161,7 @@ set(COMMON_INCLUDE_DIRS
      ${FREETYPE_INCLUDE_DIRS}
      ${FreeImage_INCLUDE_DIRS}
      ${SDL2_INCLUDE_DIR}
@@ -283,7 +283,7 @@ index 934f8520f..d8ac3f127 100644
      ${CURL_INCLUDE_DIR}
      ${VLC_INCLUDE_DIR}
      ${RAPIDJSON_INCLUDE_DIRS}
-@@ -193,6 +195,7 @@ set(COMMON_LIBRARIES
+@@ -198,6 +200,7 @@ set(COMMON_LIBRARIES
      ${FREETYPE_LIBRARIES}
      ${FreeImage_LIBRARIES}
      ${SDL2_LIBRARY}
@@ -292,7 +292,7 @@ index 934f8520f..d8ac3f127 100644
      ${VLC_LIBRARIES}
      pugixml
 diff --git a/es-app/CMakeLists.txt b/es-app/CMakeLists.txt
-index 4ff4fdcce..b00dcc013 100644
+index 4ff4fdcce9..b00dcc013f 100644
 --- a/es-app/CMakeLists.txt
 +++ b/es-app/CMakeLists.txt
 @@ -158,8 +158,8 @@ SET(CPACK_RESOURCE_FILE README "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
@@ -307,10 +307,10 @@ index 4ff4fdcce..b00dcc013 100644
  SET(CPACK_PACKAGE_VENDOR "emulationstation.org")
  SET(CPACK_PACKAGE_VERSION "2.0.0~rc1")
 diff --git a/es-app/src/FileData.cpp b/es-app/src/FileData.cpp
-index 31b9848b8..8ca4d7a42 100644
+index 5d8d5fa0e0..f2d6b27136 100644
 --- a/es-app/src/FileData.cpp
 +++ b/es-app/src/FileData.cpp
-@@ -298,6 +298,7 @@ void FileData::launchGame(Window* window)
+@@ -299,6 +299,7 @@ void FileData::launchGame(Window* window)
  
  	window->init();
  	VolumeControl::getInstance()->init();
@@ -318,7 +318,7 @@ index 31b9848b8..8ca4d7a42 100644
  	window->normalizeNextUpdate();
  
  	//update number of times the game has been launched
-@@ -312,6 +313,8 @@ void FileData::launchGame(Window* window)
+@@ -313,6 +314,8 @@ void FileData::launchGame(Window* window)
  	CollectionSystemManager::get()->refreshCollectionSystems(gameToUpdate);
  
  	gameToUpdate->mSystem->onMetaDataSavePoint();
@@ -328,7 +328,7 @@ index 31b9848b8..8ca4d7a42 100644
  
  CollectionFileData::CollectionFileData(FileData* file, SystemData* system)
 diff --git a/es-app/src/VolumeControl.cpp b/es-app/src/VolumeControl.cpp
-index 80d18dfdc..8ee6d7486 100644
+index 80d18dfdc0..8ee6d74865 100644
 --- a/es-app/src/VolumeControl.cpp
 +++ b/es-app/src/VolumeControl.cpp
 @@ -8,12 +8,12 @@
@@ -415,7 +415,7 @@ index 80d18dfdc..8ee6d7486 100644
 +
 +							if (mixerElem == nullptr)
 +							{
-+								//LOG(LogError) << "VolumeControl::init() - Failed to find mixer elements!";
++								LOG(LogError) << "VolumeControl::init() - Failed to find mixer elements!";
 +								snd_mixer_close(mixerHandle);
 +								mixerHandle = nullptr;
 +							}
@@ -526,7 +526,7 @@ index 80d18dfdc..8ee6d7486 100644
 +#endif
 +}
 diff --git a/es-app/src/VolumeControl.h b/es-app/src/VolumeControl.h
-index a2e420e7e..adae297de 100644
+index a2e420e7e2..adae297de2 100644
 --- a/es-app/src/VolumeControl.h
 +++ b/es-app/src/VolumeControl.h
 @@ -24,8 +24,8 @@ class VolumeControl
@@ -550,7 +550,7 @@ index a2e420e7e..adae297de 100644
  	void setVolume(int volume);
  
 diff --git a/es-app/src/guis/GuiMenu.cpp b/es-app/src/guis/GuiMenu.cpp
-index 0d62f03f4..597952471 100644
+index 224e6511b5..b40a150138 100644
 --- a/es-app/src/guis/GuiMenu.cpp
 +++ b/es-app/src/guis/GuiMenu.cpp
 @@ -11,6 +11,7 @@
@@ -583,21 +583,30 @@ index 0d62f03f4..597952471 100644
  		auto video_audio = std::make_shared<SwitchComponent>(mWindow);
  		video_audio->setState(Settings::getInstance()->getBool("VideoAudio"));
 diff --git a/es-app/src/main.cpp b/es-app/src/main.cpp
-index 9cec9b0c6..85b6d3464 100644
+index 956d4aed01..555c7599d1 100644
 --- a/es-app/src/main.cpp
 +++ b/es-app/src/main.cpp
-@@ -5,6 +5,7 @@
- #include "guis/GuiMsgBox.h"
+@@ -6,6 +6,7 @@
  #include "utils/FileSystemUtil.h"
+ #include "utils/ProfilingUtil.h"
  #include "views/ViewController.h"
 +#include "AudioManager.h"
  #include "CollectionSystemManager.h"
  #include "EmulationStation.h"
  #include "InputManager.h"
-@@ -387,6 +388,10 @@ int main(int argc, char* argv[])
+@@ -386,14 +387,18 @@ int main(int argc, char* argv[])
+ 	}
  
- 	//generate joystick events since we're done loading
- 	SDL_JoystickEventState(SDL_ENABLE);
+ 	// flush any queued events before showing the UI and starting the input handling loop
+-	const Uint32 event_list[] = {
+ 			SDL_JOYAXISMOTION, SDL_JOYBALLMOTION, SDL_JOYHATMOTION, SDL_JOYBUTTONDOWN, SDL_JOYBUTTONUP,
++	const Uint32 event_list[] = {
+ 			SDL_KEYDOWN, SDL_KEYUP
+ 		};
+ 	SDL_PumpEvents();
+ 	for(Uint32 ev_type: event_list) {
+ 		SDL_FlushEvent(ev_type);
+ 	}
 +		
 +	// RetroPie BGM
 +	AudioManager::getInstance()->init();
@@ -606,7 +615,7 @@ index 9cec9b0c6..85b6d3464 100644
  	int lastTime = SDL_GetTicks();
  	int ps_time = SDL_GetTicks();
 diff --git a/es-core/src/AudioManager.cpp b/es-core/src/AudioManager.cpp
-index 1d0f8ac49..f9ea46961 100644
+index 1d0f8ac495..f9ea469617 100644
 --- a/es-core/src/AudioManager.cpp
 +++ b/es-core/src/AudioManager.cpp
 @@ -4,54 +4,14 @@
@@ -944,7 +953,7 @@ index 1d0f8ac49..f9ea46961 100644
 +	}*/
  }
 diff --git a/es-core/src/AudioManager.h b/es-core/src/AudioManager.h
-index e27ce1dc2..3eadb9243 100644
+index e27ce1dc2e..3eadb9243e 100644
 --- a/es-core/src/AudioManager.h
 +++ b/es-core/src/AudioManager.h
 @@ -5,21 +5,30 @@
@@ -996,7 +1005,7 @@ index e27ce1dc2..3eadb9243 100644
  };
  
 diff --git a/es-core/src/Settings.cpp b/es-core/src/Settings.cpp
-index 2a384fecd..a89718eaa 100644
+index 2eab663bc4..ebd83f7c0e 100644
 --- a/es-core/src/Settings.cpp
 +++ b/es-core/src/Settings.cpp
 @@ -9,6 +9,7 @@
@@ -1007,7 +1016,7 @@ index 2a384fecd..a89718eaa 100644
  
  // these values are NOT saved to es_settings.xml
  // since they're set through command-line arguments, and not the in-program settings menu
-@@ -70,6 +71,7 @@ void Settings::setDefaults()
+@@ -72,6 +73,7 @@ void Settings::setDefaults()
  	mBoolMap["VSync"] = true;
  
  	mBoolMap["EnableSounds"] = true;
@@ -1015,8 +1024,8 @@ index 2a384fecd..a89718eaa 100644
  	mBoolMap["ShowHelpPrompts"] = true;
  	mBoolMap["DoublePressRemovesFromFavs"] = false;
  	mBoolMap["ScrapeRatings"] = true;
-@@ -256,20 +258,55 @@ void Settings::processBackwardCompatibility()
- }
+@@ -276,20 +278,55 @@ void Settings::processBackwardCompatibility()
+ 
  
  //Print a warning message if the setting we're trying to get doesn't already exist in the map, then return the value in the map.
 -#define SETTINGS_GETSET(type, mapName, getMethodName, setMethodName) type Settings::getMethodName(const std::string& name) \
@@ -1080,7 +1089,7 @@ index 2a384fecd..a89718eaa 100644
 +	return false; 
 +}
 diff --git a/es-core/src/Settings.h b/es-core/src/Settings.h
-index 34b54957d..6be66d9a2 100644
+index 51d19a798c..e5cbeaad5f 100644
 --- a/es-core/src/Settings.h
 +++ b/es-core/src/Settings.h
 @@ -19,12 +19,18 @@ class Settings
@@ -1107,7 +1116,7 @@ index 34b54957d..6be66d9a2 100644
  
  private:
  	static Settings* sInstance;
-@@ -39,6 +45,13 @@ class Settings
+@@ -40,6 +46,13 @@ class Settings
  	std::map<std::string, int> mIntMap;
  	std::map<std::string, float> mFloatMap;
  	std::map<std::string, std::string> mStringMap;
@@ -1122,7 +1131,7 @@ index 34b54957d..6be66d9a2 100644
  
  #endif // ES_CORE_SETTINGS_H
 diff --git a/es-core/src/Sound.cpp b/es-core/src/Sound.cpp
-index e3f46e279..72be6b29f 100644
+index e3f46e279b..72be6b29f6 100644
 --- a/es-core/src/Sound.cpp
 +++ b/es-core/src/Sound.cpp
 @@ -14,8 +14,13 @@ std::shared_ptr<Sound> Sound::get(const std::string& path)
@@ -1308,7 +1317,7 @@ index e3f46e279..72be6b29f 100644
 +	mPlayingChannel = -1;
  }
 diff --git a/es-core/src/Sound.h b/es-core/src/Sound.h
-index 43e68453c..4de996170 100644
+index 43e68453cc..4de9961702 100644
 --- a/es-core/src/Sound.h
 +++ b/es-core/src/Sound.h
 @@ -2,7 +2,7 @@
@@ -1348,10 +1357,10 @@ index 43e68453c..4de996170 100644
  	Sound(const std::string & path = "");
  	static std::map< std::string, std::shared_ptr<Sound> > sMap;
 
-From bcc74be03768eab6078c87acc35a9996a9f6afa7 Mon Sep 17 00:00:00 2001
+From 8f50ed78cc794a52336dac53d3ce017a09384c9e Mon Sep 17 00:00:00 2001
 From: Bluestang <bluestang2006@gmail.com>
 Date: Sat, 6 Feb 2021 21:19:19 -0700
-Subject: [PATCH 2/4] Improved volume slider
+Subject: [PATCH 2/5] Improved volume slider
 
 - Volume updates as slider moves
 ---
@@ -1365,7 +1374,7 @@ Subject: [PATCH 2/4] Improved volume slider
  7 files changed, 37 insertions(+), 9 deletions(-)
 
 diff --git a/es-app/src/guis/GuiMenu.cpp b/es-app/src/guis/GuiMenu.cpp
-index 597952471..36d643033 100644
+index b40a150138..abedb605ee 100644
 --- a/es-app/src/guis/GuiMenu.cpp
 +++ b/es-app/src/guis/GuiMenu.cpp
 @@ -91,8 +91,16 @@ void GuiMenu::openSoundSettings()
@@ -1388,7 +1397,7 @@ index 597952471..36d643033 100644
  	if (UIModeController::getInstance()->isUIModeFull())
  	{
 diff --git a/es-core/src/AudioManager.cpp b/es-core/src/AudioManager.cpp
-index f9ea46961..e0fef1e4d 100644
+index f9ea469617..e0fef1e4d1 100644
 --- a/es-core/src/AudioManager.cpp
 +++ b/es-core/src/AudioManager.cpp
 @@ -11,7 +11,7 @@
@@ -1421,7 +1430,7 @@ index f9ea46961..e0fef1e4d 100644
  		sInstance->mMusicVolume -= deltaVol;
  		if (sInstance->mMusicVolume < minVol)
 diff --git a/es-core/src/AudioManager.h b/es-core/src/AudioManager.h
-index 3eadb9243..797a81fcd 100644
+index 3eadb9243e..797a81fcdd 100644
 --- a/es-core/src/AudioManager.h
 +++ b/es-core/src/AudioManager.h
 @@ -15,7 +15,7 @@ class AudioManager
@@ -1454,10 +1463,10 @@ index 3eadb9243..797a81fcd 100644
  
  #endif // ES_CORE_AUDIO_MANAGER_H
 diff --git a/es-core/src/Settings.cpp b/es-core/src/Settings.cpp
-index a89718eaa..ab74b826c 100644
+index ebd83f7c0e..06095ecc06 100644
 --- a/es-core/src/Settings.cpp
 +++ b/es-core/src/Settings.cpp
-@@ -72,6 +72,7 @@ void Settings::setDefaults()
+@@ -74,6 +74,7 @@ void Settings::setDefaults()
  
  	mBoolMap["EnableSounds"] = true;
  	mBoolMap["EnableMusic"] = true;
@@ -1466,7 +1475,7 @@ index a89718eaa..ab74b826c 100644
  	mBoolMap["DoublePressRemovesFromFavs"] = false;
  	mBoolMap["ScrapeRatings"] = true;
 diff --git a/es-core/src/Window.cpp b/es-core/src/Window.cpp
-index 4d3820ad9..a13de8eb6 100644
+index 19acb32f4e..500b0cd3e0 100644
 --- a/es-core/src/Window.cpp
 +++ b/es-core/src/Window.cpp
 @@ -4,6 +4,7 @@
@@ -1487,7 +1496,7 @@ index 4d3820ad9..a13de8eb6 100644
  
  void Window::render()
 diff --git a/es-core/src/components/SliderComponent.cpp b/es-core/src/components/SliderComponent.cpp
-index aba8174c4..dc7a7004d 100644
+index aba8174c45..dc7a7004d4 100644
 --- a/es-core/src/components/SliderComponent.cpp
 +++ b/es-core/src/components/SliderComponent.cpp
 @@ -28,7 +28,7 @@ bool SliderComponent::input(InputConfig* config, Input input)
@@ -1529,7 +1538,7 @@ index aba8174c4..dc7a7004d 100644
  
  float SliderComponent::getValue()
 diff --git a/es-core/src/components/SliderComponent.h b/es-core/src/components/SliderComponent.h
-index f3ae181fc..cf0f10885 100644
+index f3ae181fce..cf0f108856 100644
 --- a/es-core/src/components/SliderComponent.h
 +++ b/es-core/src/components/SliderComponent.h
 @@ -25,6 +25,8 @@ class SliderComponent : public GuiComponent
@@ -1551,10 +1560,10 @@ index f3ae181fc..cf0f10885 100644
  
  #endif // ES_CORE_COMPONENTS_SLIDER_COMPONENT_H
 
-From d0c393646c6d235223060291730be1a11fba25f6 Mon Sep 17 00:00:00 2001
+From f1d8670bcafde14dd81a6310709611942016ef1f Mon Sep 17 00:00:00 2001
 From: Bluestang <bluestang2006@gmail.com>
 Date: Sat, 6 Mar 2021 21:53:51 -0700
-Subject: [PATCH 3/4] Add music volume slider
+Subject: [PATCH 3/5] Add music volume slider
 
 - Separate slider that controls the music volume
 ---
@@ -1563,7 +1572,7 @@ Subject: [PATCH 3/4] Add music volume slider
  2 files changed, 13 insertions(+), 11 deletions(-)
 
 diff --git a/es-app/src/guis/GuiMenu.cpp b/es-app/src/guis/GuiMenu.cpp
-index 36d643033..193da9473 100644
+index abedb605ee..e06c289d6d 100644
 --- a/es-app/src/guis/GuiMenu.cpp
 +++ b/es-app/src/guis/GuiMenu.cpp
 @@ -95,12 +95,12 @@ void GuiMenu::openSoundSettings()
@@ -1582,7 +1591,7 @@ index 36d643033..193da9473 100644
  	if (UIModeController::getInstance()->isUIModeFull())
  	{
 diff --git a/es-core/src/AudioManager.cpp b/es-core/src/AudioManager.cpp
-index e0fef1e4d..dd1273456 100644
+index e0fef1e4d1..dd12734569 100644
 --- a/es-core/src/AudioManager.cpp
 +++ b/es-core/src/AudioManager.cpp
 @@ -11,7 +11,7 @@
@@ -1640,10 +1649,10 @@ index e0fef1e4d..dd1273456 100644
 +}
 \ No newline at end of file
 
-From 12b2d231191685c0734a5ac16afce1cb8938a385 Mon Sep 17 00:00:00 2001
+From e682776e38b8094c5c1da45515502b0525ab5f98 Mon Sep 17 00:00:00 2001
 From: Bluestang <bluestang2006@gmail.com>
 Date: Sat, 6 Feb 2021 21:24:16 -0700
-Subject: [PATCH 4/4] Credits
+Subject: [PATCH 4/5] Credits
 
 - Added original authors of the BGM player using SDL2-mixer (Backported by Bluestang2006)
 ---
@@ -1651,7 +1660,7 @@ Subject: [PATCH 4/4] Credits
  1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/CREDITS.md b/CREDITS.md
-index babde810f..6a699d5f9 100644
+index babde810f5..6a699d5f97 100644
 --- a/CREDITS.md
 +++ b/CREDITS.md
 @@ -1,6 +1,10 @@
@@ -1672,3 +1681,38 @@ index babde810f..6a699d5f9 100644
 -	http://www.google.com/fonts/specimen/Open+Sans
 \ No newline at end of file
 +	http://www.google.com/fonts/specimen/Open+Sans
+
+From 7c3eec9950551ba8e811f6739f198737e47f4915 Mon Sep 17 00:00:00 2001
+From: cmitu <31816814+cmitu@users.noreply.github.com>
+Date: Sun, 16 May 2021 07:24:41 +0100
+Subject: [PATCH 5/5] input: change how startup events are discarded
+
+Use a different approach for discarding any queued input events during startup.
+We want to make sure that when the UI is shown, there are no pending events that could
+start a game/open the menu/switch system/etc.
+
+The new code allows also to:
+ * ignore input events during splashscreen
+ * handle the case when a keyboard/keyboard type controller is used
+ * allow the handling of SDL_JOYDEVICEADDED events (which were discarded with `SDL_JoystickEventState(SDL_DISABLE)
+
+# Conflicts:
+#	es-app/src/main.cpp
+---
+ es-app/src/main.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/es-app/src/main.cpp b/es-app/src/main.cpp
+index 555c7599d1..8d64f77cad 100644
+--- a/es-app/src/main.cpp
++++ b/es-app/src/main.cpp
+@@ -387,8 +387,8 @@ int main(int argc, char* argv[])
+ 	}
+ 
+ 	// flush any queued events before showing the UI and starting the input handling loop
+-			SDL_JOYAXISMOTION, SDL_JOYBALLMOTION, SDL_JOYHATMOTION, SDL_JOYBUTTONDOWN, SDL_JOYBUTTONUP,
+ 	const Uint32 event_list[] = {
++			SDL_JOYAXISMOTION, SDL_JOYBALLMOTION, SDL_JOYHATMOTION, SDL_JOYBUTTONDOWN, SDL_JOYBUTTONUP,
+ 			SDL_KEYDOWN, SDL_KEYUP
+ 		};
+ 	SDL_PumpEvents();
