@@ -1,6 +1,6 @@
-From 387c8f7b5769d7c694d5c476ce644978b35f7a07 Mon Sep 17 00:00:00 2001
+From 743d0dd6b5125e7c9f862ce316d5b76500e3bb29 Mon Sep 17 00:00:00 2001
 From: SupervisedThinking <supervisedthinking@gmail.com>
-Date: Thu, 18 Mar 2021 17:04:11 +0100
+Date: Mon, 7 Mar 2022 15:32:19 +0100
 Subject: [PATCH] Gui: remove volume & card options
 
 ---
@@ -8,10 +8,10 @@ Subject: [PATCH] Gui: remove volume & card options
  1 file changed, 81 deletions(-)
 
 diff --git a/es-app/src/guis/GuiMenu.cpp b/es-app/src/guis/GuiMenu.cpp
-index 75a04bb1f..d74b88b54 100644
+index e06c289d6..9765d3856 100644
 --- a/es-app/src/guis/GuiMenu.cpp
 +++ b/es-app/src/guis/GuiMenu.cpp
-@@ -95,13 +95,6 @@ void GuiMenu::openSoundSettings()
+@@ -88,13 +88,6 @@ void GuiMenu::openSoundSettings()
  {
  	auto s = new GuiSettings(mWindow, "SOUND SETTINGS");
  
@@ -25,7 +25,7 @@ index 75a04bb1f..d74b88b54 100644
  	// music volume
  	auto musicVolume = std::make_shared<SliderComponent>(mWindow, 0.f, 100.f, 1.f, "%");
  	musicVolume->setValue(Settings::getInstance()->getInt("MusicVolume"));		
-@@ -111,55 +104,6 @@ void GuiMenu::openSoundSettings()
+@@ -104,55 +97,6 @@ void GuiMenu::openSoundSettings()
  
  	if (UIModeController::getInstance()->isUIModeFull())
  	{
@@ -81,7 +81,7 @@ index 75a04bb1f..d74b88b54 100644
  		// disable sounds
  		auto sounds_enabled = std::make_shared<SwitchComponent>(mWindow);
  		sounds_enabled->setState(Settings::getInstance()->getBool("EnableSounds"));
-@@ -193,31 +137,6 @@ void GuiMenu::openSoundSettings()
+@@ -186,31 +130,6 @@ void GuiMenu::openSoundSettings()
  		video_audio->setState(Settings::getInstance()->getBool("VideoAudio"));
  		s->addWithLabel("ENABLE VIDEO AUDIO", video_audio);
  		s->addSaveFunc([video_audio] { Settings::getInstance()->setBool("VideoAudio", video_audio->getState()); });
