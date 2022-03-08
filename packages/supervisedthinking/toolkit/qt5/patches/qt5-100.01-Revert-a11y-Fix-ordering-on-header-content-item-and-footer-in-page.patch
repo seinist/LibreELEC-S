@@ -1,0 +1,401 @@
+From 6e7f29b6e4a1dbf0e9866bd50f33f27f83bcc238 Mon Sep 17 00:00:00 2001
+From: SupervisedThinking <supervisedthinking@gmail.com>
+Date: Tue, 8 Mar 2022 11:52:48 +0100
+Subject: [PATCH] Revert "a11y: Fix ordering on header, content item and footer
+ in Page"
+
+This reverts commit 180dbd050173d20c99f730eeacf2b0376fcb895e.
+---
+ .../templates/qtquicktemplates2plugin.cpp     |  2 -
+ src/quicktemplates2/accessible/accessible.pri |  5 --
+ .../accessible/qaccessiblequickpage.cpp       | 81 -------------------
+ .../accessible/qaccessiblequickpage_p.h       | 70 ----------------
+ .../qtquicktemplates2global.cpp               | 63 ---------------
+ .../qtquicktemplates2global_p.h               |  2 -
+ src/quicktemplates2/quicktemplates2.pro       |  4 -
+ tests/auto/accessibility/accessibility.pro    |  4 +-
+ .../auto/accessibility/data/ordering/page.qml | 23 ------
+ .../auto/accessibility/tst_accessibility.cpp  | 30 -------
+ 10 files changed, 1 insertion(+), 283 deletions(-)
+ delete mode 100644 src/quicktemplates2/accessible/accessible.pri
+ delete mode 100644 src/quicktemplates2/accessible/qaccessiblequickpage.cpp
+ delete mode 100644 src/quicktemplates2/accessible/qaccessiblequickpage_p.h
+ delete mode 100644 src/quicktemplates2/qtquicktemplates2global.cpp
+ delete mode 100644 tests/auto/accessibility/data/ordering/page.qml
+
+diff --git a/qtquickcontrols2/src/imports/templates/qtquicktemplates2plugin.cpp b/qtquickcontrols2/src/imports/templates/qtquicktemplates2plugin.cpp
+index cee8e53de..3b085c563 100644
+--- a/qtquickcontrols2/src/imports/templates/qtquicktemplates2plugin.cpp
++++ b/qtquickcontrols2/src/imports/templates/qtquicktemplates2plugin.cpp
+@@ -142,8 +142,6 @@ private:
+ QtQuickTemplates2Plugin::QtQuickTemplates2Plugin(QObject *parent)
+     : QQmlExtensionPlugin(parent), registered(false)
+ {
+-    volatile auto initialization = &QQuickTemplates_initializeModule;
+-    Q_UNUSED(initialization)
+ #if QT_CONFIG(shortcut)
+     originalContextMatcher = qt_quick_shortcut_context_matcher();
+     qt_quick_set_shortcut_context_matcher(QQuickShortcutContext::matcher);
+diff --git a/qtquickcontrols2/src/quicktemplates2/accessible/accessible.pri b/qtquickcontrols2/src/quicktemplates2/accessible/accessible.pri
+deleted file mode 100644
+index 93660b9fe..000000000
+--- a/qtquickcontrols2/src/quicktemplates2/accessible/accessible.pri
++++ /dev/null
+@@ -1,5 +0,0 @@
+-HEADERS += \
+-    $$PWD/qaccessiblequickpage_p.h
+-
+-SOURCES += \
+-    $$PWD/qaccessiblequickpage.cpp
+diff --git a/qtquickcontrols2/src/quicktemplates2/accessible/qaccessiblequickpage.cpp b/qtquickcontrols2/src/quicktemplates2/accessible/qaccessiblequickpage.cpp
+deleted file mode 100644
+index 90ac49f9d..000000000
+--- a/qtquickcontrols2/src/quicktemplates2/accessible/qaccessiblequickpage.cpp
++++ /dev/null
+@@ -1,81 +0,0 @@
+-/****************************************************************************
+-**
+-** Copyright (C) 2021 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
+-**
+-** This file is part of the Qt Quick Templates 2 module of the Qt Toolkit.
+-**
+-** $QT_BEGIN_LICENSE:LGPL3$
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
+-**
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 3 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPLv3 included in the
+-** packaging of this file. Please review the following information to
+-** ensure the GNU Lesser General Public License version 3 requirements
+-** will be met: https://www.gnu.org/licenses/lgpl.html.
+-**
+-** GNU General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 2.0 or later as published by the Free
+-** Software Foundation and appearing in the file LICENSE.GPL included in
+-** the packaging of this file. Please review the following information to
+-** ensure the GNU General Public License version 2.0 requirements will be
+-** met: http://www.gnu.org/licenses/gpl-2.0.html.
+-**
+-** $QT_END_LICENSE$
+-**
+-****************************************************************************/
+-
+-#include "qaccessiblequickpage_p.h"
+-#include "qquickpage_p.h"
+-
+-QT_BEGIN_NAMESPACE
+-
+-QAccessibleQuickPage::QAccessibleQuickPage(QQuickPage *page)
+-    : QAccessibleQuickItem(page)
+-{
+-}
+-
+-QAccessibleInterface *QAccessibleQuickPage::child(int index) const
+-{
+-    const QList<QQuickItem*> kids = orderedChildItems();
+-    if (QQuickItem *item = kids.value(index))
+-        return QAccessible::queryAccessibleInterface(item);
+-    return nullptr;
+-}
+-
+-int QAccessibleQuickPage::indexOfChild(const QAccessibleInterface *iface) const
+-{
+-    const QList<QQuickItem*> kids = orderedChildItems();
+-    return (int)kids.indexOf(static_cast<QQuickItem*>(iface->object()));
+-}
+-
+-QList<QQuickItem *> QAccessibleQuickPage::orderedChildItems() const
+-{
+-    // Just ensures that the header is first, and footer is last. Other existing order is kept.
+-    const QQuickPage *p = page();
+-    QList<QQuickItem*> kids = childItems();
+-    const qsizetype hidx = kids.indexOf(p->header());
+-    if (hidx != -1)
+-        kids.move(hidx, 0);
+-    const qsizetype fidx = kids.indexOf(p->footer());
+-    if (fidx != -1)
+-        kids.move(fidx, kids.count() - 1);
+-    return kids;
+-}
+-
+-QQuickPage *QAccessibleQuickPage::page() const
+-{
+-    return static_cast<QQuickPage*>(object());
+-}
+-
+-QT_END_NAMESPACE
+-
+diff --git a/qtquickcontrols2/src/quicktemplates2/accessible/qaccessiblequickpage_p.h b/qtquickcontrols2/src/quicktemplates2/accessible/qaccessiblequickpage_p.h
+deleted file mode 100644
+index 9b208c141..000000000
+--- a/qtquickcontrols2/src/quicktemplates2/accessible/qaccessiblequickpage_p.h
++++ /dev/null
+@@ -1,70 +0,0 @@
+-/****************************************************************************
+-**
+-** Copyright (C) 2021 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
+-**
+-** This file is part of the Qt Quick Templates 2 module of the Qt Toolkit.
+-**
+-** $QT_BEGIN_LICENSE:LGPL3$
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
+-**
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 3 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPLv3 included in the
+-** packaging of this file. Please review the following information to
+-** ensure the GNU Lesser General Public License version 3 requirements
+-** will be met: https://www.gnu.org/licenses/lgpl.html.
+-**
+-** GNU General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 2.0 or later as published by the Free
+-** Software Foundation and appearing in the file LICENSE.GPL included in
+-** the packaging of this file. Please review the following information to
+-** ensure the GNU General Public License version 2.0 requirements will be
+-** met: http://www.gnu.org/licenses/gpl-2.0.html.
+-**
+-** $QT_END_LICENSE$
+-**
+-****************************************************************************/
+-
+-#ifndef QACCESSIBLEQUICKPAGE_H
+-#define QACCESSIBLEQUICKPAGE_H
+-
+-//
+-//  W A R N I N G
+-//  -------------
+-//
+-// This file is not part of the Qt API.  It exists purely as an
+-// implementation detail.  This header file may change from version to
+-// version without notice, or even be removed.
+-//
+-// We mean it.
+-//
+-
+-#include <QtQuick/private/qaccessiblequickitem_p.h>
+-
+-QT_BEGIN_NAMESPACE
+-
+-class QQuickPage;
+-
+-class QAccessibleQuickPage : public QAccessibleQuickItem
+-{
+-public:
+-    QAccessibleQuickPage(QQuickPage *page);
+-    QAccessibleInterface *child(int index) const override;
+-    int indexOfChild(const QAccessibleInterface *iface) const override;
+-private:
+-    QQuickPage *page() const;
+-    QList<QQuickItem *> orderedChildItems() const;
+-};
+-
+-QT_END_NAMESPACE
+-
+-#endif // QACCESSIBLEQUICKPAGE_H
+diff --git a/qtquickcontrols2/src/quicktemplates2/qtquicktemplates2global.cpp b/qtquickcontrols2/src/quicktemplates2/qtquicktemplates2global.cpp
+deleted file mode 100644
+index 9b79d60c2..000000000
+--- a/qtquickcontrols2/src/quicktemplates2/qtquicktemplates2global.cpp
++++ /dev/null
+@@ -1,63 +0,0 @@
+-/****************************************************************************
+-**
+-** Copyright (C) 2021 The Qt Company Ltd.
+-** Contact: https://www.qt.io/licensing/
+-**
+-** This file is part of the QtQuick module of the Qt Toolkit.
+-**
+-** $QT_BEGIN_LICENSE:LGPL$
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see https://www.qt.io/terms-conditions. For further
+-** information use the contact form at https://www.qt.io/contact-us.
+-**
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 3 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL3 included in the
+-** packaging of this file. Please review the following information to
+-** ensure the GNU Lesser General Public License version 3 requirements
+-** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
+-**
+-** GNU General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 2.0 or (at your option) the GNU General
+-** Public license version 3 or any later version approved by the KDE Free
+-** Qt Foundation. The licenses are as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL2 and LICENSE.GPL3
+-** included in the packaging of this file. Please review the following
+-** information to ensure the GNU General Public License requirements will
+-** be met: https://www.gnu.org/licenses/gpl-2.0.html and
+-** https://www.gnu.org/licenses/gpl-3.0.html.
+-**
+-** $QT_END_LICENSE$
+-**
+-****************************************************************************/
+-#include "qquickpage_p.h"
+-#include "accessible/qaccessiblequickpage_p.h"
+-
+-QT_BEGIN_NAMESPACE
+-
+-#if QT_CONFIG(accessibility)
+-QAccessibleInterface *qQuickAccessibleFactory(const QString &classname, QObject *object)
+-{
+-    if (classname == u"QQuickPage") {
+-        return new QAccessibleQuickPage(qobject_cast<QQuickPage *>(object));
+-    }
+-    return nullptr;
+-}
+-#endif
+-
+-void QQuickTemplates_initializeModule()
+-{
+-#if QT_CONFIG(accessibility)
+-    QAccessible::installFactory(&qQuickAccessibleFactory);
+-#endif
+-}
+-
+-Q_CONSTRUCTOR_FUNCTION(QQuickTemplates_initializeModule)
+-
+-QT_END_NAMESPACE
+diff --git a/qtquickcontrols2/src/quicktemplates2/qtquicktemplates2global_p.h b/qtquickcontrols2/src/quicktemplates2/qtquicktemplates2global_p.h
+index 9b6610dd6..e5ee3f2ec 100644
+--- a/qtquickcontrols2/src/quicktemplates2/qtquicktemplates2global_p.h
++++ b/qtquickcontrols2/src/quicktemplates2/qtquicktemplates2global_p.h
+@@ -64,8 +64,6 @@ QT_BEGIN_NAMESPACE
+ #  define Q_QUICKTEMPLATES2_PRIVATE_EXPORT
+ #endif
+ 
+-Q_QUICKTEMPLATES2_PRIVATE_EXPORT void QQuickTemplates_initializeModule();
+-
+ QT_END_NAMESPACE
+ 
+ #endif // QTQUICKTEMPLATES2GLOBAL_P_H
+diff --git a/qtquickcontrols2/src/quicktemplates2/quicktemplates2.pro b/qtquickcontrols2/src/quicktemplates2/quicktemplates2.pro
+index 5138b6106..8ed0151aa 100644
+--- a/qtquickcontrols2/src/quicktemplates2/quicktemplates2.pro
++++ b/qtquickcontrols2/src/quicktemplates2/quicktemplates2.pro
+@@ -10,9 +10,5 @@ DEFINES += QT_NO_CAST_TO_ASCII QT_NO_CAST_FROM_ASCII
+ HEADERS += \
+     $$PWD/qtquicktemplates2global_p.h
+ 
+-SOURCES += \
+-    $$PWD/qtquicktemplates2global.cpp
+-
+ include(quicktemplates2.pri)
+-include(accessible/accessible.pri)
+ load(qt_module)
+diff --git a/qtquickcontrols2/tests/auto/accessibility/accessibility.pro b/qtquickcontrols2/tests/auto/accessibility/accessibility.pro
+index 4cc101fbb..d8d5bb951 100644
+--- a/qtquickcontrols2/tests/auto/accessibility/accessibility.pro
++++ b/qtquickcontrols2/tests/auto/accessibility/accessibility.pro
+@@ -12,7 +12,5 @@ include (../shared/util.pri)
+ TESTDATA = data/*
+ 
+ OTHER_FILES += \
+-    data/defaults\*.qml \
+-    data/ordering\*.qml \
+-    data/override*.qml
++    data/*.qml
+ 
+diff --git a/qtquickcontrols2/tests/auto/accessibility/data/ordering/page.qml b/qtquickcontrols2/tests/auto/accessibility/data/ordering/page.qml
+deleted file mode 100644
+index 5eeb15301..000000000
+--- a/qtquickcontrols2/tests/auto/accessibility/data/ordering/page.qml
++++ /dev/null
+@@ -1,23 +0,0 @@
+-import QtQuick 2.15
+-import QtQuick.Controls 2.15
+-
+-Page {
+-    title: "Page"
+-    Accessible.role: Accessible.Pane
+-
+-    header: Label {
+-        text: "Header"
+-    }
+-
+-    footer: Label {
+-        text: "Footer"
+-    }
+-
+-    Label {
+-        text: "Content item 1"
+-    }
+-
+-    Label {
+-        text: "Content item 2"
+-    }
+-}
+diff --git a/qtquickcontrols2/tests/auto/accessibility/tst_accessibility.cpp b/qtquickcontrols2/tests/auto/accessibility/tst_accessibility.cpp
+index 30bd4757f..6e5a37dfb 100644
+--- a/qtquickcontrols2/tests/auto/accessibility/tst_accessibility.cpp
++++ b/qtquickcontrols2/tests/auto/accessibility/tst_accessibility.cpp
+@@ -60,7 +60,6 @@ private slots:
+     void override_data();
+     void override();
+ 
+-    void ordering();
+ private:
+     QQmlEngine engine;
+ };
+@@ -285,35 +284,6 @@ void tst_accessibility::override()
+     Q_UNUSED(text)
+ #endif
+ }
+-template <typename Predicate>
+-void a11yDescendants(QAccessibleInterface *iface, Predicate pred)
+-{
+-    for (int i = 0; i < iface->childCount(); ++i) {
+-        if (QAccessibleInterface *child = iface->child(i)) {
+-            pred(child);
+-            a11yDescendants(child, pred);
+-        }
+-    }
+-}
+-
+-void tst_accessibility::ordering()
+-{
+-    QQmlComponent component(&engine);
+-    component.loadUrl(testFileUrl("ordering/page.qml"));
+-
+-    QScopedPointer<QObject> object(component.create());
+-    QVERIFY2(!object.isNull(), qPrintable(component.errorString()));
+-
+-#if QT_CONFIG(accessibility)
+-    QQuickItem *item = findItem(object.data());
+-    QVERIFY(item);
+-    QAccessibleInterface *iface = QAccessible::queryAccessibleInterface(item);
+-    QVERIFY(iface);
+-    QStringList strings;
+-    a11yDescendants(iface, [&](QAccessibleInterface *iface) {strings << iface->text(QAccessible::Name);});
+-    QCOMPARE(strings.join(QLatin1String(", ")), "Header, Content item 1, Content item 2, Footer");
+-#endif
+-}
+ 
+ QTEST_MAIN(tst_accessibility)
+ 
+-- 
+2.25.1
+
