@@ -2,11 +2,11 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking @ gmail.com)
 
 PKG_NAME="qt5"
-PKG_VERSION="dd674a0a3a3ce8b41836c4f176cdc41b20293469" # 5.15.2+kde+r305 (KDE Qt5PatchCollection qtbase release)
+PKG_VERSION="50524c0aac21683bb392876756b7f0d0102c98f4" # 5.15.3+kde+r133 (KDE Qt5PatchCollection qtbase release)
 PKG_LICENSE="GPL"
 PKG_SITE="http://qt-project.org"
 PKG_URL="https://invent.kde.org/qt/qt/qt5.git"
-PKG_DEPENDS_TARGET="toolchain libjpeg-turbo libpng pcre2-system sqlite zlib freetype sdl2 libxkbcommon gstreamer gst-plugins-base gst-plugins-good gst-libav"
+PKG_DEPENDS_TARGET="toolchain openssl libjpeg-turbo libpng pcre2-system sqlite zlib freetype sdl2 libxkbcommon gstreamer gst-plugins-base gst-plugins-good gst-libav"
 PKG_LONGDESC="A cross-platform application and UI framework"
 GET_HANDLER_SUPPORT="git"
 PKG_GIT_CLONE_BRANCH="kde/5.15"
@@ -136,9 +136,6 @@ pre_configure_target() {
 }
 
 configure_target() {
-  # Fix version
-  find ${PKG_BUILD} -name .qmake.conf -exec sed  -i 's|MODULE_VERSION = 5.15.3|MODULE_VERSION = 5.15.2|g' \{} \;
-
   # Create working dir
   mkdir -p ${PKG_BUILD}/.${TARGET_NAME}
   cd ${PKG_BUILD}/.${TARGET_NAME}
