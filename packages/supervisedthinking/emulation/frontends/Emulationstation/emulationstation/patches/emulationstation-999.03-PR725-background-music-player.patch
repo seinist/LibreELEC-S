@@ -1,7 +1,7 @@
-From eee5ede55abec55cba6d9d465aaafdd4ba6eda02 Mon Sep 17 00:00:00 2001
-From: Bluestang <bluestang2006@gmail.com>
-Date: Sat, 6 Feb 2021 21:13:45 -0700
-Subject: [PATCH 1/5] Background Music Player
+From a4d30b7fd8fc181a420296535be0f577e1d10407 Mon Sep 17 00:00:00 2001
+From: bluestang2006 <bluestang2006@gmail.com>
+Date: Mon, 7 Mar 2022 17:33:21 -0700
+Subject: [PATCH 1/4] Background Music Player
 
 - Add a background music player using SDL2 mixer
 - Backport various fixes
@@ -14,14 +14,14 @@ Subject: [PATCH 1/5] Background Music Player
  es-app/src/VolumeControl.cpp        | 116 ++++++++----
  es-app/src/VolumeControl.h          |   6 +-
  es-app/src/guis/GuiMenu.cpp         |  15 ++
- es-app/src/main.cpp                 |   7 +-
+ es-app/src/main.cpp                 |   5 +
  es-core/src/AudioManager.cpp        | 279 ++++++++++++++++++++--------
  es-core/src/AudioManager.h          |  25 ++-
  es-core/src/Settings.cpp            |  53 +++++-
  es-core/src/Settings.h              |  23 ++-
  es-core/src/Sound.cpp               | 135 ++++----------
  es-core/src/Sound.h                 |  15 +-
- 15 files changed, 658 insertions(+), 248 deletions(-)
+ 15 files changed, 657 insertions(+), 247 deletions(-)
  create mode 100644 CMake/Packages/FindSDL2_mixer.cmake
 
 diff --git a/.github/workflows/ccpp.yml b/.github/workflows/ccpp.yml
@@ -583,7 +583,7 @@ index 224e6511b5..b40a150138 100644
  		auto video_audio = std::make_shared<SwitchComponent>(mWindow);
  		video_audio->setState(Settings::getInstance()->getBool("VideoAudio"));
 diff --git a/es-app/src/main.cpp b/es-app/src/main.cpp
-index 956d4aed01..555c7599d1 100644
+index 956d4aed01..8d64f77cad 100644
 --- a/es-app/src/main.cpp
 +++ b/es-app/src/main.cpp
 @@ -6,6 +6,7 @@
@@ -594,16 +594,7 @@ index 956d4aed01..555c7599d1 100644
  #include "CollectionSystemManager.h"
  #include "EmulationStation.h"
  #include "InputManager.h"
-@@ -386,14 +387,18 @@ int main(int argc, char* argv[])
- 	}
- 
- 	// flush any queued events before showing the UI and starting the input handling loop
--	const Uint32 event_list[] = {
- 			SDL_JOYAXISMOTION, SDL_JOYBALLMOTION, SDL_JOYHATMOTION, SDL_JOYBUTTONDOWN, SDL_JOYBUTTONUP,
-+	const Uint32 event_list[] = {
- 			SDL_KEYDOWN, SDL_KEYUP
- 		};
- 	SDL_PumpEvents();
+@@ -394,6 +395,10 @@ int main(int argc, char* argv[])
  	for(Uint32 ev_type: event_list) {
  		SDL_FlushEvent(ev_type);
  	}
@@ -1357,10 +1348,10 @@ index 43e68453cc..4de9961702 100644
  	Sound(const std::string & path = "");
  	static std::map< std::string, std::shared_ptr<Sound> > sMap;
 
-From 8f50ed78cc794a52336dac53d3ce017a09384c9e Mon Sep 17 00:00:00 2001
+From 7fa6d86297ede639508e1d2d8ecf84361416a511 Mon Sep 17 00:00:00 2001
 From: Bluestang <bluestang2006@gmail.com>
 Date: Sat, 6 Feb 2021 21:19:19 -0700
-Subject: [PATCH 2/5] Improved volume slider
+Subject: [PATCH 2/4] Improved volume slider
 
 - Volume updates as slider moves
 ---
@@ -1560,10 +1551,10 @@ index f3ae181fce..cf0f108856 100644
  
  #endif // ES_CORE_COMPONENTS_SLIDER_COMPONENT_H
 
-From f1d8670bcafde14dd81a6310709611942016ef1f Mon Sep 17 00:00:00 2001
+From 866d05f7792e3535aba26a70da5cab7d65c99731 Mon Sep 17 00:00:00 2001
 From: Bluestang <bluestang2006@gmail.com>
 Date: Sat, 6 Mar 2021 21:53:51 -0700
-Subject: [PATCH 3/5] Add music volume slider
+Subject: [PATCH 3/4] Add music volume slider
 
 - Separate slider that controls the music volume
 ---
@@ -1649,10 +1640,10 @@ index e0fef1e4d1..dd12734569 100644
 +}
 \ No newline at end of file
 
-From e682776e38b8094c5c1da45515502b0525ab5f98 Mon Sep 17 00:00:00 2001
+From 99eb54ed93705bd679d296e6eeb9c6f4f618fe25 Mon Sep 17 00:00:00 2001
 From: Bluestang <bluestang2006@gmail.com>
 Date: Sat, 6 Feb 2021 21:24:16 -0700
-Subject: [PATCH 4/5] Credits
+Subject: [PATCH 4/4] Credits
 
 - Added original authors of the BGM player using SDL2-mixer (Backported by Bluestang2006)
 ---
@@ -1681,38 +1672,3 @@ index babde810f5..6a699d5f97 100644
 -	http://www.google.com/fonts/specimen/Open+Sans
 \ No newline at end of file
 +	http://www.google.com/fonts/specimen/Open+Sans
-
-From 7c3eec9950551ba8e811f6739f198737e47f4915 Mon Sep 17 00:00:00 2001
-From: cmitu <31816814+cmitu@users.noreply.github.com>
-Date: Sun, 16 May 2021 07:24:41 +0100
-Subject: [PATCH 5/5] input: change how startup events are discarded
-
-Use a different approach for discarding any queued input events during startup.
-We want to make sure that when the UI is shown, there are no pending events that could
-start a game/open the menu/switch system/etc.
-
-The new code allows also to:
- * ignore input events during splashscreen
- * handle the case when a keyboard/keyboard type controller is used
- * allow the handling of SDL_JOYDEVICEADDED events (which were discarded with `SDL_JoystickEventState(SDL_DISABLE)
-
-# Conflicts:
-#	es-app/src/main.cpp
----
- es-app/src/main.cpp | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/es-app/src/main.cpp b/es-app/src/main.cpp
-index 555c7599d1..8d64f77cad 100644
---- a/es-app/src/main.cpp
-+++ b/es-app/src/main.cpp
-@@ -387,8 +387,8 @@ int main(int argc, char* argv[])
- 	}
- 
- 	// flush any queued events before showing the UI and starting the input handling loop
--			SDL_JOYAXISMOTION, SDL_JOYBALLMOTION, SDL_JOYHATMOTION, SDL_JOYBUTTONDOWN, SDL_JOYBUTTONUP,
- 	const Uint32 event_list[] = {
-+			SDL_JOYAXISMOTION, SDL_JOYBALLMOTION, SDL_JOYHATMOTION, SDL_JOYBUTTONDOWN, SDL_JOYBUTTONUP,
- 			SDL_KEYDOWN, SDL_KEYUP
- 		};
- 	SDL_PumpEvents();
