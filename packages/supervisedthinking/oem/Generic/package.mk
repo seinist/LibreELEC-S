@@ -65,6 +65,7 @@ OEM_EMULATORS_LIBRETRO_GENERIC=" \
   scummvm \
   snes9x \
   stella2014 \
+  superbroswar \
   swanstation \
   tyrquake \
   uae \
