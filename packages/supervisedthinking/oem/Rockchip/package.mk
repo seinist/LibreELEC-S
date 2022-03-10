@@ -54,6 +54,7 @@ OEM_EMULATORS_LIBRETRO_ROCKCHIP=" \
   snes9x \
   snes9x2010 \
   stella2014 \
+  superbroswar \
   tyrquake \
   vice-libretro \
   virtualjaguar \
