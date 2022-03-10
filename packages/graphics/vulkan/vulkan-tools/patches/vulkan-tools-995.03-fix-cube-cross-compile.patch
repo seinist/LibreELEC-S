@@ -1,6 +1,6 @@
-From f4b1a958b17dd8d00647ef651be2a98d4fe026a4 Mon Sep 17 00:00:00 2001
+From 8770458f74f4df71bb8450d0adcdd31f3eac7168 Mon Sep 17 00:00:00 2001
 From: SupervisedThinking <supervisedthinking@gmail.com>
-Date: Mon, 21 Feb 2022 20:25:01 +0100
+Date: Wed, 9 Mar 2022 20:58:53 +0100
 Subject: [PATCH] cube: allow cross compile
 
 ---
@@ -8,7 +8,7 @@ Subject: [PATCH] cube: allow cross compile
  1 file changed, 6 deletions(-)
 
 diff --git a/cube/CMakeLists.txt b/cube/CMakeLists.txt
-index 4087351dc..10585a766 100644
+index 616fbc96a..fa6f8d4fa 100644
 --- a/cube/CMakeLists.txt
 +++ b/cube/CMakeLists.txt
 @@ -228,7 +228,6 @@ include_directories(${CUBE_INCLUDE_DIRS})
@@ -51,10 +51,11 @@ index 4087351dc..10585a766 100644
              add_executable(vkcube-wayland
                             cube.c
                             ${PROJECT_SOURCE_DIR}/cube/cube.vert
-@@ -349,6 +344,5 @@ if(UNIX AND NOT APPLE) # i.e. Linux
+@@ -349,7 +344,6 @@ if(UNIX AND NOT APPLE) # i.e. Linux
              if (NEED_RT)
                  target_link_libraries(vkcube-wayland rt)
              endif()
 -        endif()
+         install(TARGETS vkcube-wayland RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
      endif()
  endif()
