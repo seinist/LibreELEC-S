@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="citra-libretro"
-PKG_VERSION="b1959d07a340bfd9af65ad464fd19eb6799a96ef"
+PKG_VERSION="60406d34ed9c0e04a29eb0b83089e727a72162b9"
 PKG_ARCH="x86_64"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/citra"
@@ -11,26 +11,41 @@ PKG_DEPENDS_TARGET="toolchain linux glibc boost-system"
 PKG_LONGDESC="A Nintendo 3DS Emulator, running on libretro"
 GET_HANDLER_SUPPORT="git"
 PKG_BUILD_FLAGS="+lto -sysroot"
+PKG_TOOLCHAIN="make"
 
 PKG_LIBNAME="citra_libretro.so"
-PKG_LIBPATH="src/citra_libretro/${PKG_LIBNAME}"
+PKG_LIBPATH="${PKG_LIBNAME}"
 
-pre_configure_target() {
-  PKG_CMAKE_OPTS_TARGET="-D ENABLE_LIBRETRO=1 \
-                         -D ENABLE_SDL2=0 \
-                         -D ENABLE_QT=0 \
-                         -D ENABLE_WEB_SERVICE=0 \
-                         -D CMAKE_NO_SYSTEM_FROM_IMPORTED=1 \
-                         -D CMAKE_VERBOSE_MAKEFILE=1"
+configure_package() {
+  # OpenGL Support
+  if [ "${OPENGL_SUPPORT}" = "yes" ]; then
+    PKG_DEPENDS_TARGET+=" ${OPENGL}"
+  fi
+
+  # OpenGLES Support
+  if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
+    PKG_DEPENDS_TARGET+=" ${OPENGLES}"
+  fi
 }
 
 pre_make_target() {
-  # fix cross compiling
-  find ${PKG_BUILD} -name flags.make -exec sed  -i "s:isystem :I:g" \{} \;
-  find ${PKG_BUILD} -name build.ninja -exec sed -i "s:isystem :I:g" \{} \;
+  cd ${PKG_BUILD}
+  PKG_MAKE_OPTS_TARGET="GIT_REV=${PKG_VERSION:0:7} \
+                        HAVE_FFMPEG_STATIC=1 \
+                        FFMPEG_DISABLE_VDPAU=1 \
+                        HAVE_FFMPEG_CROSSCOMPILE=1 \
+                        FFMPEG_XC_CPU=${TARGET_CPU} \
+                        FFMPEG_XC_ARCH=${TARGET_ARCH} \
+                        FFMPEG_XC_PREFIX=${TARGET_PREFIX} \
+                        FFMPEG_XC_SYSROOT=${SYSROOT_PREFIX} \
+                        FFMPEG_XC_NM=${NM} \
+                        FFMPEG_XC_AR=${AR} \
+                        FFMPEG_XC_AS=${CC} \
+                        FFMPEG_XC_CC=${CC} \
+                        FFMPEG_XC_LD=${CC}"
 }
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
