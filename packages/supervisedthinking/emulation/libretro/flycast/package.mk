@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="flycast"
-PKG_VERSION="4f638f6d77a013dc0d3490af87760ee29a786829"
+PKG_VERSION="514eedbc63d3df47038d4bc3a5e5756b12b2755f"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/flyinghead/flycast"
 PKG_URL="https://github.com/flyinghead/flycast.git"
