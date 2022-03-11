@@ -307,7 +307,7 @@
 
   RA_PLAYLIST_CORES=""\
 "/tmp/cores/stella_libretro.so;"\
-"/tmp/cores/atari800_libretro.so;"\
+"/tmp/cores/a5200_libretro.so;"\
 "/tmp/cores/prosystem_libretro.so;"\
 "/tmp/cores/virtualjaguar_libretro.so;"\
 "/tmp/cores/handy_libretro.so;"\
