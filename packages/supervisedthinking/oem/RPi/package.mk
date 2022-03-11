@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="RPi"
-PKG_VERSION="1.0.4"
+PKG_VERSION="1.0.5"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://bit.ly/3vL5rH3"
 PKG_DEPENDS_TARGET="toolchain"
@@ -20,6 +20,7 @@ OEM_APPLICATIONS_RPI=""
 OEM_EMULATORS_LIBRETRO_RPI=" \
   retroarch \
   2048 \
+  a5200 \
   atari800 \
   beetle-lynx \
   beetle-pce-fast \
