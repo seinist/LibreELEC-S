@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="genesis-plus-gx"
-PKG_VERSION="5cfd336417d157ebd06e039f5b700c45b7c2ef35"
-PKG_SHA256="5d93d20f6d6333217b0f53266791f3b15932cf4c53181bc2bc314e4bd0b283da"
+PKG_VERSION="ed5c591fb2319f12b1058a6f138766d5fdcdd0d8"
+PKG_SHA256="f91988c0744035bd46e1783ad5cc5dbdca02fb7c2ae8a5d967dd5fe3daf1c16d"
 PKG_LICENSE="Modified BSD / LGPL-2.1-or-later"
 PKG_SITE="https://github.com/libretro/Genesis-Plus-GX"
 PKG_URL="https://github.com/libretro/Genesis-Plus-GX/archive/${PKG_VERSION}.tar.gz"
@@ -52,5 +52,5 @@ pre_configure_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
