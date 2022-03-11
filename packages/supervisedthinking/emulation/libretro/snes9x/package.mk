@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="snes9x"
-PKG_VERSION="fb93aedd612537e233c6872a5d7ebe65e8169ade"
-PKG_SHA256="a9d1d690850375e2720597daa763d0e6644c4d20cc2eee0d0d4ec07d3497bdcd"
+PKG_VERSION="361f073be2b1d01a1fe592c2980790f20f1d80f6"
+PKG_SHA256="618417913acaa1ce8b452ee70c3728e1d106eaa75028ec8fc5d033b9a211f670"
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/libretro/snes9x"
 PKG_URL="https://github.com/libretro/snes9x/archive/${PKG_VERSION}.tar.gz"
@@ -19,5 +19,5 @@ PKG_MAKE_OPTS_TARGET="-C libretro GIT_VERSION=${PKG_VERSION:0:7}"
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
