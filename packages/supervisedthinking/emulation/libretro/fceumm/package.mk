@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="fceumm"
-PKG_VERSION="c291ceeb13052ab9812887b0e013c7a52c8c3ed8"
-PKG_SHA256="22c5ef44ec442dc542cbd32cd14b33eccdda1f6f8b516e52bb954517d9cadde6"
+PKG_VERSION="f52037ad7a558d1e8765d448a34d85569e4ca822"
+PKG_SHA256="dbb34d805ef05af63ce4fafd04a120611e14a82e099cc757f5e37ecc1c85786a"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/libretro-fceumm"
 PKG_URL="https://github.com/libretro/libretro-fceumm/archive/${PKG_VERSION}.tar.gz"
@@ -25,5 +25,5 @@ pre_configure_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
