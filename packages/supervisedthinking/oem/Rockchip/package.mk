@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="Rockchip"
-PKG_VERSION="1.0.3"
+PKG_VERSION="1.0.5"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://bit.ly/3vL5rH3"
 PKG_DEPENDS_TARGET="toolchain"
@@ -20,6 +20,7 @@ OEM_APPLICATIONS_ROCKCHIP=""
 OEM_EMULATORS_LIBRETRO_ROCKCHIP=" \
   retroarch \
   2048 \
+  a5200 \
   atari800 \
   beetle-lynx \
   beetle-pce-fast \
