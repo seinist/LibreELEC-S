@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="Generic"
-PKG_VERSION="1.0.4"
+PKG_VERSION="1.0.5"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://bit.ly/3vL5rH3"
 PKG_DEPENDS_TARGET="toolchain"
@@ -22,6 +22,7 @@ OEM_APPLICATIONS_GENERIC=" \
 OEM_EMULATORS_LIBRETRO_GENERIC=" \
   retroarch \
   2048 \
+  a5200 \
   atari800 \
   beetle-lynx \
   beetle-pce-fast \
