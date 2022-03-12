@@ -2,7 +2,7 @@
 # Copyright (C) 2022-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="superbroswar"
-PKG_VERSION="f2ade95624c3574d8282891db199a33a50a6d135"
+PKG_VERSION="a92224d6cdbfd8d90a2752b76ff968643701596e"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/superbroswar-libretro"
 PKG_URL="https://github.com/libretro/superbroswar-libretro.git"
