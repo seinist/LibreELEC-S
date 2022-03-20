@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="rapidyaml"
-PKG_VERSION="6993a7c56f4d064997a4df63fc16380ef6381d68" #v0.2.3
+PKG_VERSION="213b201d264139cd1b887790197e08850af628e3" #v0.4.1
 PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/biojppm/rapidyaml"
 PKG_URL="https://github.com/biojppm/rapidyaml.git"
