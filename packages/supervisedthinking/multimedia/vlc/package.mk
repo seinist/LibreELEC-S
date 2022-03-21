@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="vlc"
-PKG_VERSION="3.0.16"
-PKG_SHA256="ffae35fc64f625c175571d2346bc5f6207be99762517f15423e74f18399410f6"
+PKG_VERSION="3.0.17.3"
+PKG_SHA256="6f7e90ef8973d31d96de64db817173e345150829717a94084b1bb8321cde2014"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="http://www.videolan.org"
 PKG_URL="http://get.videolan.org/vlc/${PKG_VERSION}/vlc-${PKG_VERSION}.tar.xz"
@@ -154,7 +154,7 @@ pre_configure_target() {
 
   # libdav1d & libvpx Support
   if target_has_feature "(neon|sse)"; then
-    PKG_CONFIGURE_OPTS_TARGET+=" --enable-dav1d \
+    PKG_CONFIGURE_OPTS_TARGET+=" --disable-dav1d \
                                  --enable-vpx"
   else
     PKG_CONFIGURE_OPTS_TARGET+=" --disable-dav1d \
