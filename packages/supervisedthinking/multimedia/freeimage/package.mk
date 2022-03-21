@@ -10,9 +10,10 @@ PKG_URL="${SOURCEFORGE_SRC}/${PKG_NAME}/FreeImage${PKG_VERSION}.zip"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SOURCE_DIR="FreeImage"
 PKG_LONGDESC="FreeImage is a library to support graphics image formats like PNG, BMP, JPEG, TIFF and other."
+PKG_BUILD_FLAGS="+pic"
 
 pre_make_target() {
-  export CXXFLAGS="$(CXXFLAGS) -std=c++11"
+  export CXXFLAGS="${CXXFLAGS} -std=c++11"
 }
 
 pre_configure_target() {
