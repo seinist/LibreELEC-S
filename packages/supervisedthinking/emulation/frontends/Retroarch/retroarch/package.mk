@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="retroarch"
-PKG_VERSION="4a53c6771ca3749dc17fa1f2bcc44f303abdf6c4" #v1.10.1
+PKG_VERSION="f3ce04be0c76188fd6fbeee9c55f2452f006ab18" #v1.10.2
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/libretro/RetroArch"
 PKG_URL="https://github.com/libretro/RetroArch.git"
