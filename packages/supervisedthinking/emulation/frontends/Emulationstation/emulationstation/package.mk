@@ -77,6 +77,7 @@ post_makeinstall_target() {
   # clean up for KMS based ARM builds
   if [ ! "${DISPLAYSERVER}" = "x11" ]; then
     sed -e "/# Change refresh.*/,+2d" -i ${INSTALL}/usr/bin/*.start
+    sed -e "/# Fix NVIDIA.*/,+2d"     -i ${INSTALL}/usr/bin/*.start
   fi
 }
 
