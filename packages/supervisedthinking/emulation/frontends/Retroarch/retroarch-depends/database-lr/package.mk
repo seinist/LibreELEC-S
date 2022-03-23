@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="database-lr"
-PKG_VERSION="1.10.1"
-PKG_SHA256="b269be2e4ef2e8258b87ed7fa39543feb1bbf5f5019c3656846fffbe7319a7d0"
+PKG_VERSION="1.10.2"
+PKG_SHA256="8ed8e981eed8b1d01d08bb32ff2b7b5e3b231a5c1779f9c6ddde1186d8ec44c5"
 PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/libretro/libretro-database"
 PKG_URL="https://github.com/libretro/libretro-database/archive/refs/tags/v${PKG_VERSION}.tar.gz"
