@@ -118,7 +118,7 @@ makeinstall_target() {
     cp -P libnvidia-tls.so.${PKG_VERSION}  ${INSTALL}/usr/lib
     ln -sf libnvidia-tls.so.${PKG_VERSION} ${INSTALL}/usr/lib/libnvidia-tls.so
 
-  # NVML
+  # NVIDIA Management Library (NVML) / System Management Interface
   mkdir -p ${INSTALL}/usr/bin
     cp -P nvidia-smi ${INSTALL}/usr/bin
 
