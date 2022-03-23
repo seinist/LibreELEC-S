@@ -36,7 +36,6 @@ OEM_EMULATORS_LIBRETRO_GENERIC=" \
   bsnes-mercury-accuracy \
   bsnes-mercury-balanced \
   chailove \
-  citra-libretro \
   desmume \
   dosbox-pure \
   ecwolf \
@@ -75,6 +74,7 @@ OEM_EMULATORS_LIBRETRO_GENERIC=" \
   yabasanshiro"
 
 OEM_EMULATORS_LIBRETRO_GENERIC_X11=" \
+  citra-libretro \
   boom3 \
   dolphin-libretro
   vitaquake2 \
