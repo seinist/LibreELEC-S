@@ -2,11 +2,11 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="swanstation"
-PKG_VERSION="f6f3429d3045812d1d9b6b52a23ee69149cfca30"
-PKG_SHA256="87c5c3bc5ad336f1e93866683128fffcc915baee31bb6af545c75edcea936bf0"
+PKG_VERSION="d0b4df21a835fec4fae754fdd4d73328f685031e"
+PKG_SHA256="7b4a74406f1ca3bcff87e49deb16eac7a87b23eaf675a2e9523edae4a421aca4"
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/libretro/swanstation"
-PKG_URL="https://github.com/kivutar/swanstation/archive/${PKG_VERSION}.tar.gz"
+PKG_URL="https://github.com/libretro/swanstation/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain linux glibc"
 PKG_LONGDESC="SwanStation(DuckStation) is an simulator/emulator of the Sony PlayStation(TM) console, focusing on playability, speed, and long-term maintainability."
 PKG_BUILD_FLAGS="-sysroot"
