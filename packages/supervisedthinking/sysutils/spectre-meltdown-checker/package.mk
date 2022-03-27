@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="spectre-meltdown-checker"
-PKG_VERSION="0.44"
-PKG_SHA256="96765d765275476c36a146da123fa7e9eb310a84e84ae71b179c9ace3b6ab0c8"
+PKG_VERSION="0.45"
+PKG_SHA256="acc9be079b177be94f428ae790b2c60767afa177e28eef9d21dd09986251e467"
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/speed47/spectre-meltdown-checker"
 PKG_URL="https://github.com/speed47/spectre-meltdown-checker/archive/v${PKG_VERSION}.tar.gz"
