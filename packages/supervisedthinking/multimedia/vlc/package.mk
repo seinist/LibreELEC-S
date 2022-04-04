@@ -6,7 +6,7 @@ PKG_VERSION="3.0.17.3"
 PKG_SHA256="6f7e90ef8973d31d96de64db817173e345150829717a94084b1bb8321cde2014"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="http://www.videolan.org"
-PKG_URL="http://get.videolan.org/vlc/${PKG_VERSION}/vlc-${PKG_VERSION}.tar.xz"
+PKG_URL="https://get.videolan.org/vlc/${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.xz"
 PKG_DEPENDS_TARGET="toolchain dbus gnutls ffmpeg libmpeg2 zlib flac-system libvorbis-system"
 PKG_LONGDESC="VideoLAN multimedia player and streamer"
 
