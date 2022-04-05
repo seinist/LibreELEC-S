@@ -13,7 +13,3 @@ PKG_TOOLCHAIN="autotools"
 PKG_BUILD_FLAGS="+pic"
 
 PKG_CONFIGURE_OPTS_TARGET="--disable-static"
-
-post_makeinstall_target() {
-  safe_remove ${INSTALL}
-}
