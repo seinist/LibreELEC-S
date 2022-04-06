@@ -8,11 +8,17 @@
 SKYSCRAPER_HOME_CONFIG=/storage/.config/skyscraper
 SKYSCRAPER_HOME=/storage/.skyscraper
 
-# create link to config directory
-if [ -d ${SKYSCRAPER_HOME} ]; then
+# create config directory
+if [ ! -d ${SKYSCRAPER_HOME_CONFIG} ]; then
   mkdir -p ${SKYSCRAPER_HOME_CONFIG}
-  cp -r ${SKYSCRAPER_HOME}/* ${SKYSCRAPER_HOME_CONFIG}/
-  rm -rf ${SKYSCRAPER_HOME}
+fi
+
+# create link / move files to config directory
+if [ ! -L ${SKYSCRAPER_HOME} ]; then
+  if [ -d ${SKYSCRAPER_HOME} ]; then
+    cp -r ${SKYSCRAPER_HOME}/* ${SKYSCRAPER_HOME_CONFIG}/
+    rm -rf ${SKYSCRAPER_HOME}
+  fi
   ln -s ${SKYSCRAPER_HOME_CONFIG} ${SKYSCRAPER_HOME}
 fi
 
