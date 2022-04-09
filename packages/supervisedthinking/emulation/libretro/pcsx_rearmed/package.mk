@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="pcsx_rearmed"
-PKG_VERSION="7e3ce9afd1ddd5c16f20957cc7a46f6e681bff50"
-PKG_SHA256="1cf85e988b03289ebbad4baeb725af5c2d1791235b4fffaf9016c33a4367bf97"
+PKG_VERSION="e24732050e902bd5402b2b7da7c391d2ca8fa799"
+PKG_SHA256="96b933eb2877ff224b3b00af0e9f4f3560d3d0b1c0bb18f67060e7e5598c1757"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/pcsx_rearmed"
 PKG_URL="https://github.com/libretro/pcsx_rearmed/archive/${PKG_VERSION}.tar.gz"
@@ -36,7 +36,7 @@ pre_configure_target() {
   
   case ${TARGET_ARCH} in
     aarch64)
-      PKG_MAKE_OPTS_TARGET+=" DYNAREC=lightrec platform=aarch64"
+      PKG_MAKE_OPTS_TARGET+=" DYNAREC=ari64 platform=aarch64"
       ;;
     arm)
       PKG_MAKE_OPTS_TARGET+=" DYNAREC=ari64"
