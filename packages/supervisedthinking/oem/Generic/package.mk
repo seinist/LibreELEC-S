@@ -76,7 +76,7 @@ OEM_EMULATORS_LIBRETRO_GENERIC=" \
 OEM_EMULATORS_LIBRETRO_GENERIC_X11=" \
   citra-libretro \
   boom3 \
-  dolphin-libretro
+  dolphin-libretro \
   vitaquake2 \
   vitaquake3"
 
