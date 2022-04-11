@@ -57,13 +57,6 @@ Core:
   Performance Report Threshold: 500
   Enable Performance Report: false
 VFS:
-  $(EmulatorDir): /storage/.config/rpcs3/
-  /dev_hdd0/: $(EmulatorDir)dev_hdd0/
-  /dev_hdd1/: $(EmulatorDir)rpcs3/dev_hdd1/
-  /dev_flash/: $(EmulatorDir)rpcs3/dev_flash/
-  /dev_usb000/: $(EmulatorDir)rpcs3/dev_usb000/
-  /dev_bdvd/: ""
-  /app_home/: ""
   Enable /host_root/: false
   Initialize Directories: true
   Limit disk cache size: false
