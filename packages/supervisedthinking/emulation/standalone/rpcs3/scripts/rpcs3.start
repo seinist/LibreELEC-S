@@ -16,7 +16,7 @@ kodictrl --stop
 set_refresh_rate_60
 
 # Set OpenAL audio driver to Pulseaudio or ALSA
-set_OpenAL_audiodriver RPCS3
+set_RPCS3_audiodriver
 
 # Set Qt5 screen scale environment vars
 set_QT_environment_vars
