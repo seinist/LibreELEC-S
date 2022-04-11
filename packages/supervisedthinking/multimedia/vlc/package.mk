@@ -9,6 +9,7 @@ PKG_SITE="http://www.videolan.org"
 PKG_URL="https://get.videolan.org/vlc/${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.xz"
 PKG_DEPENDS_TARGET="toolchain dbus gnutls ffmpeg libmpeg2 zlib flac-system libvorbis-system"
 PKG_LONGDESC="VideoLAN multimedia player and streamer"
+PKG_TOOLCHAIN="autotools"
 
 configure_package() {
   # MMAL (Multimedia Abstraction Layer) support patches
@@ -162,6 +163,13 @@ pre_configure_target() {
   fi
 
   LDFLAGS+=" -lresolv"
+}
+
+post_configure_target() {
+  # Fix linking to ffmpeg 4.4.y
+  sed -i -e '/^archive_cmds=/s/ -shared / -Wl,-O1,--as-needed\0/'        libtool
+  sed -i -e '/^archive_expsym_cmds=/s/ -shared / -Wl,-O1,--as-needed\0/' libtool
+  sed -i -e 's/CC -shared /CC -Wl,-O1,--as-needed -shared /'             libtool
 }
 
 post_makeinstall_target() {
