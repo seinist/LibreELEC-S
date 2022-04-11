@@ -2,7 +2,7 @@
 # Copyright (C) 2019-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="rpcs3"
-PKG_VERSION="a8e62e1bc1ca6d9e9d4c2309398806f3566f42d0" # v0.0.21
+PKG_VERSION="3ed5a935fb4f66da84c32d7cd1856de0d36f85af" # 0.0.21-13428
 PKG_ARCH="x86_64"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://rpcs3.net"
@@ -73,9 +73,14 @@ pre_make_target() {
 
 post_makeinstall_target() {
   # Copy scripts
-  mkdir -p ${INSTALL}/usr/config/rpcs3
+  mkdir -p ${INSTALL}/usr/bin/
    cp ${PKG_DIR}/scripts/* ${INSTALL}/usr/bin/
-   cp -PR ${PKG_DIR}/config/* ${INSTALL}/usr/config/rpcs3/
+
+  # Copy config & resources
+  mkdir -p ${INSTALL}/usr/config/rpcs3
+   cp -PR ${PKG_DIR}/config/*         ${INSTALL}/usr/config/rpcs3/
+   cp -PR ${PKG_BUILD}/bin/GuiConfigs ${INSTALL}/usr/config/rpcs3/
+   cp -PR ${PKG_BUILD}/bin/Icons      ${INSTALL}/usr/config/rpcs3/
   
   # Clean up
   safe_remove ${INSTALL}/usr/share/applications
