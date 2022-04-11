@@ -78,13 +78,9 @@ post_makeinstall_target() {
 
   # Copy config & resources
   mkdir -p ${INSTALL}/usr/config/rpcs3
-   cp -PR ${PKG_DIR}/config/*         ${INSTALL}/usr/config/rpcs3/
-   cp -PR ${PKG_BUILD}/bin/GuiConfigs ${INSTALL}/usr/config/rpcs3/
-   cp -PR ${PKG_BUILD}/bin/Icons      ${INSTALL}/usr/config/rpcs3/
+   cp -PR ${PKG_DIR}/config/*                           ${INSTALL}/usr/config/rpcs3/
+   cp -PR ${INSTALL}/usr/share/rpcs3/{GuiConfigs,Icons} ${INSTALL}/usr/config/rpcs3/ 
   
   # Clean up
-  safe_remove ${INSTALL}/usr/share/applications
-  safe_remove ${INSTALL}/usr/share/icons
-  safe_remove ${INSTALL}/usr/share/metainfo
-  safe_remove ${INSTALL}/usr/share/rpcs3/git
+  safe_remove ${INSTALL}/usr/share
 }
