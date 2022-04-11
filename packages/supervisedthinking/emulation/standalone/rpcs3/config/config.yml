@@ -2,19 +2,21 @@ Core:
   PPU Decoder: Recompiler (LLVM)
   PPU Threads: 2
   PPU Debug: false
+  PPU Calling History: false
   Save LLVM logs: false
   Use LLVM CPU: ""
   Max LLVM Compile Threads: 0
   PPU LLVM Greedy Mode: false
-  Enable thread scheduler: false
+  PPU LLVM Precompilation: true
+  Thread Scheduler Mode: Operating System
   Set DAZ and FTZ: false
   SPU Decoder: Recompiler (LLVM)
-  Lower SPU thread priority: false
   SPU GETLLAR polling detection: false
   SPU Debug: false
+  MFC Debug: false
   Preferred SPU Threads: 0
   SPU delay penalty: 3
-  SPU loop detection: true
+  SPU loop detection: false
   Max SPURS Threads: 6
   SPU Block Size: Safe
   Accurate GETLLAR: false
@@ -24,30 +26,36 @@ Core:
   SPU Verification: true
   SPU Cache: true
   SPU Profiler: false
+  MFC Commands Shuffling Limit: 0
+  MFC Commands Timeout: 0
+  MFC Commands Shuffling In Steps: false
   Enable TSX: Disabled
   Accurate xfloat: false
   Approximate xfloat: true
-  LLVM Accurate DFMA: true
-  PPU LLVM Java Mode Handling: false
+  Relaxed xfloat: true
   Accurate PPU 128-byte Reservation Op Max Length: 0
-  PPU LLVM Accurate Vector NaN values: false
   Stub PPU Traps: 0
+  Full Width AVX-512: false
+  PPU LLVM Java Mode Handling: true
+  Use Accurate DFMA: true
+  PPU Set Saturation Bit: false
+  PPU Accurate Non-Java Mode: false
+  PPU Fixup Vector NaN Values: false
+  PPU Accurate Vector NaN Values: false
+  PPU Set FPCC Bits: false
   Debug Console Mode: false
   Hook static functions: false
   Libraries Control:
-    - liblv2.sprx:hle
+    []
   HLE lwmutex: false
   SPU LLVM Lower Bound: 0
   SPU LLVM Upper Bound: 18446744073709551615
   TSX Transaction First Limit: 800
   TSX Transaction Second Limit: 2000
   Clocks scale: 100
-  Sleep Timers Accuracy: Usleep Only
+  Sleep Timers Accuracy: As Host
   Performance Report Threshold: 500
   Enable Performance Report: false
-  Accurate PUTLLUC: false
-  Lib Loader: Load liblv2.sprx only
-  Load libraries: []
 VFS:
   $(EmulatorDir): /storage/.config/rpcs3/
   /dev_hdd0/: $(EmulatorDir)dev_hdd0/
@@ -64,7 +72,7 @@ Video:
   Renderer: OpenGL
   Resolution: 1280x720
   Aspect ratio: 16:9
-  Frame limit: Off
+  Frame limit: Auto
   MSAA: Auto
   Shader Mode: Async Shader Recompiler
   Write Color Buffers: false
@@ -75,7 +83,7 @@ Video:
   VSync: true
   Debug output: false
   Debug overlay: false
-  Use Legacy OpenGL Buffers: false
+  Renderdoc Compatibility Mode: false
   Use GPU texture scaling: false
   Stretch To Display Area: false
   Force High Precision Z buffer: false
@@ -94,6 +102,7 @@ Video:
   Relaxed ZCULL Sync: false
   Enable 3D: false
   Debug Program Analyser: false
+  Accurate ZCULL stats: true
   Consecutive Frames To Draw: 1
   Consecutive Frames To Skip: 1
   Resolution Scale: 100
@@ -104,16 +113,28 @@ Video:
   Driver Recovery Timeout: 1000000
   Driver Wake-Up Delay: 1
   Vblank Rate: 60
+  Vblank NTSC Fixup: false
   DECR memory layout: false
+  Allow Host GPU Labels: false
   Vulkan:
     Adapter: ""
     Force FIFO present mode: false
     Force primitive restart flag: false
+    Force Disable Exclusive Fullscreen Mode: false
+    Asynchronous Texture Streaming 2: false
+    Enable FidelityFX Super Resolution Upscaling: false
+    FidelityFX CAS Sharpening Intensity: 50
+    Asynchronous Queue Scheduler: Safe
+    Metal Semaphore: MTLEvent preferred
   Performance Overlay:
     Enabled: false
     Enable Framerate Graph: false
     Enable Frametime Graph: false
+    Framerate datapoints: 50
+    Frametime datapoints: 170
     Detail level: Medium
+    Framerate graph detail level: All
+    Frametime graph detail level: All
     Metrics update interval (ms): 350
     Font size (px): 10
     Position: Top Left
@@ -134,31 +155,32 @@ Video:
     Allow custom background: true
     Darkening effect strength: 30
     Blur effect strength: 0
-  Disable Asynchronous Shader Compiler: false
-  D3D12:
-    Adapter: ""
 Audio:
-  Renderer: OpenAL
+  Renderer: Cubeb
+  Audio provider: CellAudio
   Dump to file: false
   Convert to 16 bit: false
   Audio Channels: Downmix to Stereo
-  Start Threshold: 1
   Master Volume: 100
   Enable Buffering: true
   Desired Audio Buffer Duration: 100
-  Sampling Period Multiplier: 100
   Enable Time Stretching: false
   Time Stretching Threshold: 75
   Microphone Type: "Null"
   Microphone Devices: "@@@@@@@@@@@@"
-  Downmix to Stereo: true
 Input/Output:
-  Keyboard: "Null"
+  Keyboard: Basic
   Mouse: Basic
   Camera: "Null"
   Camera type: Unknown
-  Move: "Null"
-  Pad: Keyboard
+  Camera flip: None
+  Camera ID: Default
+  Move: Mouse
+  Buzz emulated controller: "Null"
+  Turntable emulated controller: "Null"
+  GHLtar emulated controller: "Null"
+  Pad handler mode: Single-threaded
+  Pad handler sleep (microseconds): 1000
 System:
   License Area: SCEE
   Language: English (US)
@@ -166,23 +188,20 @@ System:
   Enter button assignment: Enter with cross
   Console time offset (s): 0
 Net:
-  Internet enabled: Connected
-  IP address: 192.168.1.1
+  Internet enabled: Disconnected
+  IP address: 0.0.0.0
   DNS address: 8.8.8.8
   IP swap list: ""
   PSN status: Disconnected
-  Connection status: Disconnected
 Miscellaneous:
   Automatically start games after boot: true
   Exit RPCS3 when process finishes: false
   Start games in fullscreen mode: true
   Prevent display sleep while running games: true
   Show trophy popups: true
-  Show shader compilation hint: true
+  Show shader compilation hint: false
   Use native user interface: true
   GDB Server: 127.0.0.1:2345
   Silence All Logs: false
   Window Title Format: "FPS: %F | %R | %V | %T [%t]"
-  Show FPS counter in window title: true
-  Port: 2345
 Log: {}
