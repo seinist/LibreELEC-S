@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="desmume"
-PKG_VERSION="7ea0fc96804fcd9c8d33e8f76cf64b1be50cc5ea"
-PKG_SHA256="5da45ba5fb269fa47a2c2674459fd5a074d0b94fcea5c7ce9bb63a678c010488"
+PKG_VERSION="5d0ae2be2c9fb6362af528b3722e81323318eb9f"
+PKG_SHA256="338ef599309da6b641ed4e84cf66644c67510bd3152fbb298857cdd17f9faaaa"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/desmume"
 PKG_URL="https://github.com/libretro/desmume/archive/${PKG_VERSION}.tar.gz"
@@ -36,7 +36,9 @@ configure_package() {
 
 pre_configure_target() {
   if [ "${ARCH}" = "arm" ]; then
-    PKG_MAKE_OPTS_TARGET+=" platform=armv-${TARGET_FLOAT}float-${TARGET_CPU}"
+    PKG_MAKE_OPTS_TARGET+=" platform=armv-unix-${TARGET_FLOAT}float-${TARGET_CPU}"
+  else
+    PKG_MAKE_OPTS_TARGET+=" platform=unix"
   fi
 }
 
