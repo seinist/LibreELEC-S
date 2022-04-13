@@ -195,6 +195,6 @@ Miscellaneous:
   Show shader compilation hint: false
   Use native user interface: true
   GDB Server: 127.0.0.1:2345
-  Silence All Logs: false
+  Silence All Logs: true
   Window Title Format: "FPS: %F | %R | %V | %T [%t]"
 Log: {}
