@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="fuse-libretro"
-PKG_VERSION="bfacfc0a76ef12c5af83c5c0b2ff04fc2b4d9a5c"
-PKG_SHA256="65fc59d1a877193e9ecb795ecb1223587bbb64557460d6f0d57e041f868d8d27"
+PKG_VERSION="8b734a975633a0ed21494c2e1a50e7e1de432122"
+PKG_SHA256="5af46a0f21867501dd3268c2a7679ff60c545c9ea564206e31e657bbf5b298c5"
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/libretro/fuse-libretro"
 PKG_URL="https://github.com/libretro/fuse-libretro/archive/${PKG_VERSION}.tar.gz"
