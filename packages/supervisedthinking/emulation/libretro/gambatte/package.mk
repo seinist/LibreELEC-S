@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="gambatte"
-PKG_VERSION="721cdd5bc21f4402c15f1191c3f76ccf55075370"
-PKG_SHA256="1931f7ecb22a1ec570da1d9592a558ca0e6498877ee63f83e2f38f1bcec0e11c"
+PKG_VERSION="15536214cdce31894d374b2ffa2494543057082b"
+PKG_SHA256="ca24eababf0b4cbdc1a10d9d3ecf2c3348b9b257fc87d8dfebd1e8d4000ee32e"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/gambatte-libretro"
 PKG_URL="https://github.com/libretro/gambatte-libretro/archive/${PKG_VERSION}.tar.gz"
