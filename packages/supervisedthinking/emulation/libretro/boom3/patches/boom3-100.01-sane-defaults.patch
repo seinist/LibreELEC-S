@@ -11,7 +11,16 @@ diff --git a/neo/sys/libretro/libretro_core_options.h b/neo/sys/libretro/libretr
 index 9a697c5..32da061 100644
 --- a/neo/sys/libretro/libretro_core_options.h
 +++ b/neo/sys/libretro/libretro_core_options.h
-@@ -70,7 +70,7 @@ struct retro_core_option_definition option_defs_us[] = {
+@@ -78,14 +78,14 @@
+          { "480x272",   NULL },
+          { "640x368",   NULL },
+          { "720x408",   NULL },
+-         { "960x544",   "960x544 (Default)" },
+-		 { "1280x720",   NULL },
++         { "960x544",   NULL },
++		 { "1280x720",   "1280x720 (Default)" },
+ 		 { "1920x1080",   NULL },
+ 		 { "2560x1440",   NULL },
  		 { "3840x2160",   NULL },
           { NULL, NULL },
        },
@@ -20,8 +29,8 @@ index 9a697c5..32da061 100644
     },
     {
        "doom_invert_y_axis",
-@@ -81,7 +81,7 @@ struct retro_core_option_definition option_defs_us[] = {
-          { "enabled",   "Enabled" },
+@@ -99,7 +99,7 @@
+          { "disabled",  "Disabled" },
           { NULL, NULL },
        },
 -      "enabled"
@@ -29,21 +38,4 @@ index 9a697c5..32da061 100644
     },
     {
        "doom_fps",
-@@ -148,7 +148,7 @@ struct retro_core_option_definition option_defs_it[] = {
- 		 { "3840x2160",   NULL },
-          { NULL, NULL },
-       },
--      "960x544"
-+      "1280x720"
-    },
-    {
-       "doom_invert_y_axis",
-@@ -159,7 +159,7 @@ struct retro_core_option_definition option_defs_it[] = {
-          { "enabled",   "Attivato" },
-          { NULL, NULL },
-       },
--      "enabled"
-+      "disabled"
-    },
-    {
-       "doom_fps",
+
