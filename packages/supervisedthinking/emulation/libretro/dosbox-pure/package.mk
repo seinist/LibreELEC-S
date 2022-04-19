@@ -2,8 +2,8 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="dosbox-pure"
-PKG_VERSION="0.26"
-PKG_SHA256="8d3201c1ede9bdc4059569171fa16f55f0b3cd27e61f78edfed5e68f9a0f1db8"
+PKG_VERSION="0.9.0" # beta release
+PKG_SHA256="09c989024c41d12ebddb1d4d88bfa32355ac66e00e9eb1d6b80e73f29bfa298f"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/schellingb/dosbox-pure"
 PKG_URL="https://github.com/schellingb/dosbox-pure/archive/${PKG_VERSION}.tar.gz"
