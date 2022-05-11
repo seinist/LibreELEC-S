@@ -15,7 +15,7 @@ PKG_TOOLCHAIN="manual"
 [ -n "${KERNEL_TOOLCHAIN}" ] && PKG_DEPENDS_TARGET+=" gcc-${KERNEL_TOOLCHAIN}:host"
 
 make_target() {
-  CROSS_COMPILE="${TARGET_KERNEL_PREFIX}" LDFLAGS="" CFLAGS="" make PLAT=${ATF_PLATFORM} bl31
+  CROSS_COMPILE="${TARGET_KERNEL_PREFIX}" LDFLAGS="" CFLAGS="--param=min-pagesize=0" make PLAT=${ATF_PLATFORM} bl31
 }
 
 makeinstall_target() {
