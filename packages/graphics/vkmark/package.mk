@@ -2,8 +2,8 @@
 # Copyright (C) 2022-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="vkmark"
-PKG_VERSION="cf45f2faee236fd1118be2fcd27e4f2a91fc2e40"
-PKG_SHA256="e59e1e557a579244de8e97adb1afbc4d6766577bbd6dbf4dc292716f87eeb981"
+PKG_VERSION="d872846e2e7c47010c11227eb713d00ccfdd35c6"
+PKG_SHA256="3b03785c9952d5f1ebad6c08349d8697814ad6724f81c05891afabb59f54bf22"
 PKG_LICENSE="LGPL-2.1-or-later"
 PKG_SITE="https://github.com/vkmark/vkmark"
 PKG_URL="https://github.com/vkmark/vkmark/archive/${PKG_VERSION}.tar.gz"
