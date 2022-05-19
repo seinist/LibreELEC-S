@@ -30,10 +30,9 @@ This hack unfortunatelly makes EGLFS working out-of-box only on systems where di
 is first DRM device in system....
 
 
-diff -Naur qt-everywhere-src-5.15.2-old/qtbase/src/plugins/platforms/eglfs/deviceintegration/eglfs_kms/qeglfskmsgbmintegration.cpp qt-everywhere-src-5.15.2-new/qtbase/src/plugins/platforms/eglfs/deviceintegration/eglfs_kms/qeglfskmsgbmintegration.cpp
---- qt-everywhere-src-5.15.2-old/qtbase/src/plugins/platforms/eglfs/deviceintegration/eglfs_kms/qeglfskmsgbmintegration.cpp	2021-01-25 22:19:51.769999724 +0100
-+++ qt-everywhere-src-5.15.2-new/qtbase/src/plugins/platforms/eglfs/deviceintegration/eglfs_kms/qeglfskmsgbmintegration.cpp	2021-01-25 22:16:33.693333062 +0100
-@@ -135,13 +135,14 @@
+--- a/qtbase/src/plugins/platforms/eglfs/deviceintegration/eglfs_kms/qeglfskmsgbmintegration.cpp
++++ b/qtbase/src/plugins/platforms/eglfs/deviceintegration/eglfs_kms/qeglfskmsgbmintegration.cpp
+@@ -135,13 +135,14 @@ QKmsDevice *QEglFSKmsGbmIntegration::cre
          qCDebug(qLcEglfsKmsDebug) << "GBM: Using DRM device" << path << "specified in config file";
      } else {
          QDeviceDiscovery *d = QDeviceDiscovery::create(QDeviceDiscovery::Device_VideoMask);
