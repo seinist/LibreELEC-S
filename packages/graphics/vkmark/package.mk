@@ -21,7 +21,7 @@ case ${DISPLAYSERVER} in
     PKG_MESON_OPTS_TARGET="-Dxcb=true"
     ;;
   *)
-    PKG_DEPENDS_TARGET+=" systemd libdrm"
+    PKG_DEPENDS_TARGET+=" systemd libdrm mesa"
     PKG_MESON_OPTS_TARGET="-Dkms=true"
     ;;
 esac
