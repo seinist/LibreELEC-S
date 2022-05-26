@@ -2,8 +2,8 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="xpadneo"
-PKG_VERSION="0.9.1"
-PKG_SHA256="1f3617b0689d93877a706a52037649d6cad011cf70491b5b43da015a02312058"
+PKG_VERSION="0.9.2"
+PKG_SHA256="1daf1897a1d879ce1269feb9b7aadb60ab79286e79e380372882fedba6530679"
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://atar-axis.github.io/xpadneo/"
 PKG_URL="https://github.com/atar-axis/xpadneo/archive/refs/tags/v${PKG_VERSION}.tar.gz"
