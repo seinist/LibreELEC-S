@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking @ gmail.com)
 
 PKG_NAME="qt5"
-PKG_VERSION="062d03b88163ecdae62bd56a69bf4541be4d6048" # 5.15.4+ (KDE Qt5PatchCollection)
+PKG_VERSION="b93d8fbb3c68811437660abde73fbdf6071be2a0" # 5.15.4+ (KDE Qt5PatchCollection)
 PKG_LICENSE="GPL"
 PKG_SITE="http://qt-project.org"
 PKG_URL="https://invent.kde.org/qt/qt/qt5.git"
@@ -174,7 +174,8 @@ configure_target() {
     if [ ${DISPLAYSERVER} = "no" ]; then
       echo "QMAKE_LIBS_EGL += -lEGL"              >> ${QMAKE_CONF}
       echo "EGLFS_DEVICE_INTEGRATION = eglfs_kms" >> ${QMAKE_CONF}
-    elif [ ${DISPLAYSERVER} = "wl" ]; then
+    fi
+    if [ ! ${DISPLAYSERVER} = "x11" ]; then
       echo "DEFINES += QT_EGL_NO_X11"             >> ${QMAKE_CONF}
     fi
   fi
@@ -259,4 +260,3 @@ post_makeinstall_target() {
     cp -PR ${PKG_QT5_SYSROOT_PATH}/lib/libQt5EglFsKmsSupport.so* ${INSTALL}/usr/lib
   fi
 }
-
