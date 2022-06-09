@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking @ gmail.com)
 
 PKG_NAME="qt5"
-PKG_VERSION="b93d8fbb3c68811437660abde73fbdf6071be2a0" # 5.15.4+ (KDE Qt5PatchCollection)
+PKG_VERSION="0e57e47fd7df833029f6cb6c2593828a404a324a" # 5.15.4+ (KDE Qt5PatchCollection)
 PKG_LICENSE="GPL"
 PKG_SITE="http://qt-project.org"
 PKG_URL="https://invent.kde.org/qt/qt/qt5.git"
@@ -174,6 +174,7 @@ configure_target() {
     if [ ${DISPLAYSERVER} = "no" ]; then
       echo "QMAKE_LIBS_EGL += -lEGL"              >> ${QMAKE_CONF}
       echo "EGLFS_DEVICE_INTEGRATION = eglfs_kms" >> ${QMAKE_CONF}
+      echo "DEFINES += MESA_EGL_NO_X11_HEADERS"   >> ${QMAKE_CONF}
     fi
     if [ ! ${DISPLAYSERVER} = "x11" ]; then
       echo "DEFINES += QT_EGL_NO_X11"             >> ${QMAKE_CONF}
