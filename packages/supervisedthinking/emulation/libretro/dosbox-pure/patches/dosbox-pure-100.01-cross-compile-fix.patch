@@ -1,8 +1,15 @@
-diff --git a/Makefile b/Makefile
-index fed5ce1..6f1b23c 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -152,6 +152,9 @@
+@@ -33,7 +33,7 @@ SOURCES := \
+   src/*/*/*.cpp
+ 
+ CPUFLAGS := $(MAKE_CPUFLAGS)
+-STRIPCMD := strip --strip-all
++STRIPCMD := ${STRIP}
+ ifneq ($(ISWIN),)
+   OUTNAME := dosbox_pure_libretro.dll
+   CXX     ?= g++
+@@ -152,6 +152,9 @@ else
    CXX     ?= g++
    LDFLAGS := -Wl,--gc-sections -fno-ident
    COMMONFLAGS += -pthread
@@ -12,7 +19,7 @@ index fed5ce1..6f1b23c 100644
    ifeq ($(CPUFLAGS),)
      # ARM optimizations
      PROCCPU := $(shell cat /proc/cpuinfo))
-@@ -180,6 +183,7 @@
+@@ -180,6 +183,7 @@ else
      CXX := g++-9
    endif
  endif
@@ -20,4 +27,3 @@ index fed5ce1..6f1b23c 100644
  
  ifeq ($(BUILD),DEBUG)
    BUILDDIR := debug
-
