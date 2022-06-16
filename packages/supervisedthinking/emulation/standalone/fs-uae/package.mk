@@ -28,6 +28,11 @@ post_unpack() {
 pre_configure_target() {
   # Fix cross compiling
   export ac_cv_func_realloc_0_nonnull=yes
+
+  # Fix execution of buildtools with target flags on build machine
+  export CFLAGS=$(echo ${CFLAGS} | sed -e "s|x86-64.*|x86-64|g")
+  export CXXFLAGS=$(echo ${CXXFLAGS} | sed -e "s|x86-64.*|x86-64|g")
+  export LDFLAGS=$(echo ${LDFLAGS} | sed -e "s|x86-64.*|x86-64|g")
 }
 
 post_makeinstall_target() {
