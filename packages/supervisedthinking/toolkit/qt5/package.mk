@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking @ gmail.com)
 
 PKG_NAME="qt5"
-PKG_VERSION="cc851c42624c017432c25be71459e79fa8a9eb89" # 5.15.4+ (KDE Qt5PatchCollection)
+PKG_VERSION="149e863229c446872b87fb37cab993265589a293" # 5.15.4+ (KDE Qt5PatchCollection)
 PKG_LICENSE="GPL"
 PKG_SITE="http://qt-project.org"
 PKG_URL="https://invent.kde.org/qt/qt/qt5.git"
@@ -206,7 +206,7 @@ post_makeinstall_target() {
   mkdir -p ${INSTALL}/usr/qml
 
   # Sysroot path to Qt5 files
-  PKG_QT5_SYSROOT_PATH=${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr/
+  PKG_QT5_SYSROOT_PATH=${PKG_ORIG_SYSROOT_PREFIX:-${SYSROOT_PREFIX}}/usr
 
   # Install Qt5 libs
   for PKG_QT5_LIBS in \
