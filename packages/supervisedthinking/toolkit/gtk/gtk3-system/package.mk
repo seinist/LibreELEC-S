@@ -44,6 +44,11 @@ pre_configure_target() {
   # ${TOOLCHAIN}/bin/glib-compile-resources requires ${TOOLCHAIN}/lib/libffi.so.6
   export LD_LIBRARY_PATH="${TOOLCHAIN}/lib:${LD_LIBRARY_PATH}"
   export GLIB_COMPILE_RESOURCES=glib-compile-resources GLIB_MKENUMS=glib-mkenums GLIB_GENMARSHAL=glib-genmarshal
+
+  # Fix execution of buildtools with target flags on build machine
+  export TARGET_CFLAGS=$(echo ${TARGET_CFLAGS} | sed -e "s|x86-64-[^[:blank:]]*|x86-64|g")
+  export TARGET_CXXFLAGS=$(echo ${TARGET_CXXFLAGS} | sed -e "s|x86-64-[^[:blank:]]*|x86-64|g")
+  export TARGET_LDFLAGS=$(echo ${TARGET_LDFLAGS} | sed -e "s|x86-64-[^[:blank:]]*|x86-64|g")
 }
 
 post_makeinstall_target() {
